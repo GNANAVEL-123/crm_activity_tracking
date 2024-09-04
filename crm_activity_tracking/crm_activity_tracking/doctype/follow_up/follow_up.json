@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-01 12:34:21.032698",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "followed_by",
+  "user_name",
+  "next_follow_up_date",
+  "next_follow_up_by",
+  "longitude",
+  "latitude",
+  "column_break_stbi",
+  "status",
+  "mode_of_communication",
+  "competitor",
+  "description",
+  "closed"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Entry Date",
+   "reqd": 1
+  },
+  {
+   "default": "__user",
+   "fieldname": "followed_by",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Monitored By",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "default": "__user",
+   "fetch_from": "followed_by.username",
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "User Name"
+  },
+  {
+   "fieldname": "next_follow_up_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Next Tracking Date",
+   "mandatory_depends_on": "eval: !doc.status"
+  },
+  {
+   "default": "__user",
+   "fieldname": "next_follow_up_by",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Assigned To",
+   "mandatory_depends_on": "eval: !doc.status",
+   "options": "User"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Data",
+   "label": "Longitude",
+   "read_only": 1
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Data",
+   "label": "Latitude",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_stbi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Lead\nOpen\nReplied\nOpportunity\nQuotation\nLost Quotation\nInterested\nConverted\nDo Not Contact"
+  },
+  {
+   "fieldname": "mode_of_communication",
+   "fieldtype": "Link",
+   "label": "Mode of Communication",
+   "options": "Mode of Communication"
+  },
+  {
+   "depends_on": "eval: doc.parenttype == \"Quotation\" &&  doc.status == \"Do Not Disturb\"",
+   "fieldname": "competitor",
+   "fieldtype": "Link",
+   "label": " Competitor",
+   "options": "Competitor"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "closed",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Closed"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-21 08:43:44.817964",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Follow-Up",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

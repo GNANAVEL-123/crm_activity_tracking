@@ -1,0 +1,60 @@
+{
+    "Quotation": [
+        {
+        "fieldname": "custom_follow_up",
+        "fieldtype": "Tab Break",
+        "insert_after": "company_address_display",
+        "label": "Tracking Progress",
+        "depends_on":"eval:doc.show_followup ==1",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_section_break",
+        "fieldtype": "Section Break",
+        "insert_after": "custom_follow_up",
+        "label": "",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_view_follow_up_details",
+        "hidden":1,
+        "fieldtype": "Button",
+        "insert_after": "custom_section_break",
+        "label": "View Follow Up Details",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_followup",
+        "fieldtype": "Table",
+        "insert_after": "custom_view_follow_up_details",
+        "label": "",
+        "options":"Follow-Up",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "show_followup",
+        "fieldtype": "Check",
+        "insert_after": "custom_followup",
+        "label": "Show Followup",
+        "read_only":1,
+        "hidden":1,
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_quotation_owner",
+        "fieldtype": "Link",
+        "insert_after": "territory",
+        "label": "Quotation Owner",
+        "options":"User",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_ts_contact_number",
+        "fieldtype": "Data",
+        "insert_after": "custom_quotation_owner",
+        "label": "Contact Number",
+        "options":"Phone",
+        "module": "Crm Activity Tracking"
+        }
+    ]
+}

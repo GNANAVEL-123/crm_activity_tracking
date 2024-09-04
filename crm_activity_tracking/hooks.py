@@ -28,7 +28,11 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+  "Lead" : "crm_activity_tracking/custom_files/js/lead.js",
+              "Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
+              
+              }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -59,11 +63,12 @@ app_license = "mit"
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "crm_activity_tracking.utils.jinja_methods",
-# 	"filters": "crm_activity_tracking.utils.jinja_filters"
-# }
-
+jinja = {
+    "methods" : [
+      "frappe.utils.data.money_in_words",
+	  "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.tax_details"
+    ]
+}
 # Installation
 # ------------
 
@@ -72,6 +77,7 @@ app_license = "mit"
 
 # Uninstallation
 # ------------
+after_migrate = "crm_activity_tracking.migrate.after_migrate"
 
 # before_uninstall = "crm_activity_tracking.uninstall.before_uninstall"
 # after_uninstall = "crm_activity_tracking.uninstall.after_uninstall"
@@ -114,23 +120,21 @@ app_license = "mit"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Lead": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.CustomLead",
+}
 
 # Document Events
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
 
-# Scheduled Tasks
+doc_events = {
+	"Lead": {
+		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.validate",
+	}
+}
+# Scheduled Taskss
 # ---------------
 
 # scheduler_events = {

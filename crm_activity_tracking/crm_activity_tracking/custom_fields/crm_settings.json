@@ -1,0 +1,11 @@
+{
+    "CRM Settings": [
+        {
+        "fieldname": "quotation_followup",
+        "fieldtype": "Check",
+        "insert_after": "auto_creation_of_contact",
+        "label": "Enable Quotation Tracking",
+        "module": "Crm Activity Tracking"
+        }
+    ]
+}

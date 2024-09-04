@@ -1,0 +1,43 @@
+{
+    "Lead": [
+        {
+        "fieldname": "custom_follow_up",
+        "fieldtype": "Tab Break",
+        "insert_after": "notes",
+        "label": "Tracking Progress",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_section_break",
+        "fieldtype": "Section Break",
+        "insert_after": "custom_follow_up",
+        "label": "",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_view_follow_up_details",
+        "fieldtype": "Button",
+        "insert_after": "custom_section_break",
+        "hidden":1,
+        "label": "View Follow Up Details",
+        "module": "Crm Activity Tracking"
+        },
+        {
+        "fieldname": "custom_view_follow_up_details_copy",
+        "fieldtype": "Table",
+        "insert_after": "custom_view_follow_up_details",
+        "label": "",
+        "options":"Follow-Up",
+        "module": "Crm Activity Tracking"
+        },
+
+        {
+        "fieldname": "custom_remarks",
+        "fieldtype": "Small Text",
+        "insert_after": "fax",
+        "label": "Remarks",
+        "module": "Crm Activity Tracking"
+        }
+    ]
+}
+
