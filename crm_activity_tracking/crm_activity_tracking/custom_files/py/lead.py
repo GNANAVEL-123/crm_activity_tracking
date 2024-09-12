@@ -4,14 +4,38 @@ from frappe import _
 from erpnext.crm.doctype.lead.lead import Lead
 from frappe.utils import getdate
 import re
+from frappe.permissions import (
+	add_user_permission,
+	get_doc_permissions,
+	has_permission,
+	remove_user_permission,
+)
 
+def after_insert(doc,event):
+    create_user_permission(doc)
 
 def validate(doc, method):
     if doc.custom_view_follow_up_details_copy:
         last_followup = doc.custom_view_follow_up_details_copy[-1] 
         if last_followup.status:
             doc.status = last_followup.status
-    validate_phone_number(phone_number=doc.mobile_no)
+    if doc.mobile_no:
+        validate_phone_number(phone_number=(doc.mobile_no or ""))
+    if not doc.get('__islocal'):
+        create_user_permission(doc)
+
+def create_user_permission(doc):
+    
+    if doc.lead_owner and not frappe.db.exists('User Permission',{'user':doc.lead_owner,'allow':'Lead','for_value':doc.name}):
+        role_profile = frappe.get_value('User',doc.lead_owner,'role_profile_name')
+        add_user_permission("Lead", doc.name, doc.lead_owner,ignore_permissions=True,is_default=0)
+    
+    if doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':doc.custom_assigned_to,'allow':'Lead','for_value':doc.name}):
+        role_profile = frappe.get_value('User',doc.custom_assigned_to,'role_profile_name')
+        add_user_permission("Lead", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
+
+    for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.lead_owner,doc.custom_assigned_to]],'allow':'Lead','for_value':doc.name}):
+        remove_user_permission("Lead", doc.name, i.user)
 
 class CustomLead(Lead):
     def before_insert(self):
@@ -115,3 +139,9 @@ def validate_phone_number(phone_number):
     if not pattern.match(phone_number):
         
         frappe.msgprint(f'Invalid Mobile Number.', title = 'Warning', indicator = "orange", raise_exception = 1)
+
+
+def on_trash(doc,event):
+    
+    for i in frappe.get_all('User Permission',['user'],{'allow':'Lead','for_value':doc.name}):
+        remove_user_permission("Lead", doc.name, i.user)

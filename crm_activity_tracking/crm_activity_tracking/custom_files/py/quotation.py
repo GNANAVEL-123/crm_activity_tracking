@@ -2,6 +2,36 @@ import frappe
 import json
 from frappe.utils import getdate, nowdate
 from frappe.desk.reportview import get_filters_cond, get_match_cond
+from frappe.permissions import (
+	add_user_permission,
+	get_doc_permissions,
+	has_permission,
+	remove_user_permission,
+)
+def on_trash(doc,event):
+    
+    for i in frappe.get_all('User Permission',['user'],{'allow':'Quotation','for_value':doc.name}):
+        remove_user_permission("Quotation", doc.name, i.user)
+
+def validate(doc,event):
+    if not doc.get('__islocal'):
+        create_user_permission(doc)
+
+def after_insert(doc,event):
+    create_user_permission(doc)
+
+def create_user_permission(doc):
+    
+    if doc.custom_quotation_owner and not frappe.db.exists('User Permission',{'user':doc.custom_quotation_owner,'allow':'Quotation','for_value':doc.name}):
+        role_profile = frappe.get_value('User',doc.custom_quotation_owner,'role_profile_name')
+        add_user_permission("Quotation", doc.name, doc.custom_quotation_owner,ignore_permissions=True,is_default=0)
+    
+    if doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':doc.custom_assigned_to,'allow':'Quotation','for_value':doc.name}):
+        role_profile = frappe.get_value('User',doc.custom_assigned_to,'role_profile_name')
+        add_user_permission("Quotation", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
+
+    for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.custom_quotation_owner,doc.custom_assigned_to]],'allow':'Quotation','for_value':doc.name}):
+        remove_user_permission("Quotation", doc.name, i.user)
 
 def tax_details(doc):
 

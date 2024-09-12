@@ -132,7 +132,14 @@ override_doctype_class = {
 doc_events = {
 	"Lead": {
 		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.validate",
-	}
+		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.after_insert",
+		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.on_trash"
+	},
+  "Quotation": {
+		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.validate",
+		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.after_insert",
+		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.on_trash"
+	},
 }
 # Scheduled Taskss
 # ---------------
