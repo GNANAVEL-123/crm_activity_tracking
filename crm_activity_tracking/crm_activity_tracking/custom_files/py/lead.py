@@ -28,11 +28,13 @@ def create_user_permission(doc):
     
     if doc.lead_owner and not frappe.db.exists('User Permission',{'user':doc.lead_owner,'allow':'Lead','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.lead_owner,'role_profile_name')
-        add_user_permission("Lead", doc.name, doc.lead_owner,ignore_permissions=True,is_default=0)
+        if role_profile != 'CRM Admin':
+            add_user_permission("Lead", doc.name, doc.lead_owner,ignore_permissions=True,is_default=0)
     
     if doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':doc.custom_assigned_to,'allow':'Lead','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.custom_assigned_to,'role_profile_name')
-        add_user_permission("Lead", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
+        if role_profile != 'CRM Admin':
+            add_user_permission("Lead", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
 
     for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.lead_owner,doc.custom_assigned_to]],'allow':'Lead','for_value':doc.name}):
         remove_user_permission("Lead", doc.name, i.user)

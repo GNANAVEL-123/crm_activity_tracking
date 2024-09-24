@@ -138,6 +138,7 @@ doc_events = {
   "Quotation": {
 		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.validate",
 		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.after_insert",
+		"on_update_after_submit":"crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.after_insert",
 		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.on_trash"
 	},
 }
