@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-01 17:18:05.452695",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -8,11 +9,13 @@
   "customer_name",
   "date",
   "company",
-  "invoice_number",
-  "refilling__report_date",
+  "reference_no",
   "column_break_qhfz",
   "refilling__report_no",
+  "refilling__report_date",
   "invoice_date",
+  "invoice_number",
+  "naming_series",
   "section_break_blgy",
   "table_nrxp"
  ],
@@ -66,14 +69,28 @@
    "fieldname": "table_nrxp",
    "fieldtype": "Table",
    "options": "Warranty Certificate Table"
+  },
+  {
+   "default": "WC-.YY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "WC-.YY.-.####"
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "label": "Reference No"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-01 17:33:38.962407",
+ "modified": "2024-12-02 14:56:58.265114",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Warranty Certificate",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

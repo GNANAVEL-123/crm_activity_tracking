@@ -24,7 +24,17 @@
   "total_extinguisher",
   "amc_frequency",
   "section_break_jxwf",
-  "refilling_schedule"
+  "refilling_schedule",
+  "field_visitor_record_tab",
+  "user_name",
+  "customer_sign",
+  "column_break_zyfd",
+  "check_in",
+  "in_time",
+  "column_break_nuos",
+  "check_out",
+  "out_time",
+  "feedback_tab"
  ],
  "fields": [
   {
@@ -121,11 +131,62 @@
    "fieldtype": "Table",
    "label": "Refilling Schedule",
    "options": "Refilling Schedule Table"
+  },
+  {
+   "fieldname": "feedback_tab",
+   "fieldtype": "Tab Break",
+   "label": "Feedback"
+  },
+  {
+   "fieldname": "field_visitor_record_tab",
+   "fieldtype": "Tab Break",
+   "label": "Field Visitor Record"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Link",
+   "label": "User Name",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_zyfd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_sign",
+   "fieldtype": "Signature",
+   "label": "Customer Sign"
+  },
+  {
+   "fieldname": "check_in",
+   "fieldtype": "Button",
+   "label": "Check in"
+  },
+  {
+   "fieldname": "in_time",
+   "fieldtype": "Datetime",
+   "label": " In Time ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "check_out",
+   "fieldtype": "Button",
+   "label": "Check Out"
+  },
+  {
+   "fieldname": "out_time",
+   "fieldtype": "Datetime",
+   "label": "Out Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_nuos",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-01 21:46:12.824992",
+ "modified": "2024-12-02 10:26:04.867678",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
