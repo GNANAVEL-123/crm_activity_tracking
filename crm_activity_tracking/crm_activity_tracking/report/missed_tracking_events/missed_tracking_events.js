@@ -13,8 +13,15 @@ frappe.query_reports["Missed Tracking Events"] = {
 		{
 			fieldname: 'user',
 			label: 'Monitored By',
-			fieldtype: 'Autocomplete',
-			options: []
+			fieldtype: 'Link',
+			options: "User",
+			default:frappe.session.user,
+			// get_query: function () {
+			// 	return {
+			// 		query: "crm_activity_tracking.crm_activity_tracking.report.today_tracking.today_tracking.user_list",
+			// 		filters: { date: frappe.query_report.get_filter_value('date') },
+			// 	};
+			// },
 		},
 		{
 			fieldname: 'lead',

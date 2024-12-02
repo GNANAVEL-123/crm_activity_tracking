@@ -1,0 +1,163 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:invoice_number",
+ "creation": "2024-11-26 00:16:23.761061",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "location",
+  "invoice_number",
+  "amc_service_date",
+  "next_amc_service_due_date",
+  "number_of_portable_fire_extinguisher",
+  "column_break_mopi",
+  "customer_name",
+  "mail_id",
+  "service_by",
+  "recommendations_quote_no",
+  "product_delivery_date",
+  "number_of_trolley_fireextinguisher",
+  "column_break_sawh",
+  "concern_person",
+  "contact_number",
+  "total_extinguisher",
+  "amc_frequency",
+  "section_break_aosm",
+  "amc_frequency_list",
+  "section_break_jxwf",
+  "refilling_schedule"
+ ],
+ "fields": [
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "label": "Customer Name",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "concern_person",
+   "fieldtype": "Data",
+   "label": "Concern Person"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "mail_id",
+   "fieldtype": "Data",
+   "label": "Mail ID"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number",
+   "unique": 1
+  },
+  {
+   "fieldname": "product_delivery_date",
+   "fieldtype": "Data",
+   "label": "Product Delivery Date"
+  },
+  {
+   "fieldname": "amc_service_date",
+   "fieldtype": "Date",
+   "label": "AMC Service Date"
+  },
+  {
+   "fieldname": "next_amc_service_due_date",
+   "fieldtype": "Date",
+   "label": "Next AMC Service Due Date"
+  },
+  {
+   "fieldname": "recommendations_quote_no",
+   "fieldtype": "Data",
+   "label": "Recommendations Quote No"
+  },
+  {
+   "fieldname": "number_of_portable_fire_extinguisher",
+   "fieldtype": "Data",
+   "label": "Number Of Portable Fire Extinguisher"
+  },
+  {
+   "fieldname": "column_break_mopi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_by",
+   "fieldtype": "Data",
+   "label": "Service By"
+  },
+  {
+   "fieldname": "number_of_trolley_fireextinguisher",
+   "fieldtype": "Data",
+   "label": "Number of Trolley Fireextinguisher"
+  },
+  {
+   "fieldname": "column_break_sawh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_extinguisher",
+   "fieldtype": "Data",
+   "label": "Total Extinguisher"
+  },
+  {
+   "fieldname": "section_break_jxwf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "refilling_schedule",
+   "fieldtype": "Table",
+   "label": "Refilling Schedule",
+   "options": "Refilling Schedule Table"
+  },
+  {
+   "fieldname": "amc_frequency",
+   "fieldtype": "Int",
+   "label": "AMC Frequency"
+  },
+  {
+   "fieldname": "section_break_aosm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amc_frequency_list",
+   "fieldtype": "Table",
+   "label": "AMC Frequency List",
+   "options": "AMC Frequency Table"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-01 20:35:42.045836",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "AMC",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

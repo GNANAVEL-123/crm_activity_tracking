@@ -1,6 +1,9 @@
 frappe.ui.form.on("Quotation", {
 	
+	onload: function(frm){
 
+		
+	},
     refresh: function(frm){
 
 
@@ -15,6 +18,39 @@ frappe.ui.form.on("Quotation", {
                 }
             }
         });
+
+		if (frm.doc.docstatus == 1 && ["Open", "Expired"].includes(frm.doc.status)) {
+			frm.add_custom_button(__("Converted"), function() {
+                frappe.call({
+                    method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.sales_order_making",
+                    args: {
+                        doc: frm.doc,
+                    },
+                    callback: function (r) {
+                        if (r.message) {
+							frm.set_value("status", "Ordered")
+                            frappe.show_alert({
+                                message: __("Sales Order Making Successfully"),
+                                indicator: "green",
+                            });
+                        }
+                    }
+    
+                })
+                
+            }, );
+		}
+
+		if(frm.doc.docstatus == 1 && frm.doc.status !== "Order Cancelled"){
+			frm.add_custom_button(__("Order Cancelled"), function() {
+					frm.set_value("status", "Order Cancelled")
+					frappe.show_alert({
+						message: __("Order Cancelled Successfully"),
+						indicator: "red",
+					});
+                }, 
+			);
+		}
 
 		frappe.db.get_value('User', {'name': frappe.session.user}, 'role_profile_name', (r) => {
 			if (r.role_profile_name == 'Admin') {
@@ -58,7 +94,27 @@ frappe.ui.form.on("Quotation", {
 				}
 			}
 		});
-
+		if(frm.doc.docstatus == 1 && frm.doc.status == "Open"){
+			frm.add_custom_button(__("Converted"), function() {
+                frappe.call({
+                    method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.sales_order_making",
+                    args: {
+                        doc: frm.doc,
+                    },
+                    callback: function (r) {
+                        if (r.message) {
+							frm.set_value("status", "Ordered")
+                            frappe.show_alert({
+                                message: __("Sales Order Making Successfully"),
+                                indicator: "green",
+                            });
+                        }
+                    }
+    
+                })
+                
+            }, );
+		}
 		// frm.set_query('item_code',"items", function(doc){
 		// 	if (frm.doc.custom_item_group){
 		// 		return {

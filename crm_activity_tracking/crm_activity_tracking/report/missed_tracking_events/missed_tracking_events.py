@@ -141,7 +141,7 @@ def get_data(filters):
                 LIMIT 1
             ) AS contact_number
         FROM `tabLead` AS lead
-        WHERE lead.status NOT IN ("Quotation Created", "Do Not Disturb")
+        WHERE lead.status NOT IN ("Quotation", "Do Not Disturb", "Converted")
             AND (
                 SELECT MAX(follow.next_follow_up_date)
                 FROM `tabFollow-Up` AS follow
@@ -187,7 +187,7 @@ def get_data(filters):
                 LIMIT 1
             ) AS description
         FROM `tabQuotation` AS quotation
-        WHERE quotation.status NOT IN ("Ordered", "Lost", "Cancelled") 
+        WHERE quotation.status NOT IN ("Ordered", "Lost", "Cancelled", "Order Cancelled") 
             AND (
                 SELECT MAX(follow.next_follow_up_date)
                 FROM `tabFollow-Up` AS follow

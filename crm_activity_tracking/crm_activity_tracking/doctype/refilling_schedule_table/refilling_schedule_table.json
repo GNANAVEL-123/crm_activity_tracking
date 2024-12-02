@@ -1,0 +1,135 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-26 00:38:23.174895",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "location",
+  "type",
+  "cap",
+  "date_refilling",
+  "refilling_frequency",
+  "refilling_due_date",
+  "enter_datetime",
+  "column_break_gjii",
+  "year_of_mfg",
+  "year_frequency",
+  "expiry_life_due",
+  "full_weight",
+  "empty_weight",
+  "actual_weight",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "date_refilling",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date Refilling"
+  },
+  {
+   "fieldname": "refilling_due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Refilling Due Date"
+  },
+  {
+   "fieldname": "actual_weight",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Actual Weight"
+  },
+  {
+   "columns": 1,
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "AMC Location"
+  },
+  {
+   "columns": 1,
+   "fieldname": "type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "AMC Type"
+  },
+  {
+   "columns": 1,
+   "fieldname": "cap",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Cap"
+  },
+  {
+   "fieldname": "year_of_mfg",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Year of Mfg"
+  },
+  {
+   "fieldname": "expiry_life_due",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Expiry Life Due",
+   "read_only": 1
+  },
+  {
+   "fieldname": "empty_weight",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Empty Weight"
+  },
+  {
+   "fieldname": "full_weight",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Full Weight"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Remarks"
+  },
+  {
+   "columns": 1,
+   "fieldname": "refilling_frequency",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Refilling Frequency"
+  },
+  {
+   "fieldname": "year_frequency",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Year Frequency"
+  },
+  {
+   "fieldname": "column_break_gjii",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enter_datetime",
+   "fieldtype": "Datetime",
+   "label": "Enter Datetime",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-01 20:42:08.916886",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Refilling Schedule Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

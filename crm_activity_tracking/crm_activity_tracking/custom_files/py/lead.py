@@ -17,8 +17,8 @@ def after_insert(doc,event):
 def validate(doc, method):
     if doc.custom_view_follow_up_details_copy:
         last_followup = doc.custom_view_follow_up_details_copy[-1] 
-        if last_followup.status:
-            doc.status = last_followup.status
+        # if last_followup.status:
+        #     doc.status = last_followup.status
     if doc.mobile_no:
         validate_phone_number(phone_number=(doc.mobile_no or ""))
     if not doc.get('__islocal'):
@@ -36,7 +36,12 @@ def create_user_permission(doc):
         if role_profile != 'CRM Admin':
             add_user_permission("Lead", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
 
-    for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.lead_owner,doc.custom_assigned_to]],'allow':'Lead','for_value':doc.name}):
+    if doc.custom_allocated_to_manager and not frappe.db.exists('User Permission',{'user':doc.custom_allocated_to_manager,'allow':'Lead','for_value':doc.name}):
+        role_profile = frappe.get_value('User',doc.custom_allocated_to_manager,'role_profile_name')
+        if role_profile != 'CRM Admin':
+            add_user_permission("Lead", doc.name, doc.custom_allocated_to_manager,ignore_permissions=True,is_default=0)
+    
+    for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.lead_owner,doc.custom_assigned_to, doc.custom_allocated_to_manager]],'allow':'Lead','for_value':doc.name}):
         remove_user_permission("Lead", doc.name, i.user)
 
 class CustomLead(Lead):

@@ -207,7 +207,7 @@ def get_data(filters):
 					LIMIT 1
 				) AS description
 			FROM `tabQuotation` AS quo
-			WHERE quo.docstatus = 1 and quo.transaction_date BETWEEN '{filters.get("from_date")}' AND DATE_ADD('{filters.get("to_date")}', INTERVAL 1 DAY)
+			WHERE quo.transaction_date BETWEEN '{filters.get("from_date")}' AND DATE_ADD('{filters.get("to_date")}', INTERVAL 1 DAY)
 		''', as_dict=1)
 
 	return data

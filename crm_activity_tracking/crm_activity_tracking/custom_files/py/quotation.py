@@ -8,6 +8,8 @@ from frappe.permissions import (
 	has_permission,
 	remove_user_permission,
 )
+from erpnext.selling.doctype.quotation.quotation import make_sales_order
+
 def on_trash(doc,event):
     
     for i in frappe.get_all('User Permission',['user'],{'allow':'Quotation','for_value':doc.name}):
@@ -15,6 +17,7 @@ def on_trash(doc,event):
 
 def on_update_after_submit(doc,event):
     create_user_permission(doc)
+    # sales_order_making(doc, event)
     
 def validate(doc,event):
     if not doc.get('__islocal'):
@@ -22,6 +25,32 @@ def validate(doc,event):
 
 def after_insert(doc,event):
     create_user_permission(doc)
+
+# def sales_order_making(doc, event):
+#     if doc.docstatus == 1 and doc.status == "Ordered":
+#         so = make_sales_order(doc.name)
+#         so.delivery_date = nowdate()
+#         so.save()
+#         so.submit()
+
+@frappe.whitelist()
+def sales_order_making(doc):
+    # Parse the incoming document JSON
+    doc = json.loads(doc)
+    
+    # Ensure the document is submitted (docstatus = 1)
+    if doc.get('docstatus') == 1:
+        # Create a new Sales Order from the document
+        so = make_sales_order(doc['name'])
+        so.transaction_date = doc.get('transaction_date')
+        so.delivery_date = doc.get('transaction_date')
+        so.save()
+        so.submit()
+
+        # Fetch and return the Sales Order document as a dictionary
+        if so:
+            so_doc = frappe.get_doc("Sales Order", so.name)
+            return so_doc.as_dict() if so_doc else None
 
 def create_user_permission(doc):
     

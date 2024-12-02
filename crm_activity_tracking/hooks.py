@@ -141,6 +141,11 @@ doc_events = {
 		"on_update_after_submit":"crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.after_insert",
 		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.on_trash"
 	},
+	'User':{
+		'after_insert':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.create_user_permission",
+		'validate':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.create_user_permission"
+
+	}
 }
 # Scheduled Taskss
 # ---------------

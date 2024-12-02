@@ -1,0 +1,114 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-26 00:34:36.413430",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "amc_master",
+  "location",
+  "type",
+  "cap",
+  "enter_datetime",
+  "column_break_hfne",
+  "year_of_mfg",
+  "expiry_life_due",
+  "empty_weight",
+  "full_weight",
+  "remarks",
+  "refilling_schedule_section",
+  "table_umma"
+ ],
+ "fields": [
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Data",
+   "label": "Type"
+  },
+  {
+   "fieldname": "cap",
+   "fieldtype": "Data",
+   "label": "Cap"
+  },
+  {
+   "fieldname": "year_of_mfg",
+   "fieldtype": "Data",
+   "label": "Year Of MFG"
+  },
+  {
+   "fieldname": "column_break_hfne",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expiry_life_due",
+   "fieldtype": "Data",
+   "label": "Expiry Life Due"
+  },
+  {
+   "fieldname": "empty_weight",
+   "fieldtype": "Data",
+   "label": "Empty Weight"
+  },
+  {
+   "fieldname": "full_weight",
+   "fieldtype": "Data",
+   "label": "Full Weight"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "refilling_schedule_section",
+   "fieldtype": "Section Break",
+   "label": "Refilling Schedule"
+  },
+  {
+   "fieldname": "table_umma",
+   "fieldtype": "Table",
+   "options": "Refilling Schedule Table"
+  },
+  {
+   "fieldname": "amc_master",
+   "fieldtype": "Link",
+   "label": "AMC Master",
+   "options": "AMC"
+  },
+  {
+   "fieldname": "enter_datetime",
+   "fieldtype": "Datetime",
+   "label": "Enter Datetime",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-01 20:38:26.057597",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "AMC Product List",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

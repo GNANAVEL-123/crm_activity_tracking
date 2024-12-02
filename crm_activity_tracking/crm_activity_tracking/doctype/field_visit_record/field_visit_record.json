@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-30 18:15:33.535325",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user_name",
+  "customer",
+  "check_in",
+  "in_time",
+  "check_out",
+  "out_time",
+  "column_break_wdka",
+  "customer_sign"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "check_in",
+   "fieldtype": "Button",
+   "label": "Check in"
+  },
+  {
+   "fieldname": "check_out",
+   "fieldtype": "Button",
+   "label": "Check Out"
+  },
+  {
+   "fieldname": "column_break_wdka",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_sign",
+   "fieldtype": "Signature",
+   "label": "Customer Sign"
+  },
+  {
+   "fieldname": "in_time",
+   "fieldtype": "Datetime",
+   "label": "In Time"
+  },
+  {
+   "fieldname": "out_time",
+   "fieldtype": "Datetime",
+   "label": "Out Time"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Link",
+   "label": "User Name",
+   "options": "User"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-11-30 19:44:40.826936",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Field Visit Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

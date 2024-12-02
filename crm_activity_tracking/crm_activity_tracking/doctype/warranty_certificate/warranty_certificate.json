@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-01 17:18:05.452695",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_name",
+  "date",
+  "company",
+  "invoice_number",
+  "refilling__report_date",
+  "column_break_qhfz",
+  "refilling__report_no",
+  "invoice_date",
+  "section_break_blgy",
+  "table_nrxp"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "label": "Customer Name",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "label": "Invoice Date"
+  },
+  {
+   "fieldname": "refilling__report_no",
+   "fieldtype": "Data",
+   "label": "Refilling  Report No"
+  },
+  {
+   "fieldname": "refilling__report_date",
+   "fieldtype": "Date",
+   "label": "Refilling  Report Date"
+  },
+  {
+   "fieldname": "column_break_qhfz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_blgy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_nrxp",
+   "fieldtype": "Table",
+   "options": "Warranty Certificate Table"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-01 17:33:38.962407",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Warranty Certificate",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
