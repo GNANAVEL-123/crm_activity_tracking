@@ -20,6 +20,28 @@ frappe.ui.form.on("AMC Visitor Tracking", {
     }
 });
 
+frappe.ui.form.on('Checkin Table', {
+    checkin: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (!row.in_time) {
+            frappe.model.set_value(cdt, cdn, "in_time",frappe.datetime.now_datetime());
+            frappe.msgprint(__('Check-in time has been updated!'));
+            frm.refresh_field("checkin_details");
+        } else {
+            frappe.msgprint(__('Check-in time is already updated!'));
+        }  
+    },
+    checkout: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (!row.outtime) {
+            frappe.model.set_value(cdt, cdn, "outtime",frappe.datetime.now_datetime());
+            frappe.msgprint(__('Check-out time has been updated!'));
+            frm.refresh_field("checkin_details");
+        }else {
+            frappe.msgprint(__('Check-out time is already updated!'));
+        }
+    },
+});
 
 frappe.ui.form.on('Refilling Schedule Table', {
     refilling_frequency: function(frm, cdt, cdn) {
@@ -42,4 +64,12 @@ frappe.ui.form.on('Refilling Schedule Table', {
             frm.refresh_field("refilling_schedule");
         }
     },
+
+    date_refilling: function(frm, cdt, cdn){
+        let row = locals[cdt][cdn];
+        if(row.date_refilling){
+            frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("refilling_schedule");
+        }
+    }
 });

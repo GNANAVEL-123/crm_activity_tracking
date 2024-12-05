@@ -28,4 +28,12 @@ frappe.ui.form.on('Refilling Schedule Table', {
             frm.refresh_field("refilling_schedule");
         }
     },
+
+    date_refilling: function(frm, cdt, cdn){
+        let row = locals[cdt][cdn];
+        if(row.date_refilling){
+            frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("refilling_schedule");
+        }
+    }
 });

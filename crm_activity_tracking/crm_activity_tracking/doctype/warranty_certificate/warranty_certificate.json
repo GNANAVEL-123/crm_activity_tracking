@@ -10,6 +10,7 @@
   "date",
   "company",
   "reference_no",
+  "brand",
   "column_break_qhfz",
   "refilling__report_no",
   "refilling__report_date",
@@ -82,11 +83,17 @@
    "fieldname": "reference_no",
    "fieldtype": "Data",
    "label": "Reference No"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Link",
+   "label": "Brand",
+   "options": "Brand"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-02 14:56:58.265114",
+ "modified": "2024-12-05 17:45:47.881869",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Warranty Certificate",

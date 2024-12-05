@@ -43,7 +43,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-12-05 12:18:13.831015",
+ "modified": "2024-12-05 17:06:10.308744",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Master",
@@ -52,11 +52,7 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [
-  {
-   "role": "Sales Master Manager"
-  }
- ],
+ "roles": [],
  "sequence_id": 40.0,
  "shortcuts": [
   {

@@ -5,6 +5,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import getdate, add_months, nowdate
 from datetime import timedelta, date
+from dateutil.relativedelta import relativedelta
 import calendar
 
 class AMC(Document):
@@ -32,6 +33,11 @@ def amc_visitor_tracker():
                 if amc_doc and amc_doc.amc_frequency_list:
                     for amc_fre in amc_doc.amc_frequency_list:
                         if getdate(amc_fre.from_date) == getdate(nowdate()):
+                            next_date = ""
+                            if amc_fre.from_date and amc_doc.amc_frequency:
+                                from_date = getdate(amc_fre.from_date)
+                                frequency_months = amc_doc.amc_frequency
+                                next_date = from_date + relativedelta(months=frequency_months)
                             amc_tracker_doc = frappe.new_doc("AMC Visitor Tracking")
                             amc_tracker_doc.amc_template = amc_doc.name
                             amc_tracker_doc.customer_name = amc_doc.customer_name
@@ -41,7 +47,7 @@ def amc_visitor_tracker():
                             amc_tracker_doc.concern_person = amc_doc.concern_person
                             amc_tracker_doc.service_by = amc_doc.service_by
                             amc_tracker_doc.amc_service_date = amc_fre.from_date
-                            # amc_tracker_doc.next_amc_service_due_date = amc_fre.to_date
+                            amc_tracker_doc.next_amc_service_due_date = next_date
                             amc_tracker_doc.invoice_number = amc_doc.invoice_number
                             amc_tracker_doc.total_extinguisher = amc_doc.total_extinguisher
                             amc_tracker_doc.number_of_portable_fire_extinguisher = amc_doc.number_of_portable_fire_extinguisher
