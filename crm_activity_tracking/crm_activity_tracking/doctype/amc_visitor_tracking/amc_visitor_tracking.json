@@ -11,6 +11,7 @@
   "amc_service_date",
   "next_amc_service_due_date",
   "number_of_portable_fire_extinguisher",
+  "amc_template",
   "column_break_mopi",
   "customer_name",
   "mail_id",
@@ -27,13 +28,14 @@
   "refilling_schedule",
   "field_visitor_record_tab",
   "user_name",
-  "customer_sign",
   "column_break_zyfd",
+  "customer_sign",
   "check_in",
-  "in_time",
-  "column_break_nuos",
-  "check_out",
   "out_time",
+  "check_out",
+  "in_time",
+  "section_break_xqol",
+  "checkin_details",
   "feedback_tab"
  ],
  "fields": [
@@ -160,33 +162,49 @@
   {
    "fieldname": "check_in",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Check in"
   },
   {
    "fieldname": "in_time",
    "fieldtype": "Datetime",
+   "hidden": 1,
    "label": " In Time ",
    "read_only": 1
   },
   {
    "fieldname": "check_out",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Check Out"
   },
   {
    "fieldname": "out_time",
    "fieldtype": "Datetime",
+   "hidden": 1,
    "label": "Out Time",
    "read_only": 1
   },
   {
-   "fieldname": "column_break_nuos",
-   "fieldtype": "Column Break"
+   "fieldname": "amc_template",
+   "fieldtype": "Link",
+   "label": "AMC Template",
+   "options": "AMC"
+  },
+  {
+   "fieldname": "section_break_xqol",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "checkin_details",
+   "fieldtype": "Table",
+   "label": "Checkin Details",
+   "options": "Checkin Table"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-02 10:26:04.867678",
+ "modified": "2024-12-05 14:10:12.992039",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

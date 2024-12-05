@@ -150,7 +150,7 @@ doc_events = {
 # Scheduled Taskss
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
 # 	"all": [
 # 		"crm_activity_tracking.tasks.all"
 # 	],
@@ -166,7 +166,12 @@ doc_events = {
 # 	"monthly": [
 # 		"crm_activity_tracking.tasks.monthly"
 # 	],
-# }
+	"cron":{
+		'0 2 * * *': [
+			"crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.amc_visitor_tracker",
+		]
+    }
+}
 
 # Testing
 # -------

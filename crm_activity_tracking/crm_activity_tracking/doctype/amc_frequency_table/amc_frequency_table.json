@@ -20,15 +20,15 @@
   {
    "fieldname": "to_date",
    "fieldtype": "Date",
+   "hidden": 1,
    "in_list_view": 1,
-   "label": "To Date",
-   "reqd": 1
+   "label": "To Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-01 20:35:37.897682",
+ "modified": "2024-12-05 11:14:34.454043",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Frequency Table",

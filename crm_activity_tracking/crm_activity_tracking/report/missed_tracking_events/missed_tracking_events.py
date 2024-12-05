@@ -92,11 +92,11 @@ def get_columns(filters):
 
 def get_data(filters):
 
-    if filters.get('user'):
+    # if filters.get('user'):
 
-        filter_user = filters.get('user')
+    #     filter_user = filters.get('user')
 
-        filters["user"] = frappe.get_value("User", {"username": filter_user}, "name")
+    #     filters["user"] = frappe.get_value("User", {"username": filter_user}, "name")
 
     follow_condition = ""
 

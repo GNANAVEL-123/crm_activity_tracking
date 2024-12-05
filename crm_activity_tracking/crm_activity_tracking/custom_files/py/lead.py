@@ -152,3 +152,28 @@ def on_trash(doc,event):
     
     for i in frappe.get_all('User Permission',['user'],{'allow':'Lead','for_value':doc.name}):
         remove_user_permission("Lead", doc.name, i.user)
+
+
+# lead_user_permission_update_script
+def user_permission():
+	lead_list = frappe.db.get_all("Lead", fields=["name"])
+	print(lead_list)
+	if lead_list:
+		for i in lead_list:
+			if i.name:
+				lead_doc = frappe.get_doc("Lead", i.name)
+				print(lead_doc)
+				if lead_doc.lead_owner and not frappe.db.exists('User Permission',{'user':lead_doc.lead_owner,'allow':'Lead','for_value':lead_doc.name}):
+					role_profile = frappe.get_value('User',lead_doc.lead_owner,'role_profile_name')
+					if role_profile != 'CRM Admin':
+						add_user_permission("Lead", lead_doc.name, lead_doc.lead_owner,ignore_permissions=True,is_default=0)
+		
+				if lead_doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':lead_doc.custom_assigned_to,'allow':'Lead','for_value':lead_doc.name}):
+					role_profile = frappe.get_value('User',lead_doc.custom_assigned_to,'role_profile_name')
+					if role_profile != 'CRM Admin':
+						add_user_permission("Lead", lead_doc.name, lead_doc.custom_assigned_to,ignore_permissions=True,is_default=0)
+
+				if lead_doc.custom_allocated_to_manager and not frappe.db.exists('User Permission',{'user':lead_doc.custom_allocated_to_manager,'allow':'Lead','for_value':lead_doc.name}):
+					role_profile = frappe.get_value('User',lead_doc.custom_allocated_to_manager,'role_profile_name')
+					if role_profile != 'CRM Admin':
+						add_user_permission("Lead", lead_doc.name, lead_doc.custom_allocated_to_manager,ignore_permissions=True,is_default=0)

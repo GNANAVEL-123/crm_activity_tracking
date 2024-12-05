@@ -1,0 +1,52 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-05 13:57:20.307228",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "checkin",
+  "in_time",
+  "checkout",
+  "outtime"
+ ],
+ "fields": [
+  {
+   "fieldname": "checkin",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Checkin"
+  },
+  {
+   "fieldname": "in_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "In Time"
+  },
+  {
+   "fieldname": "checkout",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Checkout"
+  },
+  {
+   "fieldname": "outtime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Outtime"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-05 14:07:48.945966",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Checkin Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

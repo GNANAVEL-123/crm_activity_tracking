@@ -31,30 +31,30 @@ frappe.query_reports["Missed Tracking Events"] = {
 		},
 	],
 
-	onload: function(report){
+	// onload: function(report){
 
-		frappe.db.get_value("User", {"name": frappe.session.user}, "username", (r) => {
-			frappe.query_report.set_filter_value('user', r.username);
-		})
+	// 	frappe.db.get_value("User", {"name": frappe.session.user}, "username", (r) => {
+	// 		frappe.query_report.set_filter_value('user', r.username);
+	// 	})
 
-		frappe.call({
+	// 	frappe.call({
 
-			method: "crm_activity_tracking.crm_activity_tracking.report.missed_tracking_events.missed_tracking_events.get_user_list",
+	// 		method: "crm_activity_tracking.crm_activity_tracking.report.missed_tracking_events.missed_tracking_events.get_user_list",
 
-			args: {user: frappe.session.user},
+	// 		args: {user: frappe.session.user},
 
-			callback(r){
+	// 		callback(r){
 				
-				if ((r.message).length < 2){
-					frappe.query_report.page.fields_dict.user.df.hidden = 1;
-				}
+	// 			if ((r.message).length < 2){
+	// 				frappe.query_report.page.fields_dict.user.df.hidden = 1;
+	// 			}
 
-				frappe.query_report.page.fields_dict.user.set_data(r.message);
-				frappe.query_report.page.fields_dict.user.refresh();
-			}
-		})
+	// 			frappe.query_report.page.fields_dict.user.set_data(r.message);
+	// 			frappe.query_report.page.fields_dict.user.refresh();
+	// 		}
+	// 	})
 
-	},
+	// },
 
 	
 };
