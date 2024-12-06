@@ -48,11 +48,14 @@ def amc_visitor_tracker():
                             amc_tracker_doc.service_by = amc_doc.service_by
                             amc_tracker_doc.amc_service_date = amc_fre.from_date
                             amc_tracker_doc.next_amc_service_due_date = next_date
+                            amc_tracker_doc.amc_frequency = amc_doc.amc_frequency
                             amc_tracker_doc.invoice_number = amc_doc.invoice_number
                             amc_tracker_doc.total_extinguisher = amc_doc.total_extinguisher
                             amc_tracker_doc.number_of_portable_fire_extinguisher = amc_doc.number_of_portable_fire_extinguisher
                             amc_tracker_doc.number_of_trolley_fireextinguisher = amc_doc.number_of_trolley_fireextinguisher
                             amc_tracker_doc.recommendations_quote_no = amc_doc.recommendations_quote_no
+                            amc_tracker_doc.vendor_number = amc_doc.vendor_number
+                            amc_tracker_doc.po_number = amc_doc.po_number
                             if amc_doc.refilling_schedule:
                                 for refilling_entry in amc_doc.refilling_schedule:
                                     refilling_child = amc_tracker_doc.append("refilling_schedule", {})

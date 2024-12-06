@@ -22,6 +22,8 @@
   "concern_person",
   "contact_number",
   "total_extinguisher",
+  "vendor_number",
+  "po_number",
   "amc_frequency",
   "section_break_aosm",
   "amc_frequency_list",
@@ -74,6 +76,7 @@
   {
    "fieldname": "next_amc_service_due_date",
    "fieldtype": "Date",
+   "hidden": 1,
    "label": "Next AMC Service Due Date"
   },
   {
@@ -133,11 +136,21 @@
    "fieldtype": "Table",
    "label": "AMC Frequency List",
    "options": "AMC Frequency Table"
+  },
+  {
+   "fieldname": "vendor_number",
+   "fieldtype": "Data",
+   "label": "Vendor Number"
+  },
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "PO Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-01 20:35:42.045836",
+ "modified": "2024-12-06 15:29:57.251011",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",

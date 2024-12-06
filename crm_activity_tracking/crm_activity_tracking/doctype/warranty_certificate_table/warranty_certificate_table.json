@@ -32,7 +32,7 @@
    "fieldname": "is_no",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "IS No"
+   "label": "SR No"
   },
   {
    "fieldname": "result",
@@ -65,7 +65,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-02 14:55:31.034944",
+ "modified": "2024-12-06 17:27:31.705712",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Warranty Certificate Table",

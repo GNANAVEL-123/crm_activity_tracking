@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-06 22:22:31.482327",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "description",
+  "marks"
+ ],
+ "fields": [
+  {
+   "fieldname": "description",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "DESCRIPTION",
+   "options": "Feedback Description"
+  },
+  {
+   "fieldname": "marks",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "MARKS",
+   "options": "\n5 EXCELLENT\n4 VERY GOOD\n3 GOOD\n2 SATISFACTORY\n1 VERY POOR"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-06 22:31:17.684103",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Feedback Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

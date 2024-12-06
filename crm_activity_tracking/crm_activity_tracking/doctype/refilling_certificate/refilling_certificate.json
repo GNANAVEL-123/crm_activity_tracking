@@ -9,12 +9,17 @@
   "date",
   "customer",
   "address",
+  "reference_no",
   "naming_series",
   "column_break_tewv",
-  "reference_no",
   "invoice_number",
+  "year",
   "from_date",
   "to_date",
+  "column_break_awlc",
+  "refilling_report_no",
+  "refilling_report_date",
+  "refilling_due_date",
   "section_break_osjq",
   "table_wxkh"
  ],
@@ -70,17 +75,41 @@
    "label": "Reference No"
   },
   {
-   "default": "RC-.YY.-.####",
+   "default": "RC/.YYYY./.####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "naming_series",
-   "options": "RC-.YY.-.####"
+   "options": "RC/.YYYY./.####"
+  },
+  {
+   "fieldname": "refilling_report_no",
+   "fieldtype": "Data",
+   "label": "Refilling Report No"
+  },
+  {
+   "fieldname": "refilling_report_date",
+   "fieldtype": "Date",
+   "label": "Refilling  Date"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Float",
+   "label": "Year"
+  },
+  {
+   "fieldname": "column_break_awlc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refilling_due_date",
+   "fieldtype": "Date",
+   "label": "Refilling Due Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-02 12:23:14.905090",
+ "modified": "2024-12-06 19:29:01.007127",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Certificate",

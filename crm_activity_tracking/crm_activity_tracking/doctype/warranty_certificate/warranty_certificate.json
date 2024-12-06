@@ -7,16 +7,21 @@
  "engine": "InnoDB",
  "field_order": [
   "customer_name",
+  "customer_address",
   "date",
+  "year",
   "company",
-  "reference_no",
-  "brand",
   "column_break_qhfz",
-  "refilling__report_no",
-  "refilling__report_date",
   "invoice_date",
   "invoice_number",
+  "reference_no",
   "naming_series",
+  "supplied_date",
+  "column_break_qdek",
+  "refilling__report_no",
+  "refilling__report_date",
+  "brand",
+  "refilling_due_date",
   "section_break_blgy",
   "table_nrxp"
  ],
@@ -35,6 +40,7 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Company",
    "options": "Company"
   },
@@ -72,12 +78,12 @@
    "options": "Warranty Certificate Table"
   },
   {
-   "default": "WC-.YY.-.####",
+   "default": "WC/.YYYY./.####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "naming_series",
-   "options": "WC-.YY.-.####"
+   "options": "WC/.YYYY./.####"
   },
   {
    "fieldname": "reference_no",
@@ -89,11 +95,36 @@
    "fieldtype": "Link",
    "label": "Brand",
    "options": "Brand"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Float",
+   "label": "Warranty Year"
+  },
+  {
+   "fieldname": "column_break_qdek",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refilling_due_date",
+   "fieldtype": "Date",
+   "label": "Refilling Due Date"
+  },
+  {
+   "fieldname": "supplied_date",
+   "fieldtype": "Date",
+   "label": "Supplied Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-05 17:45:47.881869",
+ "modified": "2024-12-06 19:28:05.845550",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Warranty Certificate",

@@ -2,6 +2,23 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("AMC Visitor Tracking", {
+    onload: function (frm) {
+        frappe.call({
+            method: "crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking.description_list",
+            args: {
+                doc:frm.doc
+            },
+            callback: function (r) {
+                if (r.message) {
+                    r.message.forEach(feedback => {
+                        let newRow = frm.add_child("feedback_table");
+                        newRow.description = feedback;
+                    });
+                    frm.refresh_field("feedback_table");
+                }
+            }
+        });
+    },    
     check_in(frm) {
         if (!frm.doc.in_time) { 
             frm.set_value('in_time', frappe.datetime.now_datetime());
@@ -16,6 +33,22 @@ frappe.ui.form.on("AMC Visitor Tracking", {
             frappe.msgprint(__('Check-out time has been updated!'));
         } else {
             frappe.msgprint(__('Check-out time is already updated!'));
+        }
+    },
+    amc_frequency(frm) {
+        if (frm.doc.amc_frequency && frm.doc.amc_service_date) {
+            let serviceDate = new Date(frm.doc.amc_service_date);
+            serviceDate.setMonth(serviceDate.getMonth() + parseInt(frm.doc.amc_frequency));
+            let nextAMCServiceDueDate = serviceDate.toISOString().split('T')[0];
+            frappe.model.set_value(frm.doc.doctype, frm.doc.name, 'next_amc_service_due_date', nextAMCServiceDueDate);
+        }
+    },
+    amc_service_date(frm) {
+        if (frm.doc.amc_frequency && frm.doc.amc_service_date) {
+            let serviceDate = new Date(frm.doc.amc_service_date);
+            serviceDate.setMonth(serviceDate.getMonth() + parseInt(frm.doc.amc_frequency));
+            let nextAMCServiceDueDate = serviceDate.toISOString().split('T')[0];
+            frappe.model.set_value(frm.doc.doctype, frm.doc.name, 'next_amc_service_due_date', nextAMCServiceDueDate);
         }
     }
 });

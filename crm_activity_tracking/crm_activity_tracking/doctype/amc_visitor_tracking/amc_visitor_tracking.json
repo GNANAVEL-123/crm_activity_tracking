@@ -23,10 +23,13 @@
   "concern_person",
   "contact_number",
   "total_extinguisher",
+  "vendor_number",
+  "po_number",
   "amc_frequency",
   "section_break_jxwf",
   "refilling_schedule",
   "field_visitor_record_tab",
+  "user_details_section",
   "user_name",
   "column_break_zyfd",
   "customer_sign",
@@ -36,7 +39,9 @@
   "in_time",
   "section_break_xqol",
   "checkin_details",
-  "feedback_tab"
+  "feedback_tab",
+  "feedback_details_section",
+  "feedback_table"
  ],
  "fields": [
   {
@@ -193,18 +198,45 @@
   },
   {
    "fieldname": "section_break_xqol",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Checkin Checkout Details"
   },
   {
    "fieldname": "checkin_details",
    "fieldtype": "Table",
    "label": "Checkin Details",
    "options": "Checkin Table"
+  },
+  {
+   "fieldname": "vendor_number",
+   "fieldtype": "Data",
+   "label": "Vendor Number"
+  },
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "PO Number"
+  },
+  {
+   "fieldname": "user_details_section",
+   "fieldtype": "Section Break",
+   "label": "User Details"
+  },
+  {
+   "fieldname": "feedback_details_section",
+   "fieldtype": "Section Break",
+   "label": "Feedback Details"
+  },
+  {
+   "fieldname": "feedback_table",
+   "fieldtype": "Table",
+   "label": "Feedback Table",
+   "options": "Feedback Table"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-05 14:10:12.992039",
+ "modified": "2024-12-06 22:26:12.894606",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
