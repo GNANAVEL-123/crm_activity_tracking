@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-09 12:13:00.607552",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "customer_address",
+  "testing_date",
+  "certificate_validation",
+  "invoice_no",
+  "column_break_ghwz",
+  "date",
+  "reference_no",
+  "hpt_done_on",
+  "next_hpt_due_date",
+  "section_break_smhl",
+  "hydro_pressure_test_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "testing_date",
+   "fieldtype": "Date",
+   "label": "Testing Date"
+  },
+  {
+   "fieldname": "certificate_validation",
+   "fieldtype": "Float",
+   "label": "Certificate Validation"
+  },
+  {
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No"
+  },
+  {
+   "fieldname": "column_break_ghwz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hpt_done_on",
+   "fieldtype": "Date",
+   "label": "HPT Done On"
+  },
+  {
+   "fieldname": "next_hpt_due_date",
+   "fieldtype": "Date",
+   "label": "Next HPT Due Date"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "label": "Reference No"
+  },
+  {
+   "fieldname": "section_break_smhl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "hydro_pressure_test_table",
+   "fieldtype": "Table",
+   "label": "Hydro Pressure Test Table",
+   "options": "Hydro Pressure Test Table"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-09 13:41:45.411268",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Hydro Pressure Test",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

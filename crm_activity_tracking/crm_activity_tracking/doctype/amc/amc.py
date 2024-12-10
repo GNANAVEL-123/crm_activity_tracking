@@ -21,6 +21,9 @@ class AMC(Document):
                     "to_date": end_date.strftime('%Y-%m-%d') 
                 })
                 start_date = end_date + timedelta(days=1)
+        if self.number_of_portable_fire_extinguisher or self.number_of_trolley_fireextinguisher:
+            self.total_extinguisher = ((self.number_of_portable_fire_extinguisher or 0) + (self.number_of_trolley_fireextinguisher or 0))
+        
 
 
 

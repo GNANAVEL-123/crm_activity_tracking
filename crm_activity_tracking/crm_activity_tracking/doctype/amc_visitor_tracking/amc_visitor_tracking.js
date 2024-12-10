@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("AMC Visitor Tracking", {
-    onload: function (frm) {
+    refresh: function (frm) {
         frappe.call({
             method: "crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking.description_list",
             args: {
@@ -50,6 +50,20 @@ frappe.ui.form.on("AMC Visitor Tracking", {
             let nextAMCServiceDueDate = serviceDate.toISOString().split('T')[0];
             frappe.model.set_value(frm.doc.doctype, frm.doc.name, 'next_amc_service_due_date', nextAMCServiceDueDate);
         }
+    },
+    number_of_portable_fire_extinguisher(frm) {
+        frm.set_value(
+            'total_extinguisher',
+            (frm.doc.number_of_portable_fire_extinguisher || 0) + 
+            (frm.doc.number_of_trolley_fireextinguisher || 0)
+        );
+    },
+    number_of_trolley_fireextinguisher(frm) {
+        frm.set_value(
+            'total_extinguisher',
+            (frm.doc.number_of_portable_fire_extinguisher || 0) + 
+            (frm.doc.number_of_trolley_fireextinguisher || 0)
+        );
     }
 });
 

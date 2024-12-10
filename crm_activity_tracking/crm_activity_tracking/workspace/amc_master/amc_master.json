@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"T2qIaOAK6K\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">AMC Master</span>\",\"col\":12}},{\"id\":\"IpEmf0JE7Z\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC\",\"col\":3}},{\"id\":\"DqYKX1yYpQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"nvTMhGvMJY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"sXHJOHIY_t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"3QMV9mQQyP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CvgkgWHT2u\",\"type\":\"card\",\"data\":{\"card_name\":\"AMC Location and Type\",\"col\":4}}]",
+ "content": "[{\"id\":\"T2qIaOAK6K\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">AMC Master</span>\",\"col\":12}},{\"id\":\"IpEmf0JE7Z\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC\",\"col\":3}},{\"id\":\"DqYKX1yYpQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"nvTMhGvMJY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"sXHJOHIY_t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"-HwDzUZ1s1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hydro Pressure Test Certificate\",\"col\":3}},{\"id\":\"3QMV9mQQyP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CvgkgWHT2u\",\"type\":\"card\",\"data\":{\"card_name\":\"AMC Location and Type\",\"col\":4}}]",
  "creation": "2024-12-05 12:12:03.411698",
  "custom_blocks": [],
  "docstatus": 0,
@@ -43,7 +43,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-12-05 17:06:10.308744",
+ "modified": "2024-12-09 15:20:12.627830",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Master",
@@ -55,6 +55,14 @@
  "roles": [],
  "sequence_id": 40.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hydro Pressure Test Certificate",
+   "link_to": "Hydro Pressure Test",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
   {
    "color": "Grey",
    "doc_view": "List",
