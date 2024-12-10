@@ -6,12 +6,17 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "section_break_xqol",
+  "checkin_details",
+  "section_break_ayje",
   "location",
   "invoice_number",
   "amc_service_date",
   "next_amc_service_due_date",
   "number_of_portable_fire_extinguisher",
   "amc_template",
+  "job_sheet_no",
+  "completion_report_no",
   "column_break_mopi",
   "customer_name",
   "mail_id",
@@ -19,6 +24,7 @@
   "recommendations_quote_no",
   "product_delivery_date",
   "number_of_trolley_fireextinguisher",
+  "ultramarine",
   "column_break_sawh",
   "concern_person",
   "contact_number",
@@ -28,7 +34,12 @@
   "amc_frequency",
   "section_break_jxwf",
   "refilling_schedule",
-  "field_visitor_record_tab",
+  "hours_adding_deduction_section",
+  "hour",
+  "column_break_nwrp",
+  "hours_add",
+  "column_break_bgtu",
+  "hours_deduct",
   "user_details_section",
   "user_name",
   "column_break_zyfd",
@@ -37,11 +48,10 @@
   "out_time",
   "check_out",
   "in_time",
-  "section_break_xqol",
-  "checkin_details",
-  "feedback_tab",
   "feedback_details_section",
-  "feedback_table"
+  "feedback_table",
+  "field_visitor_record_tab",
+  "feedback_tab"
  ],
  "fields": [
   {
@@ -67,7 +77,7 @@
   },
   {
    "fieldname": "number_of_portable_fire_extinguisher",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Number Of Portable Fire Extinguisher"
   },
   {
@@ -102,7 +112,7 @@
   },
   {
    "fieldname": "number_of_trolley_fireextinguisher",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Number of Trolley Fireextinguisher"
   },
   {
@@ -121,8 +131,9 @@
   },
   {
    "fieldname": "total_extinguisher",
-   "fieldtype": "Data",
-   "label": "Total Extinguisher"
+   "fieldtype": "Float",
+   "label": "Total Extinguisher",
+   "read_only": 1
   },
   {
    "fieldname": "amc_frequency",
@@ -131,7 +142,8 @@
   },
   {
    "fieldname": "section_break_jxwf",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Items Details"
   },
   {
    "fieldname": "refilling_schedule",
@@ -232,11 +244,59 @@
    "fieldtype": "Table",
    "label": "Feedback Table",
    "options": "Feedback Table"
+  },
+  {
+   "fieldname": "section_break_ayje",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "job_sheet_no",
+   "fieldtype": "Data",
+   "label": "AMC REPORT  & JOB SHEET S-NO"
+  },
+  {
+   "fieldname": "completion_report_no",
+   "fieldtype": "Data",
+   "label": "WORK COMPLETION REPORT S NO"
+  },
+  {
+   "fieldname": "ultramarine",
+   "fieldtype": "Data",
+   "label": "Ultramarine"
+  },
+  {
+   "fieldname": "hours_adding_deduction_section",
+   "fieldtype": "Section Break",
+   "label": "Hours Adding Deduction"
+  },
+  {
+   "fieldname": "hour",
+   "fieldtype": "Float",
+   "label": "Hour"
+  },
+  {
+   "fieldname": "column_break_nwrp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_add",
+   "fieldtype": "Button",
+   "label": "Hours Add"
+  },
+  {
+   "fieldname": "column_break_bgtu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_deduct",
+   "fieldtype": "Button",
+   "label": "Hours Deduct"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 22:26:12.894606",
+ "modified": "2024-12-10 19:19:25.094043",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
