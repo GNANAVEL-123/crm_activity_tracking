@@ -5,6 +5,7 @@ import frappe
 from frappe.model.document import Document
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from frappe import _
 import json
 
 class AMCVisitorTracking(Document):
@@ -24,12 +25,34 @@ class AMCVisitorTracking(Document):
 			next_amc_service_date = service_date + relativedelta(months=self.amc_frequency)
 			self.next_amc_service_due_date = next_amc_service_date.strftime("%Y-%m-%d")
 		if self.number_of_portable_fire_extinguisher or self.number_of_trolley_fireextinguisher:
-			self.total_extinguisher = ((self.number_of_portable_fire_extinguisher or 0) + (self.number_of_trolley_fireextinguisher or 0))
+			self.total_extinguisher = (
+				int(self.number_of_portable_fire_extinguisher or 0) + 
+				int(self.number_of_trolley_fireextinguisher or 0)
+			)
 		if self.checkin_details:
 			for che in self.checkin_details:
 				if che.in_time and che.outtime:
 					if not self.feedback_table or any(not row.description or not row.marks for row in self.feedback_table):
 						frappe.throw("Please ensure all rows in Feedback Table have both 'Description' and 'Marks' filled before Update Checkout.")
+		if self.amc_service_date and self.amc_template:
+			avt = frappe.db.get_list(
+				"AMC Visitor Tracking",
+				filters={"amc_service_date": self.amc_service_date, "amc_template": self.amc_template},
+				fields=["name"]
+			)
+			if avt:
+				existing_doc_name = avt[0].name
+				existing_doc_link = frappe.utils.get_link_to_form("AMC Visitor Tracking", existing_doc_name)
+				frappe.throw(
+					_(
+						"An entry already exists with the same Service Date ({0}) and AMC Template ({1}). "
+						"Document: {2}."
+					).format(
+						self.amc_service_date,
+						self.amc_template,
+						existing_doc_link
+					)
+				)
 
 @frappe.whitelist()
 def description_list(doc):

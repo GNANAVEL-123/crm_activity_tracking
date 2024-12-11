@@ -22,10 +22,10 @@ class AMC(Document):
                 })
                 start_date = end_date + timedelta(days=1)
         if self.number_of_portable_fire_extinguisher or self.number_of_trolley_fireextinguisher:
-            self.total_extinguisher = ((self.number_of_portable_fire_extinguisher or 0) + (self.number_of_trolley_fireextinguisher or 0))
-        
-
-
+            self.total_extinguisher = (
+                int(self.number_of_portable_fire_extinguisher or 0) + 
+                int(self.number_of_trolley_fireextinguisher or 0)
+            )
 
 def amc_visitor_tracker():
     amc_list = frappe.db.get_all("AMC", fields=["name"])
@@ -35,7 +35,12 @@ def amc_visitor_tracker():
                 amc_doc = frappe.get_doc("AMC", amc.name)
                 if amc_doc and amc_doc.amc_frequency_list:
                     for amc_fre in amc_doc.amc_frequency_list:
-                        if getdate(amc_fre.from_date) == getdate(nowdate()):
+                        avt = frappe.db.get_list(
+                            "AMC Visitor Tracking",
+                            filters={"amc_service_date": amc_fre.from_date, "amc_template": amc_doc.name},
+                            fields=["name"]
+                        )
+                        if getdate(amc_fre.from_date) == getdate(nowdate()) and not avt:
                             next_date = ""
                             if amc_fre.from_date and amc_doc.amc_frequency:
                                 from_date = getdate(amc_fre.from_date)

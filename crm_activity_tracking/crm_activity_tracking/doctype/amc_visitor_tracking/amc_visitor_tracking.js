@@ -64,6 +64,36 @@ frappe.ui.form.on("AMC Visitor Tracking", {
             (frm.doc.number_of_portable_fire_extinguisher || 0) + 
             (frm.doc.number_of_trolley_fireextinguisher || 0)
         );
+    },
+    hours_add: function (frm) {
+        if (frm.doc.hour > 0 && frm.doc.refilling_schedule) {
+            frm.doc.refilling_schedule.forEach(row => {
+                if (row.enter_datetime) {
+                    let datetime = frappe.datetime.str_to_obj(row.enter_datetime);
+                    let time_only = datetime.toTimeString().split(' ')[0];
+                    datetime.setDate(datetime.getDate() + frm.doc.hour);
+                    let updated_date = frappe.datetime.obj_to_str(datetime).split(' ')[0];
+                    let final_date_time = `${updated_date} ${time_only}`;
+                    frappe.model.set_value(row.doctype, row.name, 'enter_datetime', final_date_time);
+                }
+            });
+            frm.refresh_field('refilling_schedule');
+        }
+    },    
+    hours_deduct: function (frm) {
+        if (frm.doc.hour > 0 && frm.doc.refilling_schedule) {
+            frm.doc.refilling_schedule.forEach(row => {
+                if (row.enter_datetime) {
+                    let datetime = frappe.datetime.str_to_obj(row.enter_datetime);
+                    let time_only = datetime.toTimeString().split(' ')[0];
+                    datetime.setDate(datetime.getDate() - frm.doc.hour);
+                    let updated_date = frappe.datetime.obj_to_str(datetime).split(' ')[0];
+                    let final_date_time = `${updated_date} ${time_only}`;
+                    frappe.model.set_value(row.doctype, row.name, 'enter_datetime', final_date_time);
+                }
+            });
+            frm.refresh_field('refilling_schedule');
+        }
     }
 });
 

@@ -11,6 +11,8 @@
   "amc_service_date",
   "next_amc_service_due_date",
   "number_of_portable_fire_extinguisher",
+  "job_sheet_no",
+  "completion_report_no",
   "column_break_mopi",
   "customer_name",
   "mail_id",
@@ -39,8 +41,10 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Customer Name",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fieldname": "concern_person",
@@ -60,7 +64,9 @@
   {
    "fieldname": "invoice_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Invoice Number",
+   "reqd": 1,
    "unique": 1
   },
   {
@@ -86,7 +92,7 @@
   },
   {
    "fieldname": "number_of_portable_fire_extinguisher",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Number Of Portable Fire Extinguisher"
   },
   {
@@ -100,7 +106,7 @@
   },
   {
    "fieldname": "number_of_trolley_fireextinguisher",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Number of Trolley Fireextinguisher"
   },
   {
@@ -109,8 +115,9 @@
   },
   {
    "fieldname": "total_extinguisher",
-   "fieldtype": "Data",
-   "label": "Total Extinguisher"
+   "fieldtype": "Float",
+   "label": "Total Extinguisher",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_jxwf",
@@ -120,12 +127,15 @@
    "fieldname": "refilling_schedule",
    "fieldtype": "Table",
    "label": "Refilling Schedule",
-   "options": "Refilling Schedule Table"
+   "options": "Refilling Schedule Table",
+   "reqd": 1
   },
   {
    "fieldname": "amc_frequency",
    "fieldtype": "Int",
-   "label": "AMC Frequency"
+   "in_list_view": 1,
+   "label": "AMC Frequency",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_aosm",
@@ -146,11 +156,21 @@
    "fieldname": "po_number",
    "fieldtype": "Data",
    "label": "PO Number"
+  },
+  {
+   "fieldname": "job_sheet_no",
+   "fieldtype": "Data",
+   "label": "AMC REPORT  & JOB SHEET S-NO"
+  },
+  {
+   "fieldname": "completion_report_no",
+   "fieldtype": "Data",
+   "label": "WORK COMPLETION REPORT S NO"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 15:29:57.251011",
+ "modified": "2024-12-11 11:21:13.333370",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",

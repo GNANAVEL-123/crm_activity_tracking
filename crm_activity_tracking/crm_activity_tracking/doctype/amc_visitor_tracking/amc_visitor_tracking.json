@@ -68,7 +68,9 @@
   {
    "fieldname": "amc_service_date",
    "fieldtype": "Date",
-   "label": "AMC Service Date"
+   "in_list_view": 1,
+   "label": "AMC Service Date",
+   "reqd": 1
   },
   {
    "fieldname": "next_amc_service_due_date",
@@ -87,8 +89,10 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Customer Name",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fieldname": "mail_id",
@@ -138,7 +142,9 @@
   {
    "fieldname": "amc_frequency",
    "fieldtype": "Int",
-   "label": "AMC Frequency"
+   "in_list_view": 1,
+   "label": "AMC Frequency",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_jxwf",
@@ -149,7 +155,8 @@
    "fieldname": "refilling_schedule",
    "fieldtype": "Table",
    "label": "Refilling Schedule",
-   "options": "Refilling Schedule Table"
+   "options": "Refilling Schedule Table",
+   "reqd": 1
   },
   {
    "fieldname": "feedback_tab",
@@ -205,8 +212,10 @@
   {
    "fieldname": "amc_template",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "AMC Template",
-   "options": "AMC"
+   "options": "AMC",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_xqol",
@@ -268,12 +277,12 @@
   {
    "fieldname": "hours_adding_deduction_section",
    "fieldtype": "Section Break",
-   "label": "Hours Adding Deduction"
+   "label": "Days Adding Deduction"
   },
   {
    "fieldname": "hour",
    "fieldtype": "Float",
-   "label": "Hour"
+   "label": "Day Count"
   },
   {
    "fieldname": "column_break_nwrp",
@@ -282,7 +291,7 @@
   {
    "fieldname": "hours_add",
    "fieldtype": "Button",
-   "label": "Hours Add"
+   "label": "Day Count Add"
   },
   {
    "fieldname": "column_break_bgtu",
@@ -291,12 +300,12 @@
   {
    "fieldname": "hours_deduct",
    "fieldtype": "Button",
-   "label": "Hours Deduct"
+   "label": "Day Count Deduct"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-10 19:19:25.094043",
+ "modified": "2024-12-11 11:24:25.311256",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
