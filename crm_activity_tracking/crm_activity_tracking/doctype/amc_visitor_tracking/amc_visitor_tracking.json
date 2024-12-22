@@ -305,7 +305,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-11 11:24:25.311256",
+ "modified": "2024-12-12 11:52:08.094210",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
@@ -327,5 +327,8 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

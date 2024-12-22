@@ -20,6 +20,7 @@
   "refilling_report_no",
   "refilling_report_date",
   "refilling_due_date",
+  "region",
   "section_break_osjq",
   "table_wxkh"
  ],
@@ -105,11 +106,17 @@
    "fieldname": "refilling_due_date",
    "fieldtype": "Date",
    "label": "Refilling Due Date"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "label": "Region",
+   "options": "Territory"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 19:29:01.007127",
+ "modified": "2024-12-22 17:17:37.877345",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Certificate",

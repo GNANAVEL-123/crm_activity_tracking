@@ -40,19 +40,19 @@ class AMCVisitorTracking(Document):
 				filters={"amc_service_date": self.amc_service_date, "amc_template": self.amc_template},
 				fields=["name"]
 			)
-			if avt:
-				existing_doc_name = avt[0].name
-				existing_doc_link = frappe.utils.get_link_to_form("AMC Visitor Tracking", existing_doc_name)
-				frappe.throw(
-					_(
-						"An entry already exists with the same Service Date ({0}) and AMC Template ({1}). "
-						"Document: {2}."
-					).format(
-						self.amc_service_date,
-						self.amc_template,
-						existing_doc_link
-					)
-				)
+			# if avt:
+			# 	existing_doc_name = avt[0].name
+			# 	existing_doc_link = frappe.utils.get_link_to_form("AMC Visitor Tracking", existing_doc_name)
+			# 	frappe.throw(
+			# 		_(
+			# 			"An entry already exists with the same Service Date ({0}) and AMC Template ({1}). "
+			# 			"Document: {2}."
+			# 		).format(
+			# 			self.amc_service_date,
+			# 			self.amc_template,
+			# 			existing_doc_link
+			# 		)
+			# 	)
 
 @frappe.whitelist()
 def description_list(doc):

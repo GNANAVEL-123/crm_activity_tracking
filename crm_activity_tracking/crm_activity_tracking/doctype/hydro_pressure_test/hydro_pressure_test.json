@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-09 12:13:00.607552",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -15,6 +16,7 @@
   "reference_no",
   "hpt_done_on",
   "next_hpt_due_date",
+  "naming_series",
   "section_break_smhl",
   "hydro_pressure_test_table"
  ],
@@ -81,14 +83,23 @@
    "fieldtype": "Table",
    "label": "Hydro Pressure Test Table",
    "options": "Hydro Pressure Test Table"
+  },
+  {
+   "default": "HPT/2024/.###",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "HPT/2024/.###"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-09 13:41:45.411268",
+ "modified": "2024-12-16 20:22:57.971316",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Hydro Pressure Test",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

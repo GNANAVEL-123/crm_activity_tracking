@@ -1,0 +1,66 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"lF65CzjyPy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">HR Employee</span>\",\"col\":12}},{\"id\":\"LO2xb9Wqew\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"TNA3whNZ4-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Checkin\",\"col\":3}},{\"id\":\"hXHeoPkoza\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance\",\"col\":3}},{\"id\":\"cigmFJTzaf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}}]",
+ "creation": "2024-12-20 14:41:43.456480",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "assign",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "HR Employee",
+ "links": [],
+ "modified": "2024-12-20 14:45:45.165965",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "HR Employee",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "HR Employee"
+  }
+ ],
+ "sequence_id": 42.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee",
+   "link_to": "Employee",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Checkin",
+   "link_to": "Employee Checkin",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Attendance",
+   "link_to": "Attendance",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Leave Application",
+   "link_to": "Leave Application",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "HR Employee"
+}
