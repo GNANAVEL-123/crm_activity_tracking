@@ -22,5 +22,19 @@ frappe.query_reports["Refilling  Certicate Report"] = {
 			"options":"Territory",
 			"width": "80"
 		},
+		{
+			"fieldname": "refilling_certificate",
+			"label": __("Refilling Certificate"),
+			"fieldtype": "Check",
+			"width": "80",
+			"default":1
+		},
+		{
+			"fieldname": "warranty_certificate",
+			"label": __("Warranty Certificate"),
+			"fieldtype": "Check",
+			"width": "80",
+			"default":1
+		},
 	]
 };

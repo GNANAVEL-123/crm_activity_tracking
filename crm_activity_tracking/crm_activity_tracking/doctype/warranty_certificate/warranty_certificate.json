@@ -21,7 +21,9 @@
   "refilling__report_no",
   "refilling__report_date",
   "brand",
+  "due_month_count",
   "refilling_due_date",
+  "region",
   "section_break_blgy",
   "table_nrxp"
  ],
@@ -29,8 +31,11 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer Name",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fieldname": "date",
@@ -47,6 +52,8 @@
   {
    "fieldname": "invoice_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Invoice Number"
   },
   {
@@ -120,11 +127,22 @@
    "fieldname": "supplied_date",
    "fieldtype": "Date",
    "label": "Supplied Date"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "label": "Region",
+   "options": "Territory"
+  },
+  {
+   "fieldname": "due_month_count",
+   "fieldtype": "Float",
+   "label": "Due Month Count"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 19:28:05.845550",
+ "modified": "2024-12-28 12:24:52.414167",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Warranty Certificate",
