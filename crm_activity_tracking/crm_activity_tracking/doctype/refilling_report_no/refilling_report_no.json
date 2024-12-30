@@ -1,0 +1,150 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-12-30 20:59:34.690863",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "customer",
+  "region",
+  "local_dc",
+  "gate_pass_no",
+  "naming_series",
+  "column_break_subo",
+  "employee",
+  "mobile_no",
+  "rr_book_no",
+  "invoice_no",
+  "column_break_rjyl",
+  "date",
+  "in_date",
+  "out_date",
+  "remarks",
+  "item_details_section",
+  "refilling_report_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "label": "Region",
+   "options": "Territory"
+  },
+  {
+   "fieldname": "local_dc",
+   "fieldtype": "Data",
+   "label": "Local DC"
+  },
+  {
+   "fieldname": "gate_pass_no",
+   "fieldtype": "Data",
+   "label": "Gate Pass No"
+  },
+  {
+   "fieldname": "column_break_subo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "User"
+  },
+  {
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "label": "Mobile No"
+  },
+  {
+   "fieldname": "rr_book_no",
+   "fieldtype": "Data",
+   "label": "RR Book No"
+  },
+  {
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No"
+  },
+  {
+   "fieldname": "column_break_rjyl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "in_date",
+   "fieldtype": "Date",
+   "label": "In Date"
+  },
+  {
+   "fieldname": "out_date",
+   "fieldtype": "Date",
+   "label": "Out Date"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "item_details_section",
+   "fieldtype": "Section Break",
+   "label": "Item Details"
+  },
+  {
+   "fieldname": "refilling_report_table",
+   "fieldtype": "Table",
+   "label": "Refilling Report Table",
+   "options": "Refilling Report Table"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-30 21:19:37.589984",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Refilling Report No",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

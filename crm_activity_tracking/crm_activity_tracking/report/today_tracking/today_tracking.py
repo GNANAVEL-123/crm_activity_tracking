@@ -160,13 +160,13 @@ def get_data(filters):
 			if contact:
 				i['contact_number']=contact[0]['phone']
 			address_email=frappe.get_all(
-				"Address",
+				"Contact",
 					filters=[
 					["Dynamic Link", "link_doctype", "=", 'Lead'],
 					["Dynamic Link", "link_name", "=", i['name']],
 					],
-					fields=['email_id'],
-					order_by='`tabAddress`.creation desc'
+					fields=['`tabContact Email`.email_id'],
+					order_by='`tabContact`.creation desc'
 				)
 			if address_email:
 				i['customer_mail']=address_email[0]['email_id']

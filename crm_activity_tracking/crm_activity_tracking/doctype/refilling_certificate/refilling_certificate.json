@@ -112,7 +112,8 @@
   {
    "fieldname": "refilling_due_date",
    "fieldtype": "Date",
-   "label": "Refilling Due Date"
+   "label": "Refilling Due Date",
+   "read_only": 1
   },
   {
    "fieldname": "region",
@@ -128,7 +129,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-28 12:23:24.626068",
+ "modified": "2024-12-28 12:58:02.098307",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Certificate",
