@@ -13,8 +13,8 @@
   "naming_series",
   "column_break_tewv",
   "invoice_number",
-  "year",
   "from_date",
+  "year",
   "to_date",
   "column_break_awlc",
   "refilling_report_no",
@@ -48,7 +48,8 @@
   {
    "fieldname": "to_date",
    "fieldtype": "Date",
-   "label": "To Date"
+   "label": "To Date",
+   "read_only": 1
   },
   {
    "fieldname": "invoice_number",
@@ -129,7 +130,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-28 12:58:02.098307",
+ "modified": "2024-12-31 22:09:47.067306",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Certificate",

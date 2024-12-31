@@ -11,13 +11,16 @@
   "region",
   "local_dc",
   "gate_pass_no",
+  "rr_book_no",
   "naming_series",
   "column_break_subo",
-  "employee",
   "mobile_no",
-  "rr_book_no",
   "invoice_no",
+  "refilling_date",
+  "year",
+  "refilling_due_date",
   "column_break_rjyl",
+  "employee",
   "date",
   "in_date",
   "out_date",
@@ -122,11 +125,27 @@
    "hidden": 1,
    "label": "naming_series",
    "options": ".####."
+  },
+  {
+   "fieldname": "refilling_date",
+   "fieldtype": "Date",
+   "label": " Refilling Date"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Float",
+   "label": "Year"
+  },
+  {
+   "fieldname": "refilling_due_date",
+   "fieldtype": "Date",
+   "label": " Refilling Due Date ",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-31 11:53:53.039234",
+ "modified": "2024-12-31 21:48:25.380542",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Report No",

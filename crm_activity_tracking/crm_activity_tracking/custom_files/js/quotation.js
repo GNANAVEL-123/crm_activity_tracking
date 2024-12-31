@@ -126,6 +126,8 @@ frappe.ui.form.on("Quotation", {
                 });
         
                 frappe.ui.form.on('Refilling Certificate', 'onload', function (newFrm) {
+					newFrm.set_value("from_date", frm.doc.transaction_date);
+                    newFrm.set_value("refilling_report_date", frm.doc.transaction_date);
                     if (newFrm.doc.table_wxkh === undefined) {
                         newFrm.doc.table_wxkh = [];
                     }
@@ -153,11 +155,10 @@ frappe.ui.form.on("Quotation", {
                 frappe.new_doc('Warranty Certificate', {
                     customer_name: frm.doc.party_name,
                     customer_address: frm.doc.customer_address,
-                    refilling__report_date: frm.doc.transaction_date,
-                    refilling_report_date: frm.doc.transaction_date,
                 });
         
                 frappe.ui.form.on('Warranty Certificate', 'onload', function (newFrm) {
+					newFrm.set_value("refilling__report_date", frm.doc.transaction_date);
                     if (newFrm.doc.table_nrxp === undefined) {
                         newFrm.doc.table_nrxp = [];
                     }
