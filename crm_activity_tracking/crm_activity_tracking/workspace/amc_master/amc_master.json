@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"T2qIaOAK6K\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">AMC Master</span>\",\"col\":12}},{\"id\":\"IpEmf0JE7Z\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC\",\"col\":3}},{\"id\":\"DqYKX1yYpQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"nvTMhGvMJY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"sXHJOHIY_t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"-HwDzUZ1s1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hydro Pressure Test Certificate\",\"col\":3}},{\"id\":\"N1e26a0X55\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling  Certicate Report\",\"col\":3}},{\"id\":\"3QMV9mQQyP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CvgkgWHT2u\",\"type\":\"card\",\"data\":{\"card_name\":\"AMC Location and Type\",\"col\":4}}]",
+ "content": "[{\"id\":\"T2qIaOAK6K\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">AMC Master</span>\",\"col\":12}},{\"id\":\"IpEmf0JE7Z\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC\",\"col\":3}},{\"id\":\"DqYKX1yYpQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"nvTMhGvMJY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"sXHJOHIY_t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"-HwDzUZ1s1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hydro Pressure Test Certificate\",\"col\":3}},{\"id\":\"ucQEtOnjFJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No\",\"col\":3}},{\"id\":\"mfPFUeKufo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"t-lqOjR-ah\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports <br></b></span>\",\"col\":12}},{\"id\":\"N1e26a0X55\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling  Certicate Report\",\"col\":3}},{\"id\":\"3WErh56Ot5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No Details Report\",\"col\":3}},{\"id\":\"3QMV9mQQyP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CvgkgWHT2u\",\"type\":\"card\",\"data\":{\"card_name\":\"AMC Location and Type\",\"col\":4}}]",
  "creation": "2024-12-05 12:12:03.411698",
  "custom_blocks": [],
  "docstatus": 0,
@@ -43,7 +43,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-12-23 19:09:31.325561",
+ "modified": "2024-12-31 10:11:37.464030",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Master",
@@ -55,6 +55,14 @@
  "roles": [],
  "sequence_id": 40.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Refilling Report No",
+   "link_to": "Refilling Report No",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
   {
    "color": "Grey",
    "doc_view": "List",
@@ -76,6 +84,13 @@
    "doc_view": "List",
    "label": "Refilling  Certicate Report",
    "link_to": "Refilling  Certicate Report",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Refilling Report No Details Report",
+   "link_to": "Refilling Report No Details Report",
    "type": "Report"
   },
   {
