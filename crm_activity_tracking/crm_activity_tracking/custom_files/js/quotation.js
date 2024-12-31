@@ -121,8 +121,7 @@ frappe.ui.form.on("Quotation", {
                 frappe.new_doc('Refilling Certificate', {
                     customer: frm.doc.party_name,
                     address: frm.doc.customer_address,
-                    from_date: frm.doc.transaction_date,
-                    refilling_report_date: frm.doc.transaction_date,
+					region: frm.doc.custom_region
                 });
         
                 frappe.ui.form.on('Refilling Certificate', 'onload', function (newFrm) {
@@ -155,6 +154,7 @@ frappe.ui.form.on("Quotation", {
                 frappe.new_doc('Warranty Certificate', {
                     customer_name: frm.doc.party_name,
                     customer_address: frm.doc.customer_address,
+					region: frm.doc.custom_region
                 });
         
                 frappe.ui.form.on('Warranty Certificate', 'onload', function (newFrm) {
