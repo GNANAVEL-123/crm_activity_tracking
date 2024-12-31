@@ -115,6 +115,70 @@ frappe.ui.form.on("Quotation", {
                 
             }, );
 		}
+		if(frm.doc.docstatus == 1){
+			frm.add_custom_button(__("Create Refilling Certificate"), function () {
+                // Create a new document for Refilling Certificate
+                frappe.new_doc('Refilling Certificate', {
+                    customer: frm.doc.party_name,
+                    address: frm.doc.customer_address,
+                    from_date: frm.doc.transaction_date,
+                    refilling_report_date: frm.doc.transaction_date,
+                });
+        
+                frappe.ui.form.on('Refilling Certificate', 'onload', function (newFrm) {
+                    if (newFrm.doc.table_wxkh === undefined) {
+                        newFrm.doc.table_wxkh = [];
+                    }
+        
+                    frm.doc.items.forEach(row => {
+                        let new_row = frappe.model.add_child(newFrm.doc, 'Refilling Certificate Table', 'table_wxkh');
+                        new_row.item = row.item_code;
+                        new_row.item_name = row.item_name;
+                        new_row.quantity = row.qty;
+                        new_row.rate = row.rate;
+                        new_row.uom = row.uom;
+                    });
+        
+                    newFrm.refresh_field('table_wxkh');
+                });
+            }).addClass("btn-danger").css({
+                'color': 'white',
+                'background-color': '#bb6b93',
+                'font-weight': 'bold'
+            });
+		}
+		if(frm.doc.docstatus == 1){
+			frm.add_custom_button(__("Create Warranty Certificate"), function () {
+                // Create a new document for Refilling Certificate
+                frappe.new_doc('Warranty Certificate', {
+                    customer_name: frm.doc.party_name,
+                    customer_address: frm.doc.customer_address,
+                    refilling__report_date: frm.doc.transaction_date,
+                    refilling_report_date: frm.doc.transaction_date,
+                });
+        
+                frappe.ui.form.on('Warranty Certificate', 'onload', function (newFrm) {
+                    if (newFrm.doc.table_nrxp === undefined) {
+                        newFrm.doc.table_nrxp = [];
+                    }
+        
+                    frm.doc.items.forEach(row => {
+                        let new_row = frappe.model.add_child(newFrm.doc, 'Warranty Certificate Table', 'table_nrxp');
+                        new_row.item = row.item_code;
+                        new_row.item_name = row.item_name;
+                        new_row.quantity = row.qty;
+                        new_row.rate = row.rate;
+                        new_row.uom = row.uom;
+                    });
+        
+                    newFrm.refresh_field('table_nrxp');
+                });
+            }).addClass("btn-danger").css({
+                'color': 'white',
+                'background-color': '#53a098',
+                'font-weight': 'bold'
+            });
+		}
 		// frm.set_query('item_code',"items", function(doc){
 		// 	if (frm.doc.custom_item_group){
 		// 		return {

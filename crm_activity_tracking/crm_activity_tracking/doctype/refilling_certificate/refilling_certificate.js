@@ -31,4 +31,14 @@ frappe.ui.form.on("Refilling Certificate", {
             frm.set_value("refilling_due_date", due_date);
         }
     },
+	year(frm) {
+		if (frm.doc.from_date && frm.doc.year) {
+			let refillingDate = frappe.datetime.str_to_obj(frm.doc.from_date); 
+			let additionalYears = parseInt(frm.doc.year, 10); 
+			let dueDate = frappe.datetime.add_months(refillingDate, additionalYears * 12); 
+			let due_date = frappe.datetime.obj_to_str(dueDate); 
+			frm.set_value("to_date", due_date);
+		}
+	},
+	
 });

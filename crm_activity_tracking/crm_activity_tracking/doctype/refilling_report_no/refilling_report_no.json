@@ -116,15 +116,17 @@
    "options": "Refilling Report Table"
   },
   {
+   "default": ".####.",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
-   "label": "naming_series"
+   "label": "naming_series",
+   "options": ".####."
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-30 21:19:37.589984",
+ "modified": "2024-12-31 09:12:55.521399",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Report No",
