@@ -1,0 +1,168 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 22:09:49.810517",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "customer_name",
+  "po_number",
+  "vendor_number",
+  "mail_id",
+  "naming_series",
+  "column_break_mopi",
+  "client_representative",
+  "cr__contact_number",
+  "service_by",
+  "contact_number",
+  "column_break_sawh",
+  "amc_frequency",
+  "amc_service_date",
+  "next_amc_service_due_date",
+  "designation",
+  "section_break_aosm",
+  "amc_frequency_list",
+  "section_break_jxwf",
+  "refilling_schedule"
+ ],
+ "fields": [
+  {
+   "fieldname": "amc_service_date",
+   "fieldtype": "Date",
+   "label": "AMC Service Date"
+  },
+  {
+   "fieldname": "next_amc_service_due_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Next AMC Service Due Date"
+  },
+  {
+   "fieldname": "column_break_mopi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer Name",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mail_id",
+   "fieldtype": "Data",
+   "label": "Mail ID"
+  },
+  {
+   "fieldname": "service_by",
+   "fieldtype": "Data",
+   "label": "Service By"
+  },
+  {
+   "fieldname": "column_break_sawh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "vendor_number",
+   "fieldtype": "Data",
+   "label": "Vendor Number"
+  },
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "PO Number"
+  },
+  {
+   "fieldname": "amc_frequency",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "AMC Frequency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_aosm",
+   "fieldtype": "Section Break",
+   "label": "Frequency Details"
+  },
+  {
+   "fieldname": "amc_frequency_list",
+   "fieldtype": "Table",
+   "label": "AMC Frequency List",
+   "options": "AMC Frequency Table"
+  },
+  {
+   "fieldname": "section_break_jxwf",
+   "fieldtype": "Section Break",
+   "label": "Location Details"
+  },
+  {
+   "fieldname": "refilling_schedule",
+   "fieldtype": "Table",
+   "label": "AMC Fire Alarm",
+   "options": "AMC Fire Alaram Table",
+   "reqd": 1
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "default": "AMC-FC-.YY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "AMC-FC-.YY.-.####"
+  },
+  {
+   "fieldname": "client_representative",
+   "fieldtype": "Data",
+   "label": "Client Representative"
+  },
+  {
+   "fieldname": "cr__contact_number",
+   "fieldtype": "Data",
+   "label": "CR  Contact Number"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 22:20:11.495579",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "AMC Fire Alarm System",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
