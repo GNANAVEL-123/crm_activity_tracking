@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2025-01-01 22:09:49.810517",
+ "creation": "2025-01-02 12:02:17.607477",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -22,26 +22,14 @@
   "amc_service_date",
   "next_amc_service_due_date",
   "designation",
-  "section_break_aosm",
-  "amc_frequency_list",
   "section_break_jxwf",
   "refilling_schedule"
  ],
  "fields": [
   {
-   "fieldname": "amc_service_date",
-   "fieldtype": "Date",
-   "label": "AMC Service Date"
-  },
-  {
-   "fieldname": "next_amc_service_due_date",
-   "fieldtype": "Date",
-   "hidden": 1,
-   "label": "Next AMC Service Due Date"
-  },
-  {
-   "fieldname": "column_break_mopi",
-   "fieldtype": "Column Break"
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
   },
   {
    "fieldname": "customer_name",
@@ -52,23 +40,9 @@
    "reqd": 1
   },
   {
-   "fieldname": "mail_id",
+   "fieldname": "po_number",
    "fieldtype": "Data",
-   "label": "Mail ID"
-  },
-  {
-   "fieldname": "service_by",
-   "fieldtype": "Data",
-   "label": "Service By"
-  },
-  {
-   "fieldname": "column_break_sawh",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "contact_number",
-   "fieldtype": "Data",
-   "label": "Contact Number"
+   "label": "PO Number"
   },
   {
    "fieldname": "vendor_number",
@@ -76,44 +50,9 @@
    "label": "Vendor Number"
   },
   {
-   "fieldname": "po_number",
+   "fieldname": "mail_id",
    "fieldtype": "Data",
-   "label": "PO Number"
-  },
-  {
-   "fieldname": "amc_frequency",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "AMC Frequency",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_aosm",
-   "fieldtype": "Section Break",
-   "label": "Frequency Details"
-  },
-  {
-   "fieldname": "amc_frequency_list",
-   "fieldtype": "Table",
-   "label": "AMC Frequency List",
-   "options": "AMC Frequency Table"
-  },
-  {
-   "fieldname": "section_break_jxwf",
-   "fieldtype": "Section Break",
-   "label": "Location Details"
-  },
-  {
-   "fieldname": "refilling_schedule",
-   "fieldtype": "Table",
-   "label": "AMC Fire Alarm",
-   "options": "AMC Fire Alaram Table",
-   "reqd": 1
-  },
-  {
-   "fieldname": "details_section",
-   "fieldtype": "Section Break",
-   "label": "Details"
+   "label": "Mail ID"
   },
   {
    "default": "AMC-FC-.YY.-.####",
@@ -122,6 +61,10 @@
    "hidden": 1,
    "label": "naming_series",
    "options": "AMC-FC-.YY.-.####"
+  },
+  {
+   "fieldname": "column_break_mopi",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "client_representative",
@@ -134,18 +77,61 @@
    "label": "CR  Contact Number"
   },
   {
+   "fieldname": "service_by",
+   "fieldtype": "Data",
+   "label": "Service By"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "column_break_sawh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amc_frequency",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "AMC Frequency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amc_service_date",
+   "fieldtype": "Date",
+   "label": "AMC Service Date"
+  },
+  {
+   "fieldname": "next_amc_service_due_date",
+   "fieldtype": "Date",
+   "label": "Next AMC Service Due Date"
+  },
+  {
    "fieldname": "designation",
    "fieldtype": "Link",
    "label": "Designation",
    "options": "Designation"
+  },
+  {
+   "fieldname": "section_break_jxwf",
+   "fieldtype": "Section Break",
+   "label": "Location Details"
+  },
+  {
+   "fieldname": "refilling_schedule",
+   "fieldtype": "Table",
+   "label": "AMC Fire Alarm",
+   "options": "AMC Fire Alaram Table",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-02 10:26:31.649759",
+ "modified": "2025-01-02 12:02:59.173508",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
- "name": "AMC Fire Alarm System",
+ "name": "AMC Fire Alarm Tracking",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
