@@ -1,0 +1,119 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"FEZ5lSBzq9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Regional Admin</span>\",\"col\":12}},{\"id\":\"jltv8bAry9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"2MFRaDuyog\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"M8Yejx5wWZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"SHEdpe_Ero\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"jmnxBnCtsZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PEjXhTp8QH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"2tQj29HNvu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"R4srXnxJc7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hydro Pressure Test\",\"col\":3}},{\"id\":\"gNPbGf-Pqq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No\",\"col\":3}},{\"id\":\"191YTaDZIE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"MmhKDbpH5x\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"c58qJ2V-IH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"ZaWTdaCvX_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}}]",
+ "creation": "2025-01-05 22:24:12.524749",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "website",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Regional Admin",
+ "links": [],
+ "modified": "2025-01-05 23:00:12.035193",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Regional Admin",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Regional Admin"
+  }
+ ],
+ "sequence_id": 43.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Lead",
+   "link_to": "Lead",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Missed Tracking Events",
+   "link_to": "Missed Tracking Events",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Refilling Certificate",
+   "link_to": "Refilling Certificate",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Refilling Report No",
+   "link_to": "Refilling Report No",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Customer",
+   "link_to": "Customer",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Today Tracking",
+   "link_to": "Today Tracking",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Warranty Certificate",
+   "link_to": "Warranty Certificate",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Quotation",
+   "link_to": "Quotation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Daily Tracking Status",
+   "link_to": "Daily Tracking Status",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hydro Pressure Test",
+   "link_to": "Hydro Pressure Test",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Item",
+   "link_to": "Item",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Regional Admin"
+}

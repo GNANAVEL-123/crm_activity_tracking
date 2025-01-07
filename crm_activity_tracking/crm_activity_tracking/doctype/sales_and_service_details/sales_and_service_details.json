@@ -1,0 +1,348 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-05 23:06:32.812520",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company_name",
+  "customer_contact_no",
+  "purpose_type",
+  "sales_purpose",
+  "service_purpose",
+  "employee",
+  "column_break_cpfv",
+  "customer_name",
+  "in",
+  "in_time",
+  "region",
+  "out",
+  "out_time",
+  "sales_purpose_details_section",
+  "ppe",
+  "ppe_value",
+  "column_break_auoq",
+  "new_fire_extinguisher",
+  "extinguisher_value",
+  "column_break_kqgw",
+  "refilling",
+  "refilling_value",
+  "column_break_ngqo",
+  "total_value",
+  "service_purpose_details_section",
+  "fire_extinguisher",
+  "to_fe_nos",
+  "column_break_mrjj",
+  "fire_alarm",
+  "total_fa_nos",
+  "column_break_njkc",
+  "hydrant",
+  "total_hydrant",
+  "column_break_qhmx",
+  "total_nos",
+  "meetings_section",
+  "meeting_details",
+  "invoice_details_section",
+  "invoice_no",
+  "column_break_coik",
+  "invoice_date",
+  "column_break_vuta",
+  "invoice_value",
+  "payments_section",
+  "payment_type",
+  "column_break_tusg",
+  "amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "in_time",
+   "fieldtype": "Time",
+   "label": "In Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_cpfv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "out_time",
+   "fieldtype": "Time",
+   "label": "Out Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_contact_no",
+   "fieldtype": "Data",
+   "label": "Customer Contact No",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purpose_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Purpose Type",
+   "options": "\nSales\nService",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:[\"New Visit Follow\", \"Existing Visit Follow\", \"Quotation Follow\", \"PO Follow\", \"New Enquiry\"].includes(doc.sales_purpose)",
+   "fieldname": "sales_purpose_details_section",
+   "fieldtype": "Section Break",
+   "label": "Sales Purpose Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "ppe",
+   "fieldtype": "Check",
+   "label": "PPE"
+  },
+  {
+   "depends_on": "eval:doc.ppe == 1",
+   "fieldname": "ppe_value",
+   "fieldtype": "Currency",
+   "label": "PPE Value"
+  },
+  {
+   "fieldname": "column_break_auoq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "new_fire_extinguisher",
+   "fieldtype": "Check",
+   "label": "New Fire Extinguisher "
+  },
+  {
+   "depends_on": "eval:doc.new_fire_extinguisher == 1",
+   "fieldname": "extinguisher_value",
+   "fieldtype": "Currency",
+   "label": "Extinguisher Value"
+  },
+  {
+   "fieldname": "column_break_kqgw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "refilling",
+   "fieldtype": "Check",
+   "label": "Refilling"
+  },
+  {
+   "depends_on": "eval:doc.refilling == 1",
+   "fieldname": "refilling_value",
+   "fieldtype": "Currency",
+   "label": "Refilling Value"
+  },
+  {
+   "fieldname": "column_break_ngqo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_value",
+   "fieldtype": "Currency",
+   "label": "Total Value",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.purpose_type == \"Sales\"",
+   "fieldname": "sales_purpose",
+   "fieldtype": "Select",
+   "label": "Sales Purpose",
+   "mandatory_depends_on": "eval:doc.purpose_type == \"Sales\"",
+   "options": "\nNew Visit Follow\nExistin Visit Follow\nQuotation Follow\nPO Follow\nNew Enquiry\nPayments\nMeeting"
+  },
+  {
+   "depends_on": "eval:doc.sales_purpose == \"Payments\" || doc.service_purpose == \"Payments\"",
+   "fieldname": "payments_section",
+   "fieldtype": "Section Break",
+   "label": "Payments"
+  },
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Select",
+   "label": "Payment Type",
+   "options": "\nCash\nCheque"
+  },
+  {
+   "fieldname": "column_break_tusg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount"
+  },
+  {
+   "depends_on": "eval:doc.sales_purpose == \"Meeting\" || doc.service_purpose == \"General Visit\"",
+   "fieldname": "meetings_section",
+   "fieldtype": "Section Break",
+   "label": "Meetings"
+  },
+  {
+   "fieldname": "meeting_details",
+   "fieldtype": "Small Text",
+   "label": "Meeting Details"
+  },
+  {
+   "depends_on": "eval:doc.purpose_type == \"Service\"",
+   "fieldname": "service_purpose",
+   "fieldtype": "Select",
+   "label": "Service Purpose",
+   "mandatory_depends_on": "eval:doc.purpose_type == \"Service\"",
+   "options": "\nAMC Service\nDelivery\nPayments\nGeneral Visit"
+  },
+  {
+   "depends_on": "eval:doc.service_purpose == \"Delivery\"",
+   "fieldname": "invoice_details_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Details"
+  },
+  {
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No"
+  },
+  {
+   "fieldname": "column_break_coik",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "label": "Invoice Date"
+  },
+  {
+   "fieldname": "column_break_vuta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "invoice_value",
+   "fieldtype": "Currency",
+   "label": "Invoice Value"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Link",
+   "label": "Company Name",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "in",
+   "fieldtype": "Button",
+   "label": "In"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "label": "Region",
+   "options": "Territory"
+  },
+  {
+   "fieldname": "out",
+   "fieldtype": "Button",
+   "label": "Out"
+  },
+  {
+   "depends_on": "eval:doc.service_purpose == \"AMC Service\"",
+   "fieldname": "service_purpose_details_section",
+   "fieldtype": "Section Break",
+   "label": "Service Purpose Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "fire_extinguisher",
+   "fieldtype": "Check",
+   "label": "Fire Extinguisher"
+  },
+  {
+   "depends_on": "eval:doc.fire_extinguisher == 1",
+   "fieldname": "to_fe_nos",
+   "fieldtype": "Float",
+   "label": "To FE Nos",
+   "mandatory_depends_on": "eval:doc.fire_extinguisher == 1"
+  },
+  {
+   "fieldname": "column_break_mrjj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fire_alarm",
+   "fieldtype": "Check",
+   "label": "Fire Alarm"
+  },
+  {
+   "depends_on": "eval:doc.fire_alarm == 1",
+   "fieldname": "total_fa_nos",
+   "fieldtype": "Float",
+   "label": "Total FA Nos",
+   "mandatory_depends_on": "eval:doc.fire_alarm == 1"
+  },
+  {
+   "fieldname": "column_break_njkc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "hydrant",
+   "fieldtype": "Check",
+   "label": "Hydrant"
+  },
+  {
+   "depends_on": "eval:doc.hydrant == 1",
+   "fieldname": "total_hydrant",
+   "fieldtype": "Float",
+   "label": "Total Hydrant",
+   "mandatory_depends_on": "eval:doc.hydrant == 1"
+  },
+  {
+   "fieldname": "column_break_qhmx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_nos",
+   "fieldtype": "Float",
+   "label": "Total Nos",
+   "read_only": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "User",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-07 13:35:09.796771",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Sales and Service Details",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
