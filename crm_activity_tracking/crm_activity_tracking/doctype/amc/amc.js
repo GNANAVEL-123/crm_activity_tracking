@@ -38,6 +38,7 @@ frappe.ui.form.on("AMC", {
                         newFrm.doc.refilling_schedule = [];
                     }
         
+                    frappe.model.clear_table(newFrm.doc, 'refilling_schedule');
                     frm.doc.refilling_schedule.forEach(row => {
                         let new_row = frappe.model.add_child(newFrm.doc, 'Refilling Schedule', 'refilling_schedule');
                         new_row.location = row.location;

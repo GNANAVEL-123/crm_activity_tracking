@@ -63,7 +63,8 @@
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
-   "options": "User"
+   "options": "User",
+   "reqd": 1
   },
   {
    "fieldname": "mobile_no",
@@ -152,7 +153,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-06 22:37:50.912844",
+ "modified": "2025-01-08 21:19:19.016698",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Report No",
@@ -168,6 +169,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Master Manager",
    "share": 1,
    "write": 1
   }

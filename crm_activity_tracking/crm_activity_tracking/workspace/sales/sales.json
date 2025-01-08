@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"XvmMjC3RNq\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Sales</span>\",\"col\":12}},{\"id\":\"CjyAeUuNOw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"bePAruv-O6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"7F1t5xVIUO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"RwmjIncZrM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"RJ8UXmdB_G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5GbgXAykzV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"fvC5n5iOAL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"QQFA7iCCz7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}}]",
+ "content": "[{\"id\":\"XvmMjC3RNq\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Sales</span>\",\"col\":12}},{\"id\":\"CjyAeUuNOw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"bePAruv-O6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"7F1t5xVIUO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"RwmjIncZrM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"ERwN0KaNKb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"RJ8UXmdB_G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5GbgXAykzV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"fvC5n5iOAL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"QQFA7iCCz7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}}]",
  "creation": "2025-01-05 22:41:55.263985",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Sales",
  "links": [],
- "modified": "2025-01-05 22:59:30.218927",
+ "modified": "2025-01-08 17:42:00.325364",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales",
@@ -24,11 +24,19 @@
  "quick_lists": [],
  "roles": [
   {
-   "role": "Sales Admin"
+   "role": "Analytics"
   }
  ],
  "sequence_id": 45.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Daily Attendance Report",
+   "link_to": "Sales and Service Details",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
   {
    "color": "Grey",
    "doc_view": "List",

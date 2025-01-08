@@ -142,7 +142,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-02 10:26:31.649759",
+ "modified": "2025-01-08 11:58:16.618744",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm System",
@@ -158,6 +158,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Master Manager",
    "share": 1,
    "write": 1
   }

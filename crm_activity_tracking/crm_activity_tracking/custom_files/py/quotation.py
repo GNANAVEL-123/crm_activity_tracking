@@ -56,12 +56,12 @@ def create_user_permission(doc):
     
     if doc.custom_quotation_owner and not frappe.db.exists('User Permission',{'user':doc.custom_quotation_owner,'allow':'Quotation','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.custom_quotation_owner,'role_profile_name')
-        if role_profile != 'CRM Admin':
+        if role_profile not in ['Regional Admin', 'Admin', 'CRM Admin']:
             add_user_permission("Quotation", doc.name, doc.custom_quotation_owner,ignore_permissions=True,is_default=0)
     
     if doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':doc.custom_assigned_to,'allow':'Quotation','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.custom_assigned_to,'role_profile_name')
-        if role_profile != 'CRM Admin':
+        if role_profile not in ['Regional Admin', 'Admin', 'CRM Admin']:
             add_user_permission("Quotation", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
 
     for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.custom_quotation_owner,doc.custom_assigned_to]],'allow':'Quotation','for_value':doc.name}):

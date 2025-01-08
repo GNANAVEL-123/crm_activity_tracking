@@ -124,6 +124,8 @@ frappe.ui.form.on('Refilling Schedule Table', {
     refilling_frequency: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (row.date_refilling && row.refilling_frequency) {
+            console.log(row.date_refilling)
+            console.log(row.refilling_frequency)
             let refillingDate = frappe.datetime.str_to_obj(row.date_refilling); 
             let frequencyMonths = parseInt(row.refilling_frequency, 10);
             let dueDate = frappe.datetime.add_months(refillingDate, frequencyMonths);

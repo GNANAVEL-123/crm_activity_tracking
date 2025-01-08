@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2025-01-05 23:06:32.812520",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -19,6 +20,7 @@
   "region",
   "out",
   "out_time",
+  "naming_series",
   "sales_purpose_details_section",
   "ppe",
   "ppe_value",
@@ -330,14 +332,22 @@
    "in_list_view": 1,
    "label": "Date",
    "reqd": 1
+  },
+  {
+   "default": "SS-.YY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "naming_series",
+   "options": "SS-.YY.-.#####"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-07 20:02:16.040952",
+ "modified": "2025-01-08 12:33:51.143189",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
