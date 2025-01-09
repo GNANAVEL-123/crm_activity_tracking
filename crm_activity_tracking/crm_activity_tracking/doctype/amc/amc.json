@@ -27,6 +27,7 @@
   "vendor_number",
   "po_number",
   "amc_frequency",
+  "no_of_month",
   "section_break_aosm",
   "amc_frequency_list",
   "section_break_jxwf",
@@ -166,11 +167,17 @@
    "fieldname": "completion_report_no",
    "fieldtype": "Data",
    "label": "WORK COMPLETION REPORT S NO"
+  },
+  {
+   "fieldname": "no_of_month",
+   "fieldtype": "Float",
+   "label": "No of Month",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-11 11:21:13.333370",
+ "modified": "2025-01-09 14:25:04.541045",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",

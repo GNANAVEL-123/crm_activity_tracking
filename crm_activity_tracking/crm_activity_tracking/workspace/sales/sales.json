@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Sales",
  "links": [],
- "modified": "2025-01-08 17:42:00.325364",
+ "modified": "2025-01-09 15:28:39.312613",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales",
@@ -24,7 +24,7 @@
  "quick_lists": [],
  "roles": [
   {
-   "role": "Analytics"
+   "role": "Auditor"
   }
  ],
  "sequence_id": 45.0,

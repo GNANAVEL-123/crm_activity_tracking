@@ -337,13 +337,14 @@
    "default": "SS-.YY.-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "naming_series",
    "options": "SS-.YY.-.#####"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-08 12:33:51.143189",
+ "modified": "2025-01-09 14:08:37.327792",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",

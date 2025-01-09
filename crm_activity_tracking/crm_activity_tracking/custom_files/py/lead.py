@@ -28,17 +28,17 @@ def create_user_permission(doc):
     
     if doc.lead_owner and not frappe.db.exists('User Permission',{'user':doc.lead_owner,'allow':'Lead','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.lead_owner,'role_profile_name')
-        if role_profile not in ['Regional Admin', 'Admin', 'CRM Admin']:
+        if role_profile not in ['Admin', 'CRM Admin']:
             add_user_permission("Lead", doc.name, doc.lead_owner,ignore_permissions=True,is_default=0)
     
     if doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':doc.custom_assigned_to,'allow':'Lead','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.custom_assigned_to,'role_profile_name')
-        if role_profile not in ['Regional Admin', 'Admin', 'CRM Admin']:
+        if role_profile not in ['Admin', 'CRM Admin']:
             add_user_permission("Lead", doc.name, doc.custom_assigned_to,ignore_permissions=True,is_default=0)
 
     if doc.custom_allocated_to_manager and not frappe.db.exists('User Permission',{'user':doc.custom_allocated_to_manager,'allow':'Lead','for_value':doc.name}):
         role_profile = frappe.get_value('User',doc.custom_allocated_to_manager,'role_profile_name')
-        if role_profile not in ['Regional Admin', 'Admin', 'CRM Admin']:
+        if role_profile not in ['Admin', 'CRM Admin']:
             add_user_permission("Lead", doc.name, doc.custom_allocated_to_manager,ignore_permissions=True,is_default=0)
     
     for i in frappe.get_all('User Permission',['user'],{'user':['not in',[doc.lead_owner,doc.custom_assigned_to, doc.custom_allocated_to_manager]],'allow':'Lead','for_value':doc.name}):
@@ -165,15 +165,33 @@ def user_permission():
 				print(lead_doc)
 				if lead_doc.lead_owner and not frappe.db.exists('User Permission',{'user':lead_doc.lead_owner,'allow':'Lead','for_value':lead_doc.name}):
 					role_profile = frappe.get_value('User',lead_doc.lead_owner,'role_profile_name')
-					if role_profile != 'Regional Admin':
+					if role_profile not in ['Admin', 'CRM Admin', 'Super Admin']:
 						add_user_permission("Lead", lead_doc.name, lead_doc.lead_owner,ignore_permissions=True,is_default=0)
 		
 				if lead_doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':lead_doc.custom_assigned_to,'allow':'Lead','for_value':lead_doc.name}):
 					role_profile = frappe.get_value('User',lead_doc.custom_assigned_to,'role_profile_name')
-					if role_profile != 'Regional Admin':
+					if role_profile not in ['Admin', 'CRM Admin', 'Super Admin']:
 						add_user_permission("Lead", lead_doc.name, lead_doc.custom_assigned_to,ignore_permissions=True,is_default=0)
 
 				if lead_doc.custom_allocated_to_manager and not frappe.db.exists('User Permission',{'user':lead_doc.custom_allocated_to_manager,'allow':'Lead','for_value':lead_doc.name}):
 					role_profile = frappe.get_value('User',lead_doc.custom_allocated_to_manager,'role_profile_name')
-					if role_profile != 'Regional Admin':
+					if role_profile not in ['Admin', 'CRM Admin', 'Super Admin']:
 						add_user_permission("Lead", lead_doc.name, lead_doc.custom_allocated_to_manager,ignore_permissions=True,is_default=0)
+
+def user_permission_quotation():
+	lead_list = frappe.db.get_all("Quotation", filters={'docstatus':["in", [0, 1]]}, fields=["name"])
+	print(lead_list)
+	if lead_list:
+		for i in lead_list:
+			if i.name:
+				lead_doc = frappe.get_doc("Quotation", i.name)
+				print(lead_doc)
+				if lead_doc.custom_quotation_owner and not frappe.db.exists('User Permission',{'user':lead_doc.custom_quotation_owner,'allow':'Quotation','for_value':lead_doc.name}):
+					role_profile = frappe.get_value('User',lead_doc.custom_quotation_owner,'role_profile_name')
+					if role_profile not in ['Admin','CRM Admin']:
+						add_user_permission("Quotation", lead_doc.name, lead_doc.custom_quotation_owner,ignore_permissions=True,is_default=0)
+		
+				if lead_doc.custom_assigned_to and not frappe.db.exists('User Permission',{'user':lead_doc.custom_assigned_to,'allow':'Quotation','for_value':lead_doc.name}):
+					role_profile = frappe.get_value('User',lead_doc.custom_assigned_to,'role_profile_name')
+					if role_profile not in ['Admin','CRM Admin']:
+						add_user_permission("Quotation", lead_doc.name, lead_doc.custom_assigned_to,ignore_permissions=True,is_default=0)

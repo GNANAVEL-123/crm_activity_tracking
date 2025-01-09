@@ -12,7 +12,9 @@ class SalesandServiceDetails(Document):
         # Calculate totals
         self.total_value = (self.ppe_value or 0) + (self.extinguisher_value or 0) + (self.refilling_value or 0)
         self.total_nos = (self.to_fe_nos or 0) + (self.total_fa_nos or 0) + (self.total_hydrant or 0)
-
+        # in time validate
+        if not self.in_time:
+            frappe.throw("Update In-time then only It Save")
     def after_insert(self):    
         if self.employee and not frappe.db.exists('User Permission',{'user':self.employee,'allow':'Sales And Service Details ','for_value':self.name}):
             role_profile = frappe.get_value('User',self.employee,'role_profile_name')
