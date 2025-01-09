@@ -44,6 +44,7 @@ frappe.ui.form.on("Quotation", {
 		if(frm.doc.docstatus == 1 && frm.doc.status !== "Order Cancelled"){
 			frm.add_custom_button(__("Order Cancelled"), function() {
 					frm.set_value("status", "Order Cancelled")
+					frm.set_value("custom_quotation_cancel_date", frappe.datetime.now_date())
 					frappe.show_alert({
 						message: __("Order Cancelled Successfully"),
 						indicator: "red",
@@ -130,7 +131,7 @@ frappe.ui.form.on("Quotation", {
                     if (newFrm.doc.table_wxkh === undefined) {
                         newFrm.doc.table_wxkh = [];
                     }
-        
+					frappe.model.clear_table(newFrm.doc, 'table_wxkh');
                     frm.doc.items.forEach(row => {
                         let new_row = frappe.model.add_child(newFrm.doc, 'Refilling Certificate Table', 'table_wxkh');
                         new_row.item = row.item_code;
@@ -162,7 +163,7 @@ frappe.ui.form.on("Quotation", {
                     if (newFrm.doc.table_nrxp === undefined) {
                         newFrm.doc.table_nrxp = [];
                     }
-        
+					frappe.model.clear_table(newFrm.doc, 'table_nrxp');
                     frm.doc.items.forEach(row => {
                         let new_row = frappe.model.add_child(newFrm.doc, 'Warranty Certificate Table', 'table_nrxp');
                         new_row.item = row.item_code;

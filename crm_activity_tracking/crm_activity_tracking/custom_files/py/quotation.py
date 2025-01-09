@@ -49,8 +49,13 @@ def sales_order_making(doc):
 
         # Fetch and return the Sales Order document as a dictionary
         if so:
-            so_doc = frappe.get_doc("Sales Order", so.name)
-            return so_doc.as_dict() if so_doc else None
+            so_doc = frappe.get_doc("Sales Order", so.name) 
+            if so_doc:
+                frappe.set_value("Quotation", doc['name'], 'custom_order_convert_date', nowdate())
+                return so_doc.as_dict()
+            else:
+                return None
+
 
 def create_user_permission(doc):
     
