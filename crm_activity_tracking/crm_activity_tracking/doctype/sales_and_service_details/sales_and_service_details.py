@@ -16,10 +16,10 @@ class SalesandServiceDetails(Document):
         if not self.in_time:
             frappe.throw("Update In-time then only It Save")
     def after_insert(self):    
-        if self.employee and not frappe.db.exists('User Permission',{'user':self.employee,'allow':'Sales And Service Details ','for_value':self.name}):
+        if self.employee and not frappe.db.exists('User Permission',{'user':self.employee, 'allow':'Sales And Service Details', 'for_value':self.name}):
             role_profile = frappe.get_value('User',self.employee,'role_profile_name')
-            if role_profile not in ['Regional Admin', 'Admin', 'CRM Admin']:
+            if role_profile not in ['Super Admin', 'CRM Admin']:
                 add_user_permission("Sales And Service Details", self.name, self.employee,ignore_permissions=True,is_default=0)
         
-        for i in frappe.get_all('User Permission',['user'],{'user':self.employee,'allow':'Sales And Service Details','for_value':self.name}):
+        for i in frappe.get_all('User Permission',['user'],{'user':self.employee, 'allow':'Sales And Service Details', 'for_value':self.name}):
             remove_user_permission("Sales And Service Details", self.name, i.user)
