@@ -142,8 +142,8 @@ doc_events = {
 		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.on_trash"
 	},
 	'User':{
-		'after_insert':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.create_user_permission",
-		'validate':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.create_user_permission"
+		'after_insert':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.manage_user_permissions",
+		'validate':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.manage_user_permissions"
 
 	}
 }
