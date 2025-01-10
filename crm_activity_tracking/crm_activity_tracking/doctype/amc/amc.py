@@ -11,16 +11,18 @@ import calendar
 class AMC(Document):
 
     def validate(self):
-        if self.amc_service_date and self.amc_frequency and not self.amc_frequency_list:
+        if self.amc_service_date and self.amc_frequency and not self.amc_frequency_list and self.no_of_month:
             self.amc_frequency_list = []
             start_date = getdate(self.amc_service_date)
-            for _ in range(self.amc_frequency):
+            for i in range(self.no_of_month):
                 end_date = add_months(start_date, self.amc_frequency) - timedelta(days=1)
                 self.append("amc_frequency_list", {
                     "from_date": start_date.strftime('%Y-%m-%d'),
                     "to_date": end_date.strftime('%Y-%m-%d') 
                 })
-                start_date = end_date + timedelta(days=1)
+                start_date = add_months(start_date, self.amc_frequency)
+                if i + 1 >= self.no_of_month:
+                    break
         if self.number_of_portable_fire_extinguisher or self.number_of_trolley_fireextinguisher:
             self.total_extinguisher = (
                 int(self.number_of_portable_fire_extinguisher or 0) + 

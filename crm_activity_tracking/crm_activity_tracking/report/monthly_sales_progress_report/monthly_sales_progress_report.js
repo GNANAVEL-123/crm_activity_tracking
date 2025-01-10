@@ -19,5 +19,12 @@ frappe.query_reports["Monthly Sales Progress Report"] = {
 			"reqd":1,
 			"default": frappe.datetime.get_today(),
 		},
+		{
+			"fieldname": "user",
+			"label": __("Employee"),
+			"fieldtype": "Link",
+			"options":"User",
+			"width": "80"
+		},
 	]
 };

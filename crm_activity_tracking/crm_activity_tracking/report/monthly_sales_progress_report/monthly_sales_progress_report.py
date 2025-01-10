@@ -42,7 +42,9 @@ def get_data(filters):
         current_date_str = current_date.strftime("%Y-%m-%d")
 
         # Define filters for the specific day
-        daily_filter = {"transaction_date": current_date_str}
+        daily_filter = {
+            "transaction_date": current_date_str,
+        }
         lead_filter = {
             "creation": ["between", [f"{current_date_str} 00:00:00", f"{current_date_str} 23:59:59"]],
         }
@@ -53,18 +55,29 @@ def get_data(filters):
             "custom_view_follow_up_details_copy.date": ["between", [current_date_str, current_date_str]],
         }
 
+        # Add user filter if provided
+        if filters.get("user"):
+            daily_filter["custom_quotation_owner"] = filters.get("user")
+            lead_filter["lead_owner"] = filters.get("user")
+            quo_follow_filter["custom_followup.followed_by"] = filters.get("user")
+            lead_follow_filter["custom_view_follow_up_details_copy.followed_by"] = filters.get("user")
+
         # Fetch daily counts and sums
         daily_data = {
             "date": current_date_str,
             "no_quotation": frappe.db.count("Quotation", filters=daily_filter),
             "no_quotation_value": get_sum("Quotation", "grand_total", daily_filter),
-            "no_crm_quotation_follow": get_child_table_count("Quotation", "custom_followup", "date", current_date_str, current_date_str),
+            "no_crm_quotation_follow": get_child_table_count(
+                "Quotation", "custom_followup", "date", current_date_str, current_date_str, filters.get("user")
+            ),
             "no_quotation_converting": frappe.db.count("Quotation", {"custom_order_convert_date": current_date_str}),
             "no_quotation_cancel": frappe.db.count("Quotation", {"custom_quotation_cancel_date": current_date_str}),
             "no_lead": frappe.db.count("Lead", filters=lead_filter),
-            "no_lead_follow": get_child_table_count("Lead", "custom_view_follow_up_details_copy", "date", current_date_str, current_date_str),
-            "no_refilling": frappe.db.count("Refilling Certificate", {"date": current_date_str}),
-            "no_warranty": frappe.db.count("Warranty Certificate", {"date": current_date_str}),
+            "no_lead_follow": get_child_table_count(
+                "Lead", "custom_view_follow_up_details_copy", "date", current_date_str, current_date_str, filters.get("user")
+            ),
+            "no_refilling": frappe.db.count("Refilling Certificate", {"date": current_date_str, "employee": filters.get("user")}),
+            "no_warranty": frappe.db.count("Warranty Certificate", {"date": current_date_str, "employee": filters.get("user")}),
         }
 
         # Append daily data to the result
@@ -75,7 +88,7 @@ def get_data(filters):
 
     return data
 
-def get_child_table_count(parent_doctype, child_table_fieldname, date_field, from_date, to_date):
+def get_child_table_count(parent_doctype, child_table_fieldname, date_field, from_date, to_date, user=None):
     """
     Fetch the count of child table records based on the parent doctype and date filters.
 
@@ -85,10 +98,13 @@ def get_child_table_count(parent_doctype, child_table_fieldname, date_field, fro
         date_field (str): The date field in the child table to filter.
         from_date (str): Start date for filtering.
         to_date (str): End date for filtering.
+        user (str): User filter (optional).
 
     Returns:
         int: Count of matching child table records.
     """
+    additional_filter = f"AND child.followed_by = '{user}'" if user else ""
+
     child_table_count = frappe.db.sql(f"""
         SELECT COUNT(*) AS count
         FROM `tab{parent_doctype}` AS parent
@@ -96,6 +112,7 @@ def get_child_table_count(parent_doctype, child_table_fieldname, date_field, fro
         ON child.parent = parent.name
         WHERE child.parentfield = %s
         AND child.{date_field} BETWEEN %s AND %s
+        {additional_filter}
     """, (child_table_fieldname, from_date, to_date), as_dict=True)
 
     return child_table_count[0].count if child_table_count else 0
@@ -137,5 +154,3 @@ def get_condition(value):
         return f"IN {tuple(value)}"
     else:
         return f"= '{value}'"
-
-
