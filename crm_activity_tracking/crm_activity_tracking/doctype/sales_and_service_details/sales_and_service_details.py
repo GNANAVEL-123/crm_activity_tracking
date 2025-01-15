@@ -17,6 +17,32 @@ class SalesandServiceDetails(Document):
             frappe.throw("Update In-time then only It Save")
         if not self.get('__islocal'):
             self.manage_user_permission()
+        # serivce and sales validation
+        if self.sales_purpose == "Meeting" and not self.meeting_details:
+            frappe.throw("Please fill in Meeting Details.")
+
+        if self.service_purpose == "Meeting" and not self.meeting_details:
+            frappe.throw("Please fill in Meeting Details.")
+
+        if self.service_purpose == "AMC Service":
+            if not (self.fire_extinguisher or self.fire_alarm or self.hydrant):
+                frappe.throw("Please fill in at least one of the AMC Service details (Fire Extinguisher, Fire Alarm, or Hydrant).")
+
+        if self.service_purpose == "Delivery":
+            if not (self.invoice_no and self.invoice_date and self.invoice_value):
+                frappe.throw("Please fill in all Delivery Details (Invoice Number and Invoice Date).")
+
+        if self.service_purpose == "Payments":
+            if not (self.payment_type and self.amount):
+                frappe.throw("Please fill in both Payment Type and Amount.")
+
+        if self.sales_purpose == "Payments":
+            if not (self.payment_type and self.amount):
+                frappe.throw("Please fill in both Payment Type and Amount.")
+
+        if self.sales_purpose in ["New Visit Follow", "Existing Visit Follow", "Quotation Follow", "PO Follow", "New Enquiry"]:
+            if not (self.ppe or self.new_fire_extinguisher or self.refilling):
+                frappe.throw("Please fill in at least one of PPE, New Fire Extinguisher, or Refilling details.")
 
     def after_insert(self):  
         self.manage_user_permission()

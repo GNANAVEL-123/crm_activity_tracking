@@ -94,7 +94,7 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:[\"New Visit Follow\", \"Existing Visit Follow\", \"Quotation Follow\", \"PO Follow\", \"New Enquiry\"].includes(doc.sales_purpose)",
+   "depends_on": "eval:[\"New Visit Follow\", \"Existin Visit Follow\", \"Quotation Follow\", \"PO Follow\", \"New Enquiry\"].includes(doc.sales_purpose)",
    "fieldname": "sales_purpose_details_section",
    "fieldtype": "Section Break",
    "label": "Sales Purpose Details"
@@ -346,7 +346,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-10 22:45:15.467088",
+ "modified": "2025-01-15 21:59:25.321567",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",
