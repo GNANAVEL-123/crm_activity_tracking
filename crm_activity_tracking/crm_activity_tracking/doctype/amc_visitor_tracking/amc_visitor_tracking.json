@@ -42,6 +42,7 @@
   "hours_deduct",
   "user_details_section",
   "user_name",
+  "remarks_of_amc",
   "column_break_zyfd",
   "customer_sign",
   "check_in",
@@ -301,11 +302,16 @@
    "fieldname": "hours_deduct",
    "fieldtype": "Button",
    "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "remarks_of_amc",
+   "fieldtype": "Small Text",
+   "label": "Remarks of AMC"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-12 11:52:08.094210",
+ "modified": "2025-01-13 20:13:41.312382",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

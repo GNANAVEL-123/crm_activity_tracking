@@ -84,7 +84,8 @@
   {
    "fieldname": "table_nrxp",
    "fieldtype": "Table",
-   "options": "Warranty Certificate Table"
+   "options": "Warranty Certificate Table",
+   "reqd": 1
   },
   {
    "default": "WC/.YYYY./.####",
@@ -135,7 +136,8 @@
    "fieldname": "region",
    "fieldtype": "Link",
    "label": "Region",
-   "options": "Territory"
+   "options": "Territory",
+   "reqd": 1
   },
   {
    "fieldname": "due_month_count",
@@ -143,6 +145,7 @@
    "label": "Due Month Count"
   },
   {
+   "default": "__user",
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
@@ -152,7 +155,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-09 21:24:02.247404",
+ "modified": "2025-01-10 22:44:43.253366",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Warranty Certificate",

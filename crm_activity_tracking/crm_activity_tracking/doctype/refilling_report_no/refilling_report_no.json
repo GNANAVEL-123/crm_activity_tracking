@@ -43,7 +43,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Region",
-   "options": "Territory"
+   "options": "Territory",
+   "reqd": 1
   },
   {
    "fieldname": "local_dc",
@@ -60,6 +61,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "__user",
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
@@ -88,7 +90,8 @@
   {
    "fieldname": "date",
    "fieldtype": "Date",
-   "label": "Date"
+   "label": "Date",
+   "reqd": 1
   },
   {
    "fieldname": "in_date",
@@ -119,7 +122,8 @@
    "fieldname": "refilling_report_table",
    "fieldtype": "Table",
    "label": "Refilling Report Table",
-   "options": "Refilling Report Table"
+   "options": "Refilling Report Table",
+   "reqd": 1
   },
   {
    "default": ".####.",
@@ -148,12 +152,13 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-08 21:19:19.016698",
+ "modified": "2025-01-10 22:43:44.684427",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Report No",

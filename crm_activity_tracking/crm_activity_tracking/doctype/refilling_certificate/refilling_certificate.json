@@ -72,7 +72,8 @@
   {
    "fieldname": "table_wxkh",
    "fieldtype": "Table",
-   "options": "Refilling Certificate Table"
+   "options": "Refilling Certificate Table",
+   "reqd": 1
   },
   {
    "fieldname": "address",
@@ -122,7 +123,8 @@
    "fieldname": "region",
    "fieldtype": "Link",
    "label": "Region",
-   "options": "Territory"
+   "options": "Territory",
+   "reqd": 1
   },
   {
    "fieldname": "due_month_count",
@@ -130,6 +132,7 @@
    "label": "Due Month Count"
   },
   {
+   "default": "__user",
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
@@ -139,7 +142,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-09 21:22:53.277519",
+ "modified": "2025-01-10 22:45:00.639093",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Certificate",

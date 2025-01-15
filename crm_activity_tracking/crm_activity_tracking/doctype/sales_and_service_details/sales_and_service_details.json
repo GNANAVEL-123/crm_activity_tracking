@@ -249,7 +249,8 @@
    "fieldname": "region",
    "fieldtype": "Link",
    "label": "Region",
-   "options": "Territory"
+   "options": "Territory",
+   "reqd": 1
   },
   {
    "fieldname": "out",
@@ -320,6 +321,7 @@
    "read_only": 1
   },
   {
+   "default": "__user",
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
@@ -344,7 +346,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-09 14:08:37.327792",
+ "modified": "2025-01-10 22:45:15.467088",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",
