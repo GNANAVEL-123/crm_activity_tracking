@@ -21,6 +21,7 @@ frappe.ui.form.on("Refilling Report No", {
                         if (newFrm.doc.table_wxkh === undefined) {
                             newFrm.doc.table_wxkh = [];
                         }
+                        frappe.model.clear_table(newFrm.doc, 'table_wxkh');
                         frm.doc.refilling_report_table.forEach(row => {
                             let new_row = frappe.model.add_child(newFrm.doc, 'Refilling Certificate Table', 'table_wxkh');
                             new_row.item = row.item_name;

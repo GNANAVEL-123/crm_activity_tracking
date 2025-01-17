@@ -21,7 +21,7 @@ class SalesandServiceDetails(Document):
         if self.sales_purpose == "Meeting" and not self.meeting_details:
             frappe.throw("Please fill in Meeting Details.")
 
-        if self.service_purpose == "Meeting" and not self.meeting_details:
+        if self.service_purpose == "General Visit" and not self.meeting_details:
             frappe.throw("Please fill in Meeting Details.")
 
         if self.service_purpose == "AMC Service":

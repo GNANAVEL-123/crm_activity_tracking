@@ -236,6 +236,7 @@
    "fieldname": "company_name",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company Name",
    "options": "Customer",
    "reqd": 1
@@ -324,6 +325,8 @@
    "default": "__user",
    "fieldname": "employee",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Employee",
    "options": "User",
    "reqd": 1
@@ -332,6 +335,7 @@
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Date",
    "reqd": 1
   },
@@ -346,7 +350,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-15 21:59:25.321567",
+ "modified": "2025-01-17 13:05:09.622235",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",
