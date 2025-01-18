@@ -21,6 +21,7 @@
   "out",
   "out_time",
   "naming_series",
+  "remarks",
   "sales_purpose_details_section",
   "ppe",
   "ppe_value",
@@ -346,11 +347,16 @@
    "hidden": 1,
    "label": "naming_series",
    "options": "SS-.YY.-.#####"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-17 13:05:09.622235",
+ "modified": "2025-01-18 13:29:38.481922",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",

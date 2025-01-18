@@ -9,7 +9,7 @@ frappe.query_reports["Sales and Service Details Report"] = {
 			"fieldtype": "Date",
 			"width": "80",
 			"reqd":1,
-			"default": frappe.datetime.add_months(frappe.datetime.get_today(), -1),
+			"default": frappe.datetime.get_today(),
 		},
 		{
 			"fieldname": "to_date",

@@ -215,7 +215,7 @@ def get_data(filters):
     if filters.get("refilling_report_no") == 1:
         rrn_filter = {}
         if filters.get('from_date') and filters.get('to_date'):
-            rrn_filter["rrn_filter"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
+            rrn_filter["date"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
         if filters.get('region'):
             rrn_filter["region"] = filters.get("region")
         rrn_list = frappe.db.get_all(

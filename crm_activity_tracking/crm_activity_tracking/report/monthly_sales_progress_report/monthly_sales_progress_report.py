@@ -59,8 +59,8 @@ def get_data(filters):
         if filters.get("user"):
             daily_filter["custom_quotation_owner"] = filters.get("user")
             lead_filter["lead_owner"] = filters.get("user")
-            quo_follow_filter["custom_followup.followed_by"] = filters.get("user")
-            lead_follow_filter["custom_view_follow_up_details_copy.followed_by"] = filters.get("user")
+            quo_follow_filter["custom_followup.next_follow_up_by"] = filters.get("user")
+            lead_follow_filter["custom_view_follow_up_details_copy.next_follow_up_by"] = filters.get("user")
 
         # Fetch daily counts and sums
         daily_data = {
