@@ -30,3 +30,10 @@ class RefillingReportNo(Document):
 	def on_trash(self):
 		for i in frappe.get_all('User Permission',['user'],{'allow':'Refilling Report No','for_value':self.name}):
 			remove_user_permission("Refilling Report No", self.name, i.user)
+
+@frappe.whitelist()
+def refilling_certificate(rr_no):
+	if rr_no:
+		rc_doc = frappe.db.get_list("Refilling Certificate", filters={"refilling_report_no": rr_no}, fields=["name"])
+		if rc_doc:
+			return rc_doc

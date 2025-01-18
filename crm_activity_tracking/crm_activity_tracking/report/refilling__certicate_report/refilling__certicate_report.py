@@ -212,5 +212,43 @@ def get_data(filters):
                     })
 
                     data.append(wc_details)
+    if filters.get("refilling_report_no") == 1:
+        rrn_filter = {}
+        if filters.get('from_date') and filters.get('to_date'):
+            rrn_filter["rrn_filter"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
+        if filters.get('region'):
+            rrn_filter["region"] = filters.get("region")
+        rrn_list = frappe.db.get_all(
+            "Refilling Report No",
+            filters=rrn_filter,
+            fields=["name", "date"],
+            order_by="date"
+        )
+        for rrn in rrn_list:
+            rrn_details = {}
+            if rrn.name:
+                rrn_doc = frappe.get_doc("Refilling Report No", rrn.name)
+                if rrn_doc:
+                    item_names = []
+                    item_qtys = []
+                    if rrn_doc.refilling_report_table:
+                        for item in rrn_doc.refilling_report_table:
+                            if  item.item_name:
+                                item_names.append(item.item_name) 
+                                item_qtys.append(str(item.qty))
+                    item_name_str = ", ".join(item_names)
+                    item_qty_str = ", ".join(item_qtys)
+                    rrn_details.update({
+                        "rrno": rrn_doc.get("name", ""),
+                        "invoice_no": rrn_doc.get("invoice_no", ""),
+                        "company_name": rrn_doc.get("customer", ""),
+                        "mobile_no" : rrn_doc.get("customer", ""),
+                        "location": rrn_doc.get("region", ""),
+                        "type_of_capacity": item_name_str,
+                        "capacity": item_qty_str,
+                        "refilling_date": rrn_doc.get("refilling_date", ""),
+                    })
+
+                    data.append(rrn_details)
 
     return data

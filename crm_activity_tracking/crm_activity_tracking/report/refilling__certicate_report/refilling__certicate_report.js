@@ -36,5 +36,12 @@ frappe.query_reports["Refilling  Certicate Report"] = {
 			"width": "80",
 			"default":1
 		},
+		{
+			"fieldname": "refilling_report_no",
+			"label": __("Refilling Report No"),
+			"fieldtype": "Check",
+			"width": "80",
+			"default":1
+		},
 	]
 };
