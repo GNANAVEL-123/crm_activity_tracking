@@ -33,8 +33,13 @@ class SalesandServiceDetails(Document):
                 frappe.throw("Please fill in all Delivery Details (Invoice Number and Invoice Date).")
 
         if self.service_purpose == "Payments":
-            if not (self.payment_type and self.amount):
-                frappe.throw("Please fill in both Payment Type and Amount.")
+            if not self.payment_status:
+                frappe.throw("Please fill Payment Status.")
+            if self.payment_status == "Unpaid" and not self.remarks:
+                frappe.throw("Enter Remarks of Unpaid Reason.")
+            if self.payment_status == "Paid":
+                if not (self.payment_type and self.amount):
+                 frappe.throw("Please fill in both Payment Type and Amount.")
 
         if self.sales_purpose == "Payments":
             if not (self.payment_type and self.amount):
@@ -44,6 +49,8 @@ class SalesandServiceDetails(Document):
             if not (self.ppe or self.new_fire_extinguisher or self.refilling):
                 frappe.throw("Please fill in at least one of PPE, New Fire Extinguisher, or Refilling details.")
 
+        if self.service_purpose == "Repair" and not self.remarks:
+            frappe.throw("Enter Remarks of Repair Reason.")
     def after_insert(self):  
         self.manage_user_permission()
 

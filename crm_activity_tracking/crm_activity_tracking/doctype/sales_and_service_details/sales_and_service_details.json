@@ -53,6 +53,8 @@
   "column_break_vuta",
   "invoice_value",
   "payments_section",
+  "payment_status",
+  "column_break_glzz",
   "payment_type",
   "column_break_tusg",
   "amount"
@@ -95,7 +97,7 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:[\"New Visit Follow\", \"Existin Visit Follow\", \"Quotation Follow\", \"PO Follow\", \"New Enquiry\"].includes(doc.sales_purpose)",
+   "depends_on": "eval:[\"New Visit Follow\", \"Existin Visit Follow\", \"Quotation Follow\", \"PO Follow\", \"New Enquiry\", \"Collection\"].includes(doc.sales_purpose)",
    "fieldname": "sales_purpose_details_section",
    "fieldtype": "Section Break",
    "label": "Sales Purpose Details"
@@ -161,7 +163,7 @@
    "in_list_view": 1,
    "label": "Sales Purpose",
    "mandatory_depends_on": "eval:doc.purpose_type == \"Sales\"",
-   "options": "\nNew Visit Follow\nExistin Visit Follow\nQuotation Follow\nPO Follow\nNew Enquiry\nPayments\nMeeting"
+   "options": "\nNew Visit Follow\nExistin Visit Follow\nQuotation Follow\nPO Follow\nNew Enquiry\nPayments\nMeeting\nCollection\nLunch"
   },
   {
    "depends_on": "eval:doc.sales_purpose == \"Payments\" || doc.service_purpose == \"Payments\"",
@@ -202,7 +204,7 @@
    "in_list_view": 1,
    "label": "Service Purpose",
    "mandatory_depends_on": "eval:doc.purpose_type == \"Service\"",
-   "options": "\nAMC Service\nDelivery\nPayments\nGeneral Visit"
+   "options": "\nAMC Service\nDelivery\nPayments\nGeneral Visit\nRepair\nLunch"
   },
   {
    "depends_on": "eval:doc.service_purpose == \"Delivery\"",
@@ -333,6 +335,7 @@
    "reqd": 1
   },
   {
+   "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -352,11 +355,21 @@
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "\nPaid\nUnpaid"
+  },
+  {
+   "fieldname": "column_break_glzz",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-18 13:29:38.481922",
+ "modified": "2025-01-18 14:25:10.122156",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",
