@@ -43,5 +43,12 @@ frappe.query_reports["Refilling  Certicate Report"] = {
 			"width": "80",
 			"default":1
 		},
+		{
+			"fieldname": "invoice_no_list",
+			"label": __("Invoice No"),
+			"fieldtype": "Select",
+			"options":["", "Yes", "No"],
+			"width": "80",
+		},
 	]
 };

@@ -22,9 +22,12 @@ class RefillingCertificate(Document):
 
 	def on_update(self):
 		if self.refilling_report_no:
-			rr_report_doc = frappe.get_doc("Refilling Report No", self.refilling_report_no)
-			if rr_report_doc:
+			try:
+				rr_report_doc = frappe.get_doc("Refilling Report No", self.refilling_report_no)
 				if not rr_report_doc.out_date:
 					frappe.db.set_value("Refilling Report No", rr_report_doc.name, "out_date", self.refilling_report_date)
 				if not rr_report_doc.invoice_no:
 					frappe.db.set_value("Refilling Report No", rr_report_doc.name, "invoice_no", self.invoice_number)
+			except frappe.DoesNotExistError:
+				# If the document doesn't exist, just continue without doing anything
+				pass

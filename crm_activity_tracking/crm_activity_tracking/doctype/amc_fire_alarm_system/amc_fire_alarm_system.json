@@ -19,6 +19,7 @@
   "contact_number",
   "column_break_sawh",
   "amc_frequency",
+  "no_of_month",
   "amc_service_date",
   "next_amc_service_due_date",
   "designation",
@@ -31,7 +32,8 @@
   {
    "fieldname": "amc_service_date",
    "fieldtype": "Date",
-   "label": "AMC Service Date"
+   "label": "AMC Service Date",
+   "reqd": 1
   },
   {
    "fieldname": "next_amc_service_due_date",
@@ -138,11 +140,17 @@
    "fieldtype": "Link",
    "label": "Designation",
    "options": "Designation"
+  },
+  {
+   "fieldname": "no_of_month",
+   "fieldtype": "Int",
+   "label": "No of Month",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-08 11:58:16.618744",
+ "modified": "2025-01-29 18:55:13.727720",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm System",

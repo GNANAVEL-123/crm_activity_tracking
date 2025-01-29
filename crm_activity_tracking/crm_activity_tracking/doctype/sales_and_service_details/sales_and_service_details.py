@@ -18,11 +18,11 @@ class SalesandServiceDetails(Document):
         if not self.get('__islocal'):
             self.manage_user_permission()
         # serivce and sales validation
-        if self.sales_purpose == "Meeting" and not self.meeting_details:
-            frappe.throw("Please fill in Meeting Details.")
+        if self.sales_purpose == "Meeting" and not self.remarks:
+            frappe.throw("Please fill Remarks.")
 
-        if self.service_purpose == "General Visit" and not self.meeting_details:
-            frappe.throw("Please fill in Meeting Details.")
+        if self.service_purpose == "General Visit" and not self.remarks:
+            frappe.throw("Please fill Remarks.")
 
         if self.service_purpose == "AMC Service":
             if not (self.fire_extinguisher or self.fire_alarm or self.hydrant):
@@ -39,11 +39,17 @@ class SalesandServiceDetails(Document):
                 frappe.throw("Enter Remarks of Unpaid Reason.")
             if self.payment_status == "Paid":
                 if not (self.payment_type and self.amount):
-                 frappe.throw("Please fill in both Payment Type and Amount.")
+                    frappe.throw("Please fill in both Payment Type and Amount.")
 
         if self.sales_purpose == "Payments":
-            if not (self.payment_type and self.amount):
-                frappe.throw("Please fill in both Payment Type and Amount.")
+            if not self.payment_status:
+                frappe.throw("Please fill Payment Status.")
+            if self.payment_status == "Unpaid" and not self.remarks:
+                frappe.throw("Enter Remarks of Unpaid Reason.")
+            if self.payment_status == "Paid":
+                if not (self.payment_type and self.amount):
+                    frappe.throw("Please fill in both Payment Type and Amount.")
+
 
         if self.sales_purpose in ["New Visit Follow", "Existing Visit Follow", "Quotation Follow", "PO Follow", "New Enquiry"]:
             if not (self.ppe or self.new_fire_extinguisher or self.refilling):
@@ -51,6 +57,8 @@ class SalesandServiceDetails(Document):
 
         if self.service_purpose == "Repair" and not self.remarks:
             frappe.throw("Enter Remarks of Repair Reason.")
+        if self.service_purpose == "Refilling" and not self.remarks:
+            frappe.throw("Enter Remarks of Refilling Reason.")
     def after_insert(self):  
         self.manage_user_permission()
 

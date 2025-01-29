@@ -141,7 +141,7 @@ def get_data(filters):
                 LIMIT 1
             ) AS contact_number
         FROM `tabLead` AS lead
-        WHERE lead.status NOT IN ("Quotation", "Do Not Disturb", "Converted")
+        WHERE lead.status NOT IN ("Quotation", "Do Not Contact", "Converted")
             AND (
                 SELECT MAX(follow.next_follow_up_date)
                 FROM `tabFollow-Up` AS follow

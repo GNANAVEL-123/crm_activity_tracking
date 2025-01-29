@@ -250,5 +250,15 @@ def get_data(filters):
                     })
 
                     data.append(rrn_details)
+    if filters.get("invoice_no_list") == "Yes":
+        # Keep only records where "invoice_no" is not empty
+        data = [entry for entry in data if entry.get("invoice_no")]
+    elif filters.get("invoice_no_list") == "No":
+        # Keep only records where "invoice_no" is empty
+        data = [entry for entry in data if not entry.get("invoice_no")]
+    else:
+        # Include all records if the filter is not "Yes" or "No"
+        pass  # The data list remains unfiltered
+
 
     return data
