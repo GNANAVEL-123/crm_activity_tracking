@@ -169,6 +169,7 @@ scheduler_events = {
 	"cron":{
 		'0 2 * * *': [
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.amc_visitor_tracker",
+			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_alarm_system.amc_fire_alarm_system.amc_fire_alarm_tracker"
 		]
     }
 }
