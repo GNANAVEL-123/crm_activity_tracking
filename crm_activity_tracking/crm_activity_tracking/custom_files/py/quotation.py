@@ -22,6 +22,10 @@ def on_update_after_submit(doc,event):
 def validate(doc,event):
     if not doc.get('__islocal'):
         create_user_permission(doc)
+    if doc.custom_visit_count and doc.items:
+        for amt in doc.items:
+            if amt.rate and amt.amount:
+                amt.custom_visit_count_amount = (doc.custom_visit_count or 0) * (amt.amount or 0)
 
 def after_insert(doc,event):
     create_user_permission(doc)

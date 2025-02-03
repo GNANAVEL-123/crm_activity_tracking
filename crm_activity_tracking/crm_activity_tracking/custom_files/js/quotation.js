@@ -257,7 +257,11 @@ frappe.ui.form.on("Quotation Item", {
 
 			frappe.show_alert({message: "Rate Must Be Postive Number, In Row <b>" + data.idx + "</b>, So Default Purchase Rate Is Set.", indicator: 'red'});
 		}
-
+	},
+	amount: function(frm, cdt, cdn){
+		var data = locals[cdt][cdn]
+		var per_amt = data.amount*frm.doc.custom_visit_count
+		frappe.model.set_value(cdt, cdn, "custom_visit_count_amount", per_amt)
 	}
 })
 
