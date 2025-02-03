@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:invoice_number",
+ "autoname": "naming_series:",
  "creation": "2024-11-26 00:16:23.761061",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -28,6 +28,7 @@
   "po_number",
   "amc_frequency",
   "no_of_month",
+  "naming_series",
   "section_break_aosm",
   "amc_frequency_list",
   "section_break_jxwf",
@@ -43,7 +44,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Customer Name",
+   "label": "Company Name",
    "options": "Customer",
    "reqd": 1
   },
@@ -67,7 +68,6 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Invoice Number",
-   "reqd": 1,
    "unique": 1
   },
   {
@@ -173,15 +173,22 @@
    "fieldtype": "Float",
    "label": "No of Month",
    "reqd": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "AMC-.YY.-.#####"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-09 14:25:04.541045",
+ "modified": "2025-01-30 22:10:56.882371",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

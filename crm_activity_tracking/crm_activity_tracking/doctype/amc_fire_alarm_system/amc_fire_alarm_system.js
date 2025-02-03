@@ -8,7 +8,7 @@ frappe.ui.form.on("AMC Fire Alarm System", {
                 frappe.model.with_doctype('AMC Fire Alarm Tracking', function () {
                     let new_doc = frappe.model.get_new_doc('AMC Fire Alarm Tracking');
                     Object.assign(new_doc, {
-                        // location: frm.doc.location,
+                        region: frm.doc.region,
                         customer_name: frm.doc.customer_name,
                         mail_id: frm.doc.mail_id,
                         vendor_number: frm.doc.vendor_number,
@@ -19,7 +19,9 @@ frappe.ui.form.on("AMC Fire Alarm System", {
                         designation: frm.doc.designation,
                         service_by: frm.doc.service_by,
                         cr__contact_number: frm.doc.cr__contact_number,
-                        // amc_template: frm.doc.name,
+                        client_designation: frm.doc.client_designation,
+                        employee_name:frm.doc.employee_name,
+                        amc_fire_alarm_template: frm.doc.name,
                     });
     
                     frappe.model.clear_table(new_doc, 'refilling_schedule');
@@ -44,6 +46,15 @@ frappe.ui.form.on("AMC Fire Alarm System", {
                 'background-color': '#944dff',
                 'font-weight': 'bold',
             });
+        }
+    }
+});
+frappe.ui.form.on('AMC Fire Alaram Table', {
+    remarks: function(frm, cdt, cdn){
+        let row = locals[cdt][cdn];
+        if(row.remarks){
+            frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("refilling_schedule");
         }
     }
 });

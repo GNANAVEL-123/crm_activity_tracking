@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"XvmMjC3RNq\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Sales</span>\",\"col\":12}},{\"id\":\"CjyAeUuNOw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"bePAruv-O6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"7F1t5xVIUO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"RwmjIncZrM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"ERwN0KaNKb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"RJ8UXmdB_G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5GbgXAykzV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"fvC5n5iOAL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"QQFA7iCCz7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}}]",
+ "content": "[{\"id\":\"XvmMjC3RNq\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Sales</span>\",\"col\":12}},{\"id\":\"CjyAeUuNOw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"bePAruv-O6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"7F1t5xVIUO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"RwmjIncZrM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"ERwN0KaNKb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"RJ8UXmdB_G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5GbgXAykzV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"fvC5n5iOAL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"QQFA7iCCz7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"ZyV91Ppu2z\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"H_1tiaTCxg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm System\",\"col\":3}},{\"id\":\"4fmmoSvRG1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm Tracking\",\"col\":3}}]",
  "creation": "2025-01-05 22:41:55.263985",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Sales",
  "links": [],
- "modified": "2025-01-09 15:28:39.312613",
+ "modified": "2025-02-01 20:19:56.614039",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales",
@@ -55,6 +55,14 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "AMC Fire Alarm System",
+   "link_to": "AMC Fire Alarm System",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Customer",
    "link_to": "Customer",
    "stats_filter": "[]",
@@ -66,6 +74,14 @@
    "label": "Daily Tracking Status",
    "link_to": "Daily Tracking Status",
    "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "AMC Fire Alarm Tracking",
+   "link_to": "AMC Fire Alarm Tracking",
+   "stats_filter": "[]",
+   "type": "DocType"
   },
   {
    "color": "Grey",

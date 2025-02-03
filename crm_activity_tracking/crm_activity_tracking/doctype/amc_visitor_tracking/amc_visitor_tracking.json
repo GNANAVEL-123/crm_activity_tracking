@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:invoice_number",
+ "autoname": "naming_series:",
  "creation": "2024-12-01 21:45:45.385305",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -32,6 +32,7 @@
   "vendor_number",
   "po_number",
   "amc_frequency",
+  "naming_series",
   "section_break_jxwf",
   "refilling_schedule",
   "hours_adding_deduction_section",
@@ -91,7 +92,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Customer Name",
+   "label": "Company Name",
    "options": "Customer",
    "reqd": 1
   },
@@ -307,15 +308,23 @@
    "fieldname": "remarks_of_amc",
    "fieldtype": "Small Text",
    "label": "Remarks of AMC"
+  },
+  {
+   "default": "AVT-.YY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "AVT-.YY.-.#####"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-13 20:13:41.312382",
+ "modified": "2025-01-30 22:39:58.973557",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

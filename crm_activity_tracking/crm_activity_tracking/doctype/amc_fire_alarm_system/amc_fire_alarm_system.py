@@ -42,12 +42,14 @@ def amc_fire_alarm_tracker():
 								frequency_months = amc_doc.amc_frequency
 								next_date = from_date + relativedelta(months=frequency_months)
 							amc_tracker_doc = frappe.new_doc("AMC Fire Alarm Tracking")
-							# amc_tracker_doc.amc_template = amc_doc.name
+							amc_tracker_doc.amc_fire_alarm_template = amc_doc.name
 							amc_tracker_doc.customer_name = amc_doc.customer_name
 							amc_tracker_doc.contact_number = amc_doc.contact_number
 							amc_tracker_doc.mail_id = amc_doc.mail_id
-							# amc_tracker_doc.location = amc_doc.location
+							amc_tracker_doc.region = amc_doc.location
 							amc_tracker_doc.client_representative = amc_doc.client_representative
+							amc_tracker_doc.client_designation = amc_doc.client_designation
+							amc_tracker_doc.employee_name = amc_doc.employee_name
 							amc_tracker_doc.service_by = amc_doc.service_by
 							amc_tracker_doc.amc_service_date = amc_fre.from_date
 							amc_tracker_doc.amc_frequency = amc_doc.amc_frequency

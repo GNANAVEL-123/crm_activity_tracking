@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"iO-oKxucBf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Documendation</span>\",\"col\":12}},{\"id\":\"eemmxdeBbJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"5yVFMl7N4I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"fs_sXVJSWY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"1c1mz3nesB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"3aLAhSBZMZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"N5lNOO-KFr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"zLkU94UW0I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"6Sm_tzKqhS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"d0VfrtGYY2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"qlxHZE8Mqi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC\",\"col\":3}},{\"id\":\"ouW5xiHTM8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}}]",
+ "content": "[{\"id\":\"iO-oKxucBf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Documendation</span>\",\"col\":12}},{\"id\":\"eemmxdeBbJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"5yVFMl7N4I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"fs_sXVJSWY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"1c1mz3nesB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"3aLAhSBZMZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"N5lNOO-KFr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"zLkU94UW0I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"6Sm_tzKqhS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"d0VfrtGYY2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"qlxHZE8Mqi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC\",\"col\":3}},{\"id\":\"ouW5xiHTM8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"5RrJhO7Cwf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm System\",\"col\":3}},{\"id\":\"hnooDRvYxP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm Tracking\",\"col\":3}}]",
  "creation": "2025-01-05 22:49:09.696984",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Documendation",
  "links": [],
- "modified": "2025-01-05 22:59:45.175920",
+ "modified": "2025-02-01 20:16:41.680973",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Documendation",
@@ -55,6 +55,14 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "AMC Fire Alarm System",
+   "link_to": "AMC Fire Alarm System",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Customer",
    "link_to": "Customer",
    "stats_filter": "[]",
@@ -72,6 +80,14 @@
    "doc_view": "List",
    "label": "AMC Visitor Tracking",
    "link_to": "AMC Visitor Tracking",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "AMC Fire Alarm Tracking",
+   "link_to": "AMC Fire Alarm Tracking",
    "stats_filter": "[]",
    "type": "DocType"
   },

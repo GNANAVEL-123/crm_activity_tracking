@@ -14,15 +14,18 @@
   "naming_series",
   "column_break_mopi",
   "client_representative",
+  "client_designation",
   "cr__contact_number",
   "service_by",
+  "employee_name",
   "contact_number",
+  "designation",
+  "region",
   "column_break_sawh",
   "amc_frequency",
   "no_of_month",
   "amc_service_date",
   "next_amc_service_due_date",
-  "designation",
   "section_break_aosm",
   "amc_frequency_list",
   "section_break_jxwf",
@@ -49,7 +52,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Customer Name",
+   "label": "Company Name",
    "options": "Customer",
    "reqd": 1
   },
@@ -60,14 +63,17 @@
   },
   {
    "fieldname": "service_by",
-   "fieldtype": "Data",
-   "label": "Service By"
+   "fieldtype": "Link",
+   "label": "Service By",
+   "options": "Employee"
   },
   {
    "fieldname": "column_break_sawh",
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "service_by.cell_number",
+   "fetch_if_empty": 1,
    "fieldname": "contact_number",
    "fieldtype": "Data",
    "label": "Contact Number"
@@ -118,12 +124,12 @@
    "label": "Details"
   },
   {
-   "default": "AMC-FC-.YY.-.####",
+   "default": "AMC-FA-.YY.-.####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "naming_series",
-   "options": "AMC-FC-.YY.-.####"
+   "options": "AMC-FA-.YY.-.####"
   },
   {
    "fieldname": "client_representative",
@@ -136,6 +142,8 @@
    "label": "CR  Contact Number"
   },
   {
+   "fetch_from": "service_by.designation",
+   "fetch_if_empty": 1,
    "fieldname": "designation",
    "fieldtype": "Link",
    "label": "Designation",
@@ -146,11 +154,32 @@
    "fieldtype": "Int",
    "label": "No of Month",
    "reqd": 1
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "label": "Region",
+   "options": "Territory",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client_designation",
+   "fieldtype": "Link",
+   "label": "Client Designation",
+   "options": "Designation"
+  },
+  {
+   "fetch_from": "service_by.employee_name",
+   "fetch_if_empty": 1,
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-29 18:55:13.727720",
+ "modified": "2025-02-01 20:15:57.725497",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm System",
@@ -178,6 +207,42 @@
    "read": 1,
    "report": 1,
    "role": "Sales Master Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Service Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Documendation Admin",
    "share": 1,
    "write": 1
   }

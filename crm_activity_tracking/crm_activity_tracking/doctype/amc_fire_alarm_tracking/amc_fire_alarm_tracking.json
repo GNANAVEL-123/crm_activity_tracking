@@ -8,20 +8,28 @@
  "field_order": [
   "details_section",
   "customer_name",
+  "region",
   "po_number",
   "vendor_number",
   "mail_id",
   "naming_series",
   "column_break_mopi",
   "client_representative",
+  "client_designation",
   "cr__contact_number",
   "service_by",
+  "employee_name",
   "contact_number",
+  "designation",
   "column_break_sawh",
   "amc_frequency",
   "amc_service_date",
   "next_amc_service_due_date",
-  "designation",
+  "amc_fire_alarm_template",
+  "visit_count",
+  "section_break_qqry",
+  "remarks",
+  "column_break_ktpm",
   "section_break_jxwf",
   "refilling_schedule"
  ],
@@ -35,7 +43,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Customer Name",
+   "label": "Company Name",
    "options": "Customer",
    "reqd": 1
   },
@@ -55,12 +63,12 @@
    "label": "Mail ID"
   },
   {
-   "default": "AMC-FC-.YY.-.####",
+   "default": "AMC-FT-.YY.-.####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "naming_series",
-   "options": "AMC-FC-.YY.-.####"
+   "options": "AMC-FT-.YY.-.####"
   },
   {
    "fieldname": "column_break_mopi",
@@ -78,10 +86,13 @@
   },
   {
    "fieldname": "service_by",
-   "fieldtype": "Data",
-   "label": "Service By"
+   "fieldtype": "Link",
+   "label": "Service By",
+   "options": "Employee"
   },
   {
+   "fetch_from": "service_by.cell_number",
+   "fetch_if_empty": 1,
    "fieldname": "contact_number",
    "fieldtype": "Data",
    "label": "Contact Number"
@@ -100,7 +111,8 @@
   {
    "fieldname": "amc_service_date",
    "fieldtype": "Date",
-   "label": "AMC Service Date"
+   "label": "AMC Service Date",
+   "reqd": 1
   },
   {
    "fieldname": "next_amc_service_due_date",
@@ -108,6 +120,8 @@
    "label": "Next AMC Service Due Date"
   },
   {
+   "fetch_from": "service_by.designation",
+   "fetch_if_empty": 1,
    "fieldname": "designation",
    "fieldtype": "Link",
    "label": "Designation",
@@ -124,11 +138,57 @@
    "label": "AMC Fire Alarm",
    "options": "AMC Fire Alaram Table",
    "reqd": 1
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "label": "Region",
+   "options": "Territory",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amc_fire_alarm_template",
+   "fieldtype": "Link",
+   "label": "AMC Fire Alarm Template",
+   "options": "AMC Fire Alarm System",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_qqry",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "column_break_ktpm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "client_designation",
+   "fieldtype": "Link",
+   "label": "Client Designation",
+   "options": "Designation"
+  },
+  {
+   "fetch_from": "service_by.employee_name",
+   "fetch_if_empty": 1,
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "visit_count",
+   "fieldtype": "Int",
+   "label": "Visit Count"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-02 12:02:59.173508",
+ "modified": "2025-02-03 12:23:08.098819",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm Tracking",
@@ -144,6 +204,42 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Documendation Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Service Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Admin",
    "share": 1,
    "write": 1
   }
