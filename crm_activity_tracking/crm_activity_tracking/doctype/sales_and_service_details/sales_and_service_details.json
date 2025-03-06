@@ -8,6 +8,7 @@
  "field_order": [
   "date",
   "company_name",
+  "contact_name",
   "customer_contact_no",
   "purpose_type",
   "sales_purpose",
@@ -69,8 +70,7 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name",
-   "reqd": 1
+   "label": "Customer Name"
   },
   {
    "fieldname": "column_break_cpfv",
@@ -85,8 +85,7 @@
   {
    "fieldname": "customer_contact_no",
    "fieldtype": "Data",
-   "label": "Customer Contact No",
-   "reqd": 1
+   "label": "Customer Contact No"
   },
   {
    "fieldname": "purpose_type",
@@ -365,11 +364,17 @@
   {
    "fieldname": "column_break_glzz",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Contact Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-20 12:52:45.925164",
+ "modified": "2025-03-03 12:01:26.911545",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales and Service Details",

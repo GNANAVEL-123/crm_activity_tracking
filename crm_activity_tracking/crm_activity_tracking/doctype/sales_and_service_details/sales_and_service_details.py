@@ -59,6 +59,10 @@ class SalesandServiceDetails(Document):
             frappe.throw("Enter Remarks of Repair Reason.")
         if self.service_purpose == "Refilling" and not self.remarks:
             frappe.throw("Enter Remarks of Refilling Reason.")
+
+        if self.service_purpose != "Lunch" or self.sales_purpose != "Lunch":
+            if not self.customer_contact_no and not self.customer_name:
+                frappe.throw("Enter Customer Name and Contact No.")
     def after_insert(self):  
         self.manage_user_permission()
 

@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-06 11:05:08.733494",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "point_no",
+  "point_name",
+  "location",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "point_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Point No",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "point_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Point Name",
+   "options": "Point Name",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "AMC Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Remarks",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-03-06 11:30:32.191938",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "AMC Fire Hydrant Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -38,6 +38,12 @@ def get_columns(filters):
             "fieldname": "customer_contact_no",
             "width": 200
         },
+        {
+            "label": _("CONTACT NAME"),
+            "fieldtype": "Data",
+            "fieldname": "contact_name",
+            "width": 200
+        },
 		{
             "label": _("IN TIME"),
             "fieldtype": "Datetime",
@@ -103,6 +109,7 @@ def get_data(filters):
 					"company_name": ssd_doc.get("company_name", ""),
 					"region":ssd_doc.get("region"),
 					"customer_contact_no":ssd_doc.get("customer_contact_no"),
+                    "contact_name":ssd_doc.get("customer_name"),
 					"purpose_type":ssd_doc.get("purpose_type"),
 					"sales_type":ssd_doc.get("sales_purpose"),
 					"service_type": ssd_doc.get('service_purpose'),
