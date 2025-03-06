@@ -5,6 +5,7 @@ import frappe
 from frappe.utils import getdate, add_months, nowdate
 from datetime import timedelta, date
 from frappe.model.document import Document
+from dateutil.relativedelta import relativedelta
 
 
 class AMCFireAlarmSystem(Document):
@@ -32,7 +33,7 @@ def amc_fire_alarm_tracker():
 					for amc_fre in amc_doc.amc_frequency_list:
 						avt = frappe.db.get_list(
 							"AMC Fire Alarm Tracking",
-							filters={"amc_service_date": amc_fre.from_date, "amc_template": amc_doc.name},
+							filters={"amc_service_date": amc_fre.from_date, "amc_fire_alarm_template": amc_doc.name},
 							fields=["name"]
 						)
 						if getdate(amc_fre.from_date) == getdate(nowdate()) and not avt:
@@ -46,7 +47,7 @@ def amc_fire_alarm_tracker():
 							amc_tracker_doc.customer_name = amc_doc.customer_name
 							amc_tracker_doc.contact_number = amc_doc.contact_number
 							amc_tracker_doc.mail_id = amc_doc.mail_id
-							amc_tracker_doc.region = amc_doc.location
+							amc_tracker_doc.region = amc_doc.region
 							amc_tracker_doc.client_representative = amc_doc.client_representative
 							amc_tracker_doc.client_designation = amc_doc.client_designation
 							amc_tracker_doc.employee_name = amc_doc.employee_name
@@ -57,10 +58,13 @@ def amc_fire_alarm_tracker():
 							amc_tracker_doc.cr__contact_number = amc_doc.cr__contact_number
 							amc_tracker_doc.vendor_number = amc_doc.vendor_number
 							amc_tracker_doc.po_number = amc_doc.po_number
+							amc_tracker_doc.amc_fire_alarm_template = amc_doc.name
+							amc_tracker_doc.next_amc_service_due_date = next_date
 							if amc_doc.refilling_schedule:
 								for refilling_entry in amc_doc.refilling_schedule:
 									refilling_child = amc_tracker_doc.append("refilling_schedule", {})
 									refilling_child.location = refilling_entry.location
 									refilling_child.device_no = refilling_entry.device_no
 									refilling_child.zoneloop = refilling_entry.zoneloop
+									refilling_child.brand_name = refilling_entry.brand_name
 							amc_tracker_doc.save(ignore_permissions=True)

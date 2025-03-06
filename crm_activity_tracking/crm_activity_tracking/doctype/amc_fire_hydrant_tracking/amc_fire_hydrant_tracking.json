@@ -23,11 +23,13 @@
   "region",
   "column_break_sawh",
   "amc_frequency",
-  "no_of_month",
   "amc_service_date",
   "next_amc_service_due_date",
-  "section_break_aosm",
-  "amc_frequency_list",
+  "amc_fire_hydrant_template",
+  "visit_count",
+  "section_break_asjx",
+  "remarks",
+  "column_break_xpei",
   "details_of_landing_valve_section",
   "landing_valve_table",
   "details_of_hose_box_and_rrl_hose_section",
@@ -144,12 +146,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "no_of_month",
-   "fieldtype": "Int",
-   "label": "No of Month",
-   "reqd": 1
-  },
-  {
    "fieldname": "amc_service_date",
    "fieldtype": "Date",
    "label": "AMC Service Date",
@@ -158,19 +154,7 @@
   {
    "fieldname": "next_amc_service_due_date",
    "fieldtype": "Date",
-   "hidden": 1,
    "label": "Next AMC Service Due Date"
-  },
-  {
-   "fieldname": "section_break_aosm",
-   "fieldtype": "Section Break",
-   "label": "Frequency Details"
-  },
-  {
-   "fieldname": "amc_frequency_list",
-   "fieldtype": "Table",
-   "label": "AMC Frequency List",
-   "options": "AMC Frequency Table"
   },
   {
    "fieldname": "details_of_landing_valve_section",
@@ -227,11 +211,36 @@
    "fieldtype": "Table",
    "label": "Fire Brigade Inlet",
    "options": "AMC Fire Hydrant Table"
+  },
+  {
+   "fieldname": "amc_fire_hydrant_template",
+   "fieldtype": "Link",
+   "label": "AMC Fire Hydrant Template",
+   "options": "AMC Fire Hydrant System",
+   "reqd": 1
+  },
+  {
+   "fieldname": "visit_count",
+   "fieldtype": "Int",
+   "label": "Visit Count"
+  },
+  {
+   "fieldname": "section_break_asjx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "column_break_xpei",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-06 11:41:33.169489",
+ "modified": "2025-03-06 15:44:11.060334",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Hydrant Tracking",
