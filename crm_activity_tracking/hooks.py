@@ -28,11 +28,9 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {
-  "Lead" : "crm_activity_tracking/custom_files/js/lead.js",
-              "Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
-              
-              }
+doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
+			"Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
+			"Task" :"crm_activity_tracking/custom_files/js/task.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -170,7 +168,8 @@ scheduler_events = {
 		'0 2 * * *': [
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.amc_visitor_tracker",
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_alarm_system.amc_fire_alarm_system.amc_fire_alarm_tracker",
-			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_hydrant_system.amc_fire_hydrant_system.amc_fire_hydrant_tracker"
+			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_hydrant_system.amc_fire_hydrant_system.amc_fire_hydrant_tracker",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.leave_allocation"
 		]
     }
 }

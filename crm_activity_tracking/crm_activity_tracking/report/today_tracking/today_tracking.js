@@ -29,6 +29,12 @@ frappe.query_reports["Today Tracking"] = {
 			fieldtype: 'Check',
 			default: 1
 		},
+		{
+			fieldname: 'task',
+			label: 'Task',
+			fieldtype: 'Check',
+			default: 1
+		},
 	],
 
 	// onload: function(report){

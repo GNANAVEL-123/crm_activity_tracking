@@ -246,6 +246,73 @@ def get_data(filters):
    
 		data+=leads
 
+	if (filters.get('task')):
+		follow_up_filter = {}
+		task_filter={'status':['not in', ['Template', 'Completed', 'Cancelled']]}
+
+		if(filters.get('date')):
+			follow_up_filter['next_follow_up_date'] = filters.get('date')
+		if (filters.get('user')):
+			follow_up_filter['next_follow_up_by'] = filters.get('user')
+
+		all_task = frappe.db.get_all('Follow-Up', filters=follow_up_filter, fields=['idx', 'parent','next_follow_up_by','description','mode_of_communication'])
+		all_task1=[]
+		for i in all_task:
+			follow_up_filter['parent'] = i['parent']
+			
+			if(max(frappe.db.get_all('Follow-Up', filters={'parent':i['parent']}, pluck='idx')) == i['idx']):
+				if(not i.get("next_follow_up_by")):
+					all_task1.append(i)
+				elif(not filters.get("user")):
+					all_task1.append(i)
+				elif(filters.get("user") and i.get("next_follow_up_by")==filters.get("user")):
+					all_task1.append(i)
+		desc={i['parent']:[i['description'],i.get("next_follow_up_by") or "",i.get("mode_of_communication") or ""] for i in all_task1}
+
+
+		tasks = [i['parent'] for i in all_task1]
+		site_task=tasks
+		task_filter['name'] = ['in', site_task]
+
+		tasks = frappe.db.get_list('Task', filters=task_filter, fields=['name', 'custom_customer as company_name', 'status', 'custom_contact_no as contact_number', 'custom_contact_name as contact_name',  ])
+
+		for i in tasks:
+			i['description']=desc[i["name"]][0]
+			i['next_followup_by']=desc[i["name"]][1]
+			i['mode_of_communication']=desc[i["name"]][2]
+			
+			# if i.customer_address:
+			# 	address_email=frappe.db.get_all(
+			# 		"Address",
+			# 			filters={"name":i.customer_address},
+			# 			fields=['email_id'],
+			# 			order_by='`tabAddress`.creation desc'
+			# 		)
+			# 	if address_email:
+			# 		i['customer_mail']=address_email[0]['email_id']
+			# contact=frappe.get_all(
+			# 	"Contact",
+			# 		filters=[
+			# 		["Dynamic Link", "link_doctype", "=", 'Quotation'],
+			# 		["Dynamic Link", "link_name", "=", i['name']],
+			# 		["Contact Phone", 'is_primary_mobile_no', "=", 1]
+
+			# 		],
+			# 		fields=['`tabContact Phone`.phone'],
+			# 		order_by='`tabContact`.creation desc'
+			# 	)
+			# if contact:
+			# 	i['contact_number']=contact[0]['phone']
+
+			i['name'] = f'''
+			<a href="#" style="text-decoration: underline; color: #007bff; font-size: 13px;" onclick='frappe.set_route("Form", "Task", "{i["name"]}")'>
+				{i["name"]}
+			</a>
+			'''
+
+   
+		data+=tasks
+
 	return data
 	
 @frappe.whitelist()
