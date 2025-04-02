@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"5Pi5EOVPB0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">HR Master</span>\",\"col\":12}},{\"id\":\"Ip5JfKaaII\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Employee</b></span>\",\"col\":12}},{\"id\":\"XrjrcuiM7K\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"7I2otDnLMn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Holiday List\",\"col\":3}},{\"id\":\"AAdDiRjPxj\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"exNmsPk9qQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Attendance <br></b></span>\",\"col\":12}},{\"id\":\"Wb0x776lnm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance\",\"col\":3}},{\"id\":\"TO2tnSMEp6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Shift Type\",\"col\":3}},{\"id\":\"rN7mTDGP0k\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Checkin\",\"col\":3}},{\"id\":\"pHl1oWyP_k\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"mYikdAhWjx\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Leave<br></span>\",\"col\":12}},{\"id\":\"eEZN3qAKBu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Allocation\",\"col\":3}},{\"id\":\"2iPwtIjCMe\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"oBRg4qAiMn\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"y-R6NCMjAN\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Salary</b></span>\",\"col\":12}},{\"id\":\"4tu7iUl-JL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Structure\",\"col\":3}},{\"id\":\"EPf5rq3p6N\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Structure Assignment\",\"col\":3}},{\"id\":\"ZzyOngPBVi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payroll Entry\",\"col\":3}},{\"id\":\"TS7I4KeKau\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Slip\",\"col\":3}}]",
+ "content": "[{\"id\":\"5Pi5EOVPB0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">HR Master</span>\",\"col\":12}},{\"id\":\"Ip5JfKaaII\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Employee</b></span>\",\"col\":12}},{\"id\":\"XrjrcuiM7K\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"7I2otDnLMn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Holiday List\",\"col\":3}},{\"id\":\"AAdDiRjPxj\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"exNmsPk9qQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Attendance <br></b></span>\",\"col\":12}},{\"id\":\"Wb0x776lnm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance\",\"col\":3}},{\"id\":\"TO2tnSMEp6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Shift Type\",\"col\":3}},{\"id\":\"rN7mTDGP0k\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Checkin\",\"col\":3}},{\"id\":\"pHl1oWyP_k\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"mYikdAhWjx\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Leave<br></span>\",\"col\":12}},{\"id\":\"eEZN3qAKBu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Allocation\",\"col\":3}},{\"id\":\"2iPwtIjCMe\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"SD5WP96BeW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Encashment\",\"col\":3}},{\"id\":\"oBRg4qAiMn\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"y-R6NCMjAN\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Salary</b></span>\",\"col\":12}},{\"id\":\"4tu7iUl-JL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Structure\",\"col\":3}},{\"id\":\"EPf5rq3p6N\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Structure Assignment\",\"col\":3}},{\"id\":\"ZzyOngPBVi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payroll Entry\",\"col\":3}},{\"id\":\"TS7I4KeKau\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Slip\",\"col\":3}},{\"id\":\"6XmOVTLipI\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"thKkWmXjtc\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Advance</b></span>\",\"col\":12}},{\"id\":\"E0DrIM9Jg-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Advance\",\"col\":3}},{\"id\":\"HaX231_LPr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Entry\",\"col\":3}},{\"id\":\"7DZvWSLH8p\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Additional Salary\",\"col\":3}}]",
  "creation": "2024-12-12 16:57:05.766941",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "HR Master",
  "links": [],
- "modified": "2024-12-20 14:39:39.960963",
+ "modified": "2025-04-02 13:46:16.869146",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "HR Master",
@@ -29,6 +29,22 @@
  ],
  "sequence_id": 41.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Advance",
+   "link_to": "Employee Advance",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Leave Encashment",
+   "link_to": "Leave Encashment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
   {
    "color": "Grey",
    "doc_view": "List",
@@ -56,6 +72,14 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Payment Entry",
+   "link_to": "Payment Entry",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Attendance",
    "link_to": "Attendance",
    "stats_filter": "[]",
@@ -66,6 +90,14 @@
    "doc_view": "List",
    "label": "Salary Structure Assignment",
    "link_to": "Salary Structure Assignment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Additional Salary",
+   "link_to": "Additional Salary",
    "stats_filter": "[]",
    "type": "DocType"
   },

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"lLzhUUtApZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">CRM Master</span>\",\"col\":12}},{\"id\":\"mI29ghVAm3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"phGj9Nxo4B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"4XAe6XhPiS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"NwoBxYp9XU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"ItjnQs5i2t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"OtY9lrTxNd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No\",\"col\":3}},{\"id\":\"k1LkR8atxx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"VwMqoQ5S7D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm Tracking\",\"col\":3}},{\"id\":\"XrY6RNs1_q\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"F-sbEraeqe\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"gicCAKB6wd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"i66JWTtwIj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}}]",
+ "content": "[{\"id\":\"lLzhUUtApZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">CRM Master</span>\",\"col\":12}},{\"id\":\"mI29ghVAm3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"phGj9Nxo4B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"4XAe6XhPiS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"NwoBxYp9XU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"ItjnQs5i2t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"OtY9lrTxNd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No\",\"col\":3}},{\"id\":\"k1LkR8atxx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"VwMqoQ5S7D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm Tracking\",\"col\":3}},{\"id\":\"LN3N7IHhV9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task\",\"col\":3}},{\"id\":\"XrY6RNs1_q\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"F-sbEraeqe\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"gicCAKB6wd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"i66JWTtwIj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}}]",
  "creation": "2024-08-30 17:34:32.292508",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Sales Master",
  "links": [],
- "modified": "2025-02-03 13:48:55.717572",
+ "modified": "2025-04-02 14:13:50.252936",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Sales Master",
@@ -57,6 +57,14 @@
    "doc_view": "List",
    "label": "Customer",
    "link_to": "Customer",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Task",
+   "link_to": "Task",
    "stats_filter": "[]",
    "type": "DocType"
   },
