@@ -30,7 +30,8 @@ app_license = "mit"
 # include js in doctype views
 doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 			"Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
-			"Task" :"crm_activity_tracking/custom_files/js/task.js"}
+			"Task" :"crm_activity_tracking/custom_files/js/task.js",
+			"Project": "crm_activity_tracking/custom_files/js/project.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -143,6 +144,9 @@ doc_events = {
 		'after_insert':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.manage_user_permissions",
 		'validate':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.manage_user_permissions"
 
+	},
+	"Project" : {
+		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.consumed_update"
 	}
 }
 # Scheduled Taskss

@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-04-05 14:26:39.613088",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "location",
+  "invoice_number",
+  "amc_service_date",
+  "next_amc_service_due_date",
+  "number_of_portable_fire_extinguisher",
+  "job_sheet_no",
+  "completion_report_no",
+  "column_break_mopi",
+  "customer_name",
+  "mail_id",
+  "service_by",
+  "recommendations_quote_no",
+  "product_delivery_date",
+  "number_of_trolley_fireextinguisher",
+  "column_break_sawh",
+  "concern_person",
+  "contact_number",
+  "total_extinguisher",
+  "vendor_number",
+  "po_number",
+  "amc_frequency",
+  "no_of_month",
+  "naming_series",
+  "section_break_aosm",
+  "amc_frequency_list",
+  "section_break_jxwf",
+  "refilling_schedule",
+  "generate_qr_code"
+ ],
+ "fields": [
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "label": "Location",
+   "options": "Territory"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Invoice Number",
+   "unique": 1
+  },
+  {
+   "fieldname": "amc_service_date",
+   "fieldtype": "Date",
+   "label": "AMC Service Date"
+  },
+  {
+   "fieldname": "next_amc_service_due_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Next AMC Service Due Date"
+  },
+  {
+   "fieldname": "number_of_portable_fire_extinguisher",
+   "fieldtype": "Float",
+   "label": "Number Of Portable Fire Extinguisher"
+  },
+  {
+   "fieldname": "job_sheet_no",
+   "fieldtype": "Data",
+   "label": "AMC REPORT  & JOB SHEET S-NO"
+  },
+  {
+   "fieldname": "completion_report_no",
+   "fieldtype": "Data",
+   "label": "WORK COMPLETION REPORT S NO"
+  },
+  {
+   "fieldname": "column_break_mopi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company Name",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mail_id",
+   "fieldtype": "Data",
+   "label": "Mail ID"
+  },
+  {
+   "fieldname": "service_by",
+   "fieldtype": "Data",
+   "label": "Service By"
+  },
+  {
+   "fieldname": "recommendations_quote_no",
+   "fieldtype": "Data",
+   "label": "Recommendations Quote No"
+  },
+  {
+   "fieldname": "product_delivery_date",
+   "fieldtype": "Data",
+   "label": "Product Delivery Date"
+  },
+  {
+   "fieldname": "number_of_trolley_fireextinguisher",
+   "fieldtype": "Float",
+   "label": "Number of Trolley Fireextinguisher"
+  },
+  {
+   "fieldname": "column_break_sawh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "concern_person",
+   "fieldtype": "Data",
+   "label": "Concern Person"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "total_extinguisher",
+   "fieldtype": "Float",
+   "label": "Total Extinguisher",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vendor_number",
+   "fieldtype": "Data",
+   "label": "Vendor Number"
+  },
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "PO Number"
+  },
+  {
+   "fieldname": "amc_frequency",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "AMC Frequency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "no_of_month",
+   "fieldtype": "Float",
+   "label": "No of Month",
+   "reqd": 1
+  },
+  {
+   "default": "MA-.YYYY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "MA-.YYYY.-.####"
+  },
+  {
+   "fieldname": "section_break_aosm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amc_frequency_list",
+   "fieldtype": "Table",
+   "label": "AMC Frequency List",
+   "options": "AMC Frequency Table"
+  },
+  {
+   "fieldname": "section_break_jxwf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "refilling_schedule",
+   "fieldtype": "Table",
+   "label": "Refilling Schedule",
+   "options": "Refilling Schedule Table",
+   "reqd": 1
+  },
+  {
+   "fieldname": "generate_qr_code",
+   "fieldtype": "Button",
+   "label": "Generate QR Code"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-07 10:46:38.589251",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "AMC Master",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "read_only": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
