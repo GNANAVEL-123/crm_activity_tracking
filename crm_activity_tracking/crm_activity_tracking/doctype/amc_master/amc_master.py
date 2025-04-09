@@ -45,6 +45,7 @@ def qrcode_creation(docname):
         new_code = unique_codes[i]
         row.qr_code = new_code
         row.qr_image = f"<img width='120px' height='120px' src='data:image/png;base64,{get_qr_code(new_code, scale=2)}' class='qrcode'>"
+        frappe.errprint(row.qr_image)
 
     doc.save(ignore_permissions=True)
     return f"{count} QR code(s) generated and saved."

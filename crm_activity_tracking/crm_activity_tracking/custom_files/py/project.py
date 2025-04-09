@@ -1,8 +1,33 @@
 import frappe
 import json
 from frappe.desk.reportview import get_filters_cond
+from frappe.permissions import (
+	add_user_permission,
+	get_doc_permissions,
+	has_permission,
+	remove_user_permission,
+)
 
-def consumed_update(doc, action):
+def validate(doc, action):
+    if not doc.get('__islocal'):
+        create_project_user_permission(doc)
+    consumed_update(doc)
+
+def after_insert(doc,action):
+    create_project_user_permission(doc)
+
+def create_project_user_permission(doc):
+    if doc.custom_allocated_to and not frappe.db.exists('User Permission',{'user':doc.custom_allocated_to,'allow':'Project','for_value':doc.name}):
+        role_profile = frappe.get_value('User',doc.custom_allocated_to,'role_profile_name')
+        if role_profile not in ['Admin', 'CRM Admin', 'Super Admin']:
+            add_user_permission("Project", doc.name, doc.custom_allocated_to, ignore_permissions=True,is_default=0)
+
+
+def on_trash(doc, action):
+    for i in frappe.get_all('User Permission',['user'],{'allow':'Project','for_value':doc.name}):
+        remove_user_permission("Lead", doc.name, i.user)
+
+def consumed_update(doc):
     if not doc.custom_item_consumption_details:
         return
 

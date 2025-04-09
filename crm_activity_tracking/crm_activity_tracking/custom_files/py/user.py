@@ -33,9 +33,11 @@ def manage_user_permissions(doc, event):
         if doc.role_profile_name not in restricted_roles:
             create_user_permission(doc.name, 'Quotation')
             create_user_permission(doc.name, 'Lead')
+            create_user_permission(doc.name, 'Project')
         else:
             delete_user_permissions(doc.name, 'Quotation')
             delete_user_permissions(doc.name, 'Lead')
+            delete_user_permissions(doc.name, 'Project')
 
         # Manage permissions for Refilling Report No and Sales and Service Details
         if doc.role_profile_name not in extended_restricted_roles:

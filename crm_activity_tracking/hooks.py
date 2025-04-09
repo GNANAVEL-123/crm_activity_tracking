@@ -146,7 +146,9 @@ doc_events = {
 
 	},
 	"Project" : {
-		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.consumed_update"
+		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.validate",
+		"after_insert":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.after_insert",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.on_trash"
 	}
 }
 # Scheduled Taskss
