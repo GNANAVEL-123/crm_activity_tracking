@@ -31,7 +31,13 @@ app_license = "mit"
 doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 			"Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
 			"Task" :"crm_activity_tracking/custom_files/js/task.js",
-			"Project": "crm_activity_tracking/custom_files/js/project.js"}
+			"Project": "crm_activity_tracking/custom_files/js/project.js",
+			"Purchase Order": "crm_activity_tracking/custom_files/js/purchase_order.js",
+			"Purchase Receipt": "crm_activity_tracking/custom_files/js/purchase_receipt.js",
+			"Purchase Invoice": "crm_activity_tracking/custom_files/js/purchase_invoice.js",
+			"Sales Order": "crm_activity_tracking/custom_files/js/sales_order.js",
+			"Delivery Note": "crm_activity_tracking/custom_files/js/delivery_note.js",
+			"Sales Invoice": "crm_activity_tracking/custom_files/js/sales_invoice.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

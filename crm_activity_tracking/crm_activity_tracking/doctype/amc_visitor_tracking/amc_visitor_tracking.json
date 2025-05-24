@@ -214,7 +214,6 @@
   {
    "fieldname": "amc_template",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "AMC Template",
    "options": "AMC",
    "reqd": 1
@@ -320,7 +319,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-30 22:39:58.973557",
+ "modified": "2025-04-30 17:53:55.401647",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

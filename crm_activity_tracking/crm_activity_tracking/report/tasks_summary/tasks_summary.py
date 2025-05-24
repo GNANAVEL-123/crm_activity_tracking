@@ -66,6 +66,8 @@ def get_conditions(filters):
 		conditions.exp_end_date = [">=", filters.get("from_date")]
 	if filters.get("to_date"):
 		conditions.exp_start_date = ["<=", filters.get("to_date")]
+	if filters.get("allocated_to"):
+		conditions.custom_allocated_to = filters.get("allocated_to")
 	return conditions
 
 

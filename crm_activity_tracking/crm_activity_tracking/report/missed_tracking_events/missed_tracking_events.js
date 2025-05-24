@@ -29,6 +29,12 @@ frappe.query_reports["Missed Tracking Events"] = {
 			fieldtype: 'Check',
 			default: 1
 		},
+		{
+			fieldname: 'task',
+			label: 'Task',
+			fieldtype: 'Check',
+			default: 1
+		},
 	],
 
 	// onload: function(report){
