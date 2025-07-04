@@ -43,3 +43,18 @@ def leave_allocation():
 
                 except Exception as e:
                     frappe.log_error(title="Leave Allocation - Error", message=f"Error for {emp.employee_name}: {str(e)}")
+
+def schedule_whatsapp_message():
+    list_of_docs = frappe.get_list('Whatsapp Log',{'status':'Not Sent'},limit='1')
+    for doc in list_of_docs:
+        request_url = frappe.get_value('Whatsapp Log',doc.name,'request_url')
+        payload={}
+        headers = {}
+        try:
+            response = requests.request("GET", request_url, headers=headers, data=payload)
+            frappe.db.set_value('Whatsapp Log',doc.name,'status','Success')
+            frappe.db.set_value('Whatsapp Log',doc.name,'response',str(response.json()))
+
+        except Exception as e:
+            frappe.db.set_value('Whatsapp Log',doc.name,'status','Failure')
+            frappe.db.set_value('Whatsapp Log',doc.name,'response',str(response.json()))

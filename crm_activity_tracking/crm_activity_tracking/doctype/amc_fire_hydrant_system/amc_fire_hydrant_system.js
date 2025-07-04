@@ -86,6 +86,21 @@ frappe.ui.form.on("AMC Fire Hydrant System", {
                 'font-weight': 'bold',
             });
         }
+        frm.set_query("company_address", function () {
+            return {
+                filters: {
+                    is_your_company_address: 1,
+                },
+            };
+        });
+        frm.set_query('customer_address',function(frm){
+            return {
+                filters:[
+                        ["Dynamic Link","link_name","=",frm.customer_name],
+                        ["Dynamic Link","link_doctype","=","Customer"]
+                ]
+            }
+        })
     }
 });
 frappe.ui.form.on('AMC Fire Hydrant Table', {

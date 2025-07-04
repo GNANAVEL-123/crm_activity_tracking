@@ -1,4 +1,34 @@
 frappe.ui.form.on("Task", {
+	refresh: function(frm){
+		if(!cur_frm.is_new())
+			frm.add_custom_button("Send Whatsapp",function () {
+				frm.trigger("send_whatsapp_message");
+			})
+	},
+	send_whatsapp_message:function(frm){
+		if(frm.doc.custom_allocated_to){
+			frappe.call({
+				method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.whatsapp.send_task_message",
+				args: {
+					"invoice": frm.doc.name,
+				},
+				callback: function (response) {
+					if (response.message && response.message === "Success") {
+						frappe.show_alert({
+							message: __("Whatsapp Log Created successfully"),
+							indicator: "green",
+						});
+					} else {
+						frappe.show_alert({
+							message: __("Failed to create WhatsApp Log. Please try again."),
+							indicator: "red",
+						});
+					}
+				}
+  
+			})
+		}
+	  },
 })
 
 frappe.ui.form.on("Follow-Up", {

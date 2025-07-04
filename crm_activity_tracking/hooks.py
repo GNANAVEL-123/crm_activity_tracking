@@ -70,8 +70,9 @@ doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 # add methods and filters to jinja environment
 jinja = {
     "methods" : [
-      "frappe.utils.data.money_in_words",
-	  "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.tax_details"
+		"frappe.utils.data.money_in_words",
+		"crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.tax_details",
+		"crm_activity_tracking.crm_activity_tracking.custom_files.py.print_format.get_invoice_item_and_tax_details",
     ]
 }
 # Installation
@@ -155,6 +156,18 @@ doc_events = {
 		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.validate",
 		"after_insert":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.after_insert",
 		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.on_trash"
+	},
+	"Sales Invoice" : {
+		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.sales_inv_naming",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.si_delete",
+	},
+	"Delivery Note" : {
+		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.dn_naming",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.dn_delete",
+	},
+	"Purchase Order" : {
+		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.po_naming",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.po_delete",
 	}
 }
 # Scheduled Taskss
@@ -182,7 +195,10 @@ scheduler_events = {
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_alarm_system.amc_fire_alarm_system.amc_fire_alarm_tracker",
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_hydrant_system.amc_fire_hydrant_system.amc_fire_hydrant_tracker",
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.leave_allocation"
-		]
+		],
+		'* * * * *': [
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.schedule_whatsapp_message",
+		],
     }
 }
 

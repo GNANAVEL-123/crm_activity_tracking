@@ -29,5 +29,71 @@ frappe.ui.form.on("Sales Invoice", {
         $($("[data-doctype='Purchase Invoice']")[0].parentElement).hide();
 
 		}, 500)
-    }
+    if(!cur_frm.is_new())
+      frm.add_custom_button("Send Whatsapp",function () {
+          frm.trigger("send_whatsapp_message");
+      
+      })
+    },
+    send_whatsapp_message:function(frm){
+      if(frm.doc.customer){
+          frappe.call({
+              method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.whatsapp.send_sales_invoice_whatsapp",
+              args: {
+                  "invoice": frm.doc.name,
+              },
+              callback: function (response) {
+                  if (response.message && response.message === "Success") {
+                      frappe.show_alert({
+                          message: __("Whatsapp Log Created successfully"),
+                          indicator: "green",
+                      });
+                  } else {
+                      frappe.show_alert({
+                          message: __("Failed to create WhatsApp Log. Please try again."),
+                          indicator: "red",
+                      });
+                  }
+              }
+
+          })
+      }
+    },
+    customer: function (frm) {
+      if (frm.doc.customer) {
+        frappe.call({
+          method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.sales_invoice.get_customer_data",
+          args: {
+            customer: frm.doc.customer,
+            company: frm.doc.company,
+            freeze: true
+          },
+          callback: function (r) {
+            if (r.message) {
+              frm.doc.custom_total_unpaid = r.message["custom_total_unpaid"]
+              frm.refresh_fields();
+            }
+          }
+        });
+      }
+    },
+    validate: function (frm) {
+      if (frm.doc.customer) {
+        frappe.call({
+          method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.sales_invoice.get_customer_data",
+          args: {
+            customer: frm.doc.customer,
+            company: frm.doc.company,
+            freeze: true
+          },
+          callback: function (r) {
+            if (r.message) {
+              frm.doc.custom_total_unpaid = r.message["custom_total_unpaid"]
+              frm.refresh_fields();
+            }
+          }
+        });
+      }
+    },
+
 })

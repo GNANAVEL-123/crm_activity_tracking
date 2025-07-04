@@ -12,6 +12,9 @@
   "vendor_number",
   "mail_id",
   "naming_series",
+  "company",
+  "company_address",
+  "customer_address",
   "column_break_mopi",
   "client_representative",
   "client_designation",
@@ -236,11 +239,30 @@
   {
    "fieldname": "column_break_xpei",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-06 15:44:11.060334",
+ "modified": "2025-07-03 14:34:27.475942",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Hydrant Tracking",
