@@ -66,6 +66,9 @@ def amc_visitor_tracker():
                             amc_tracker_doc.recommendations_quote_no = amc_doc.recommendations_quote_no
                             amc_tracker_doc.vendor_number = amc_doc.vendor_number
                             amc_tracker_doc.po_number = amc_doc.po_number
+                            amc_tracker_doc.company = amc_doc.company
+                            amc_tracker_doc.company_address = amc_doc.company_address
+                            amc_tracker_doc.customer_address = amc_doc.customer_address
                             if amc_doc.refilling_schedule:
                                 for refilling_entry in amc_doc.refilling_schedule:
                                     refilling_child = amc_tracker_doc.append("refilling_schedule", {})

@@ -22,6 +22,9 @@ frappe.ui.form.on("AMC Fire Hydrant System", {
                         client_designation: frm.doc.client_designation,
                         employee_name:frm.doc.employee_name,
                         amc_fire_hydrant_template: frm.doc.name,
+                        company:frm.doc.company,
+                        company_address: frm.doc.company_address,
+                        customer_address: frm.doc.customer_address,
                     });
     
                     frappe.model.clear_table(new_doc, 'landing_valve_table');

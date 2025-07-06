@@ -5,7 +5,11 @@ frappe.ui.form.on("Quotation", {
 		
 	},
     refresh: function(frm){
-
+		if(!cur_frm.is_new())
+			frm.add_custom_button("Send Whatsapp",function () {
+				frm.trigger("send_whatsapp_message");
+			
+			})
 
         frappe.call({
             method: 'crm_activity_tracking.crm_activity_tracking.report.daily_tracking_status.daily_tracking_status.get_crm_settings',
@@ -192,7 +196,30 @@ frappe.ui.form.on("Quotation", {
 		// 	}
 		// })
     },
-
+	send_whatsapp_message:function(frm){
+		if(frm.doc.party_name){
+			frappe.call({
+				method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.whatsapp.send_quotation_whatsapp",
+				args: {
+					"invoice": frm.doc.name,
+				},
+				callback: function (response) {
+					if (response.message && response.message === "Success") {
+						frappe.show_alert({
+							message: __("Whatsapp Log Created successfully"),
+							indicator: "green",
+						});
+					} else {
+						frappe.show_alert({
+							message: __("Failed to create WhatsApp Log. Please try again."),
+							indicator: "red",
+						});
+					}
+				}
+  
+			})
+		}
+	},
 	custom_margin_: function(frm){
 
 		if (frm.doc.custom_margin_ >= 0){

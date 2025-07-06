@@ -9,6 +9,21 @@ frappe.ui.form.on("AMC", {
         update_total_extinguisher(frm);
     },
     refresh(frm) {
+        frm.set_query("company_address", function () {
+			return {
+				filters: {
+					is_your_company_address: 1,
+				},
+			};
+		});
+        frm.set_query('customer_address',function(frm){
+            return {
+                filters:[
+                     ["Dynamic Link","link_name","=",frm.customer_name],
+                     ["Dynamic Link","link_doctype","=","Customer"]
+                ]
+            }
+        })
         if (!frm.is_new()) {
             frm.add_custom_button(__("Create AMC Visitor Tracking"), function () {
                 frappe.model.with_doctype('AMC Visitor Tracking', function () {
@@ -32,6 +47,9 @@ frappe.ui.form.on("AMC", {
                         po_number: frm.doc.po_number,
                         frequency: frm.doc.amc_frequency,
                         amc_template: frm.doc.name,
+                        company: frm.doc.company,
+                        company_address: frm.doc.company_address,
+                        customer_address: frm.doc.customer_address,
                     });
     
                     frappe.model.clear_table(new_doc, 'refilling_schedule');

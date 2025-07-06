@@ -17,6 +17,9 @@
   "amc_template",
   "job_sheet_no",
   "completion_report_no",
+  "company",
+  "company_address",
+  "customer_address",
   "column_break_mopi",
   "customer_name",
   "mail_id",
@@ -315,11 +318,30 @@
    "hidden": 1,
    "label": "naming_series",
    "options": "AVT-.YY.-.#####"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-30 17:53:55.401647",
+ "modified": "2025-07-06 20:59:18.910251",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

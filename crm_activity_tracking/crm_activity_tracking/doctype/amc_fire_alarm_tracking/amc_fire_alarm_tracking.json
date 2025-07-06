@@ -13,6 +13,9 @@
   "vendor_number",
   "mail_id",
   "naming_series",
+  "company",
+  "company_address",
+  "customer_address",
   "column_break_mopi",
   "client_representative",
   "client_designation",
@@ -184,11 +187,30 @@
    "fieldname": "visit_count",
    "fieldtype": "Int",
    "label": "Visit Count"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-03 12:23:08.098819",
+ "modified": "2025-07-06 19:28:10.715423",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm Tracking",

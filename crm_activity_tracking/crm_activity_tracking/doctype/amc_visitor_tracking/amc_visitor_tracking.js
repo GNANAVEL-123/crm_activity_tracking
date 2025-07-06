@@ -18,6 +18,21 @@ frappe.ui.form.on("AMC Visitor Tracking", {
                 }
             }
         });
+        frm.set_query("company_address", function () {
+			return {
+				filters: {
+					is_your_company_address: 1,
+				},
+			};
+		});
+        frm.set_query('customer_address',function(frm){
+            return {
+                filters:[
+                     ["Dynamic Link","link_name","=",frm.customer_name],
+                     ["Dynamic Link","link_doctype","=","Customer"]
+                ]
+            }
+        })
     },    
     check_in(frm) {
         if (!frm.doc.in_time) { 

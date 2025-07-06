@@ -12,6 +12,9 @@
   "vendor_number",
   "mail_id",
   "naming_series",
+  "company",
+  "company_address",
+  "customer_address",
   "column_break_mopi",
   "client_representative",
   "client_designation",
@@ -175,11 +178,30 @@
    "fieldtype": "Data",
    "label": "Employee Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-01 20:15:57.725497",
+ "modified": "2025-07-06 19:24:27.504521",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm System",
