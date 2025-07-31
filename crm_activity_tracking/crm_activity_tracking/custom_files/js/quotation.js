@@ -265,13 +265,25 @@ frappe.ui.form.on("Quotation Item", {
 
 	},
 
-	item_code: function(frm, cdt, cdn){
+	item_code: function (frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
 
-		setTimeout(() => {
+		if (!row.item_code || !frm.doc.transaction_date || !frm.doc.party_name) return;
 
-			frappe.model.set_value(cdt, cdn, "custom_ts_margin", frm.doc.custom_margin_)
-
-		}, 200);
+		frappe.call({
+			method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_last_selling_rate",
+			args: {
+				item_code: row.item_code,
+				transaction_date: frm.doc.transaction_date,
+				customer: frm.doc.party_name
+			},
+			callback: function (r) {
+				if (r.message) {
+					frappe.model.set_value(cdt, cdn, "custom_last_customer_selling_rate", r.message);
+					frappe.model.set_value(cdt, cdn, "rate", r.message);
+				}
+			}
+		});
 	},
 
 	rate: function(frm, cdt, cdn){
@@ -325,5 +337,12 @@ frappe.ui.form.on("Follow-Up", {
 		else{
 			cur_frm.set_value('custom_status_updated',1)
 		}
-	}
+	},
+	followed_by: function(frm, cdt, cdn){
+        let row = locals[cdt][cdn];
+        if(row.followed_by){
+            frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("custom_followup");
+        }
+    }
 })

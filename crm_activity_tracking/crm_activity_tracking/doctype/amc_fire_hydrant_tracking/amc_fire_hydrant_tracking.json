@@ -6,6 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "checkin_checkout_details_section",
+  "checkin_details",
   "details_section",
   "customer_name",
   "po_number",
@@ -30,19 +32,53 @@
   "next_amc_service_due_date",
   "amc_fire_hydrant_template",
   "visit_count",
-  "section_break_asjx",
-  "remarks",
-  "column_break_xpei",
   "details_of_landing_valve_section",
   "landing_valve_table",
+  "days_adding_deduction_in_details_of_landing_valve_section",
+  "hour",
+  "column_break_grzk",
+  "hour_add",
+  "column_break_ayvz",
+  "hours_deduct",
   "details_of_hose_box_and_rrl_hose_section",
   "hose_box_and_rrl_hose",
+  "days_adding_deduction_in_details_of_hose_box_rrl_hose_section",
+  "hour1",
+  "column_break_bjsc",
+  "hour_add1",
+  "column_break_hzkm",
+  "hours_deduct1",
   "details_of_pump_and_panel_section",
   "pump_and_panel",
+  "days_adding_deduction_in_details_of_pump_and_panel_section",
+  "hour2",
+  "column_break_ixqw",
+  "hour_add2",
+  "column_break_uoyb",
+  "hours_deduct2",
   "details_of_hose_reel_drum_section",
   "hose_reel_drum",
+  "days_adding_deduction_details_of_hose_reel_drum_section",
+  "hour3",
+  "column_break_oysv",
+  "hour_add3",
+  "column_break_fcxq",
+  "hours_deduct3",
   "details_of_fire_brigade_inlet_section",
-  "fire_brigade_inlet"
+  "fire_brigade_inlet",
+  "days_adding_deduction_details_of_fire_brigade_inlet_section",
+  "hour4",
+  "column_break_wmuf",
+  "hour_add4",
+  "column_break_fqpq",
+  "hours_deduct4",
+  "user_details_section",
+  "user_name",
+  "remarks",
+  "column_break_yrli",
+  "customer_sign",
+  "feedback_details_section",
+  "feedback_table"
  ],
  "fields": [
   {
@@ -205,11 +241,6 @@
    "options": "AMC Fire Hydrant Table"
   },
   {
-   "fieldname": "details_of_fire_brigade_inlet_section",
-   "fieldtype": "Section Break",
-   "label": "Details of Fire Brigade Inlet"
-  },
-  {
    "fieldname": "fire_brigade_inlet",
    "fieldtype": "Table",
    "label": "Fire Brigade Inlet",
@@ -228,17 +259,9 @@
    "label": "Visit Count"
   },
   {
-   "fieldname": "section_break_asjx",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
-  },
-  {
-   "fieldname": "column_break_xpei",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "customer_address",
@@ -258,11 +281,198 @@
    "label": "Company",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "fieldname": "days_adding_deduction_in_details_of_landing_valve_section",
+   "fieldtype": "Section Break",
+   "label": "Days Adding Deduction in Details of Landing Valve"
+  },
+  {
+   "fieldname": "hour",
+   "fieldtype": "Float",
+   "label": "Day Count"
+  },
+  {
+   "fieldname": "column_break_grzk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hour_add",
+   "fieldtype": "Button",
+   "label": "Day Count Add"
+  },
+  {
+   "fieldname": "column_break_ayvz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_deduct",
+   "fieldtype": "Button",
+   "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "days_adding_deduction_in_details_of_hose_box_rrl_hose_section",
+   "fieldtype": "Section Break",
+   "label": "Days Adding Deduction in Details of Hose Box & RRL Hose"
+  },
+  {
+   "fieldname": "hour1",
+   "fieldtype": "Float",
+   "label": "Day Count"
+  },
+  {
+   "fieldname": "column_break_bjsc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hour_add1",
+   "fieldtype": "Button",
+   "label": "Day Count Add"
+  },
+  {
+   "fieldname": "column_break_hzkm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_deduct2",
+   "fieldtype": "Button",
+   "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "days_adding_deduction_in_details_of_pump_and_panel_section",
+   "fieldtype": "Section Break",
+   "label": "Days Adding Deduction in Details of Pump and Panel"
+  },
+  {
+   "fieldname": "hour2",
+   "fieldtype": "Float",
+   "label": "Days Count"
+  },
+  {
+   "fieldname": "column_break_ixqw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hour_add2",
+   "fieldtype": "Button",
+   "label": "Day Count Add"
+  },
+  {
+   "fieldname": "column_break_uoyb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_deduct3",
+   "fieldtype": "Button",
+   "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "hours_deduct1",
+   "fieldtype": "Button",
+   "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "days_adding_deduction_details_of_hose_reel_drum_section",
+   "fieldtype": "Section Break",
+   "label": "Days Adding Deduction Details of Hose Reel Drum"
+  },
+  {
+   "fieldname": "hour3",
+   "fieldtype": "Float",
+   "label": "Days Count"
+  },
+  {
+   "fieldname": "column_break_oysv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hour_add3",
+   "fieldtype": "Button",
+   "label": "Day Count Add"
+  },
+  {
+   "fieldname": "column_break_fcxq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "days_adding_deduction_details_of_fire_brigade_inlet_section",
+   "fieldtype": "Section Break",
+   "label": "Days Adding Deduction Details of Fire Brigade Inlet"
+  },
+  {
+   "fieldname": "hour4",
+   "fieldtype": "Float",
+   "label": "Days Count"
+  },
+  {
+   "fieldname": "column_break_wmuf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hour_add4",
+   "fieldtype": "Button",
+   "label": "Day Count Add"
+  },
+  {
+   "fieldname": "hours_deduct4",
+   "fieldtype": "Button",
+   "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "checkin_checkout_details_section",
+   "fieldtype": "Section Break",
+   "label": "Checkin Checkout Details"
+  },
+  {
+   "fieldname": "checkin_details",
+   "fieldtype": "Table",
+   "label": "Checkin Details",
+   "options": "Checkin Table"
+  },
+  {
+   "fieldname": "column_break_fqpq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "user_details_section",
+   "fieldtype": "Section Break",
+   "label": "User Details"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Link",
+   "label": "User Name",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_yrli",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_sign",
+   "fieldtype": "Signature",
+   "label": "Customer Sign"
+  },
+  {
+   "fieldname": "feedback_details_section",
+   "fieldtype": "Section Break",
+   "label": "Feedback Details"
+  },
+  {
+   "fieldname": "feedback_table",
+   "fieldtype": "Table",
+   "label": "Feedback Table",
+   "options": "Feedback Table"
+  },
+  {
+   "fieldname": "details_of_fire_brigade_inlet_section",
+   "fieldtype": "Section Break",
+   "label": "Details of Fire Brigade Inlet"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-03 14:34:27.475942",
+ "modified": "2025-07-24 22:30:34.132550",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Hydrant Tracking",

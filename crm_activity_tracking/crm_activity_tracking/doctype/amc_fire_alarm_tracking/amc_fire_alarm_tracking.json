@@ -6,6 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "checkin_checkout_details_section",
+  "checkin_details",
   "details_section",
   "customer_name",
   "region",
@@ -30,11 +32,21 @@
   "next_amc_service_due_date",
   "amc_fire_alarm_template",
   "visit_count",
-  "section_break_qqry",
-  "remarks",
-  "column_break_ktpm",
   "section_break_jxwf",
-  "refilling_schedule"
+  "refilling_schedule",
+  "days_adding_deduction_section",
+  "hour",
+  "column_break_zucw",
+  "hours_add",
+  "column_break_olhw",
+  "hours_deduct",
+  "user_details_section",
+  "user_name",
+  "remarks",
+  "column_break_ooul",
+  "customer_sign",
+  "feedback_details_section",
+  "feedback_table"
  ],
  "fields": [
   {
@@ -157,17 +169,9 @@
    "reqd": 1
   },
   {
-   "fieldname": "section_break_qqry",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
-  },
-  {
-   "fieldname": "column_break_ktpm",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "client_designation",
@@ -206,11 +210,81 @@
    "fieldtype": "Link",
    "label": "Customer Address",
    "options": "Address"
+  },
+  {
+   "fieldname": "days_adding_deduction_section",
+   "fieldtype": "Section Break",
+   "label": "Days Adding Deduction"
+  },
+  {
+   "fieldname": "hour",
+   "fieldtype": "Float",
+   "label": "Day Count"
+  },
+  {
+   "fieldname": "column_break_zucw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_add",
+   "fieldtype": "Button",
+   "label": "Day Count Add"
+  },
+  {
+   "fieldname": "column_break_olhw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours_deduct",
+   "fieldtype": "Button",
+   "label": "Day Count Deduct"
+  },
+  {
+   "fieldname": "checkin_checkout_details_section",
+   "fieldtype": "Section Break",
+   "label": "Checkin Checkout Details"
+  },
+  {
+   "fieldname": "checkin_details",
+   "fieldtype": "Table",
+   "label": "Checkin Details",
+   "options": "Checkin Table"
+  },
+  {
+   "fieldname": "user_details_section",
+   "fieldtype": "Section Break",
+   "label": "User Details"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Link",
+   "label": "User Name",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_ooul",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_sign",
+   "fieldtype": "Signature",
+   "label": "Customer Sign"
+  },
+  {
+   "fieldname": "feedback_details_section",
+   "fieldtype": "Section Break",
+   "label": "Feedback Details"
+  },
+  {
+   "fieldname": "feedback_table",
+   "fieldtype": "Table",
+   "label": "Feedback Table",
+   "options": "Feedback Table"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-06 19:28:10.715423",
+ "modified": "2025-07-24 22:21:39.359620",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm Tracking",

@@ -168,6 +168,12 @@ doc_events = {
 	"Purchase Order" : {
 		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.po_naming",
 		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.po_delete",
+		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.purchase_order.validate_supplier_lastprice"
+	},
+	"Task" : {
+		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.validate",
+		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.after_insert",
+		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.on_trash"
 	}
 }
 # Scheduled Taskss

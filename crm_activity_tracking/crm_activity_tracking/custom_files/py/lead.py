@@ -195,3 +195,16 @@ def user_permission_quotation():
 					role_profile = frappe.get_value('User',lead_doc.custom_assigned_to,'role_profile_name')
 					if role_profile not in ['Admin','CRM Admin']:
 						add_user_permission("Quotation", lead_doc.name, lead_doc.custom_assigned_to,ignore_permissions=True,is_default=0)
+
+def user_permission_task():
+	task_list = frappe.db.get_all("Task", fields=["name"])
+	print(task_list)
+	if task_list:
+		for i in task_list:
+			if i.name:
+				task_doc = frappe.get_doc("Task", i.name)
+				if task_doc.custom_allocated_to and not frappe.db.exists('User Permission',{'user':task_doc.custom_allocated_to,'allow':'Task','for_value':task_doc.name}):
+					role_profile = frappe.get_value('User',task_doc.custom_allocated_to,'role_profile_name')
+					if role_profile not in ['Admin','Super Admin']:
+						add_user_permission("Task", task_doc.name, task_doc.custom_allocated_to,ignore_permissions=True,is_default=0)
+	

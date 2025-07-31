@@ -22,3 +22,26 @@ frappe.ui.form.on('Purchase Order', {
 		}, 500)
     }
 })
+
+frappe.ui.form.on("Purchase Order Item", {
+    item_code: function (frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
+
+		if (!row.item_code || !frm.doc.transaction_date || !frm.doc.supplier) return;
+
+		frappe.call({
+			method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.purchase_order.get_last_buying_rate",
+			args: {
+				item_code: row.item_code,
+				transaction_date: frm.doc.transaction_date,
+				supplier: frm.doc.supplier
+			},
+			callback: function (r) {
+				if (r.message) {
+					frappe.model.set_value(cdt, cdn, "custom_last_supplier_buying_rate", r.message);
+					frappe.model.set_value(cdt, cdn, "rate", r.message);
+				}
+			}
+		});
+	},
+})

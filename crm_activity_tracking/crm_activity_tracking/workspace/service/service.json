@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"q3HB9EbyyK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Service</span>\",\"col\":12}},{\"id\":\"sj8RtB-xeq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"BJgUQ3sTmP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"M0PzT7Ajb2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"IzC1ui-Vd3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Visitor Tracking\",\"col\":3}},{\"id\":\"essK_U_-Zf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"akIrT58oeT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm Tracking\",\"col\":3}},{\"id\":\"KAnbdWAujl\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}}]",
+ "content": "[{\"id\":\"q3HB9EbyyK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Service</span>\",\"col\":12}},{\"id\":\"sj8RtB-xeq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"BJgUQ3sTmP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"M0PzT7Ajb2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"IzC1ui-Vd3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Extinguisher Tracking\",\"col\":3}},{\"id\":\"essK_U_-Zf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"akIrT58oeT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Alarm Tracking\",\"col\":3}},{\"id\":\"9X-dxs7dLF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"AMC Fire Hydrant Tracking\",\"col\":3}},{\"id\":\"KAnbdWAujl\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}}]",
  "creation": "2025-01-05 22:35:53.334698",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Service",
  "links": [],
- "modified": "2025-04-07 12:35:53.402228",
+ "modified": "2025-07-15 14:01:21.310033",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Service",
@@ -55,9 +55,25 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "AMC Fire Extinguisher Tracking",
+   "link_to": "AMC Visitor Tracking",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Daily Tracking Status",
    "link_to": "Daily Tracking Status",
    "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "AMC Fire Hydrant Tracking",
+   "link_to": "AMC Fire Hydrant Tracking",
+   "stats_filter": "[]",
+   "type": "DocType"
   },
   {
    "color": "Grey",
@@ -73,14 +89,6 @@
    "label": "Missed Tracking Events",
    "link_to": "Missed Tracking Events",
    "type": "Report"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "AMC Visitor Tracking",
-   "link_to": "AMC Visitor Tracking",
-   "stats_filter": "[]",
-   "type": "DocType"
   }
  ],
  "title": "Service"
