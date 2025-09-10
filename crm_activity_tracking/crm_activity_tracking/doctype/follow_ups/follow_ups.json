@@ -14,7 +14,8 @@
   "status",
   "mode_of_communication",
   "description",
-  "enter_datetime"
+  "datetime",
+  "test"
  ],
  "fields": [
   {
@@ -64,16 +65,20 @@
    "label": "Description"
   },
   {
-   "fieldname": "enter_datetime",
+   "fieldname": "datetime",
    "fieldtype": "Datetime",
-   "label": "Enter Datetime",
-   "read_only": 1
+   "label": "datetime"
+  },
+  {
+   "fieldname": "test",
+   "fieldtype": "Button",
+   "label": "test"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-07-30 10:52:59.678257",
+ "modified": "2025-07-31 21:41:46.857817",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Follow Ups",

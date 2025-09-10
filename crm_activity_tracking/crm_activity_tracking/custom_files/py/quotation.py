@@ -29,6 +29,8 @@ def validate(doc,event):
                 amt.custom_visit_count_amount = (doc.custom_visit_count or 0) * (amt.amount or 0)
                 tot_visit_amt += amt.custom_visit_count_amount
         doc.custom_total_visit_amount = tot_visit_amt
+    if doc.custom_tracking_email_id:
+        frappe.utils.validate_email_address(doc.custom_tracking_email_id, throw=True)
     validate_customer_lastprice(doc, event)
 
 def after_insert(doc,event):

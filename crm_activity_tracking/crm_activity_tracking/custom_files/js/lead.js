@@ -66,17 +66,10 @@ frappe.ui.form.on("Follow-Up", {
 			}
 		}
 	},
-	next_follow_up_date: function (frm, cdt, cdn) {
-		let row = locals[cdt][cdn]
-		if (row.next_follow_up_date < row.date) {
-			frappe.show_alert({ message: `Tracking Date - <span style='color:red'>${moment(row.next_follow_up_date).format('DD-MM-YYYY')}</span> should not be earlier than Date -<span style='color:red'> ${moment(row.date).format('DD-MM-YYYY')}</span>`, indicator: 'red' })
-			row.next_follow_up_date = ''
-		}
-	},
-	followed_by: function(frm, cdt, cdn){
+	description: function(frm, cdt, cdn){
         let row = locals[cdt][cdn];
-        if(row.followed_by){
-            frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
+        if(row.description){
+            frappe.model.set_value(cdt, cdn, "custom_enter_datetime",frappe.datetime.now_datetime());
             frm.refresh_field("custom_view_follow_up_details_copy");
         }
     }

@@ -14,8 +14,9 @@ def get_columns(filters):
     columns = [
          {
             "label": _("SI NO"),
-            "fieldtype": "Data",
+            "fieldtype": "Link",
             "fieldname": "sino",
+            "options":"Refilling Report No",
             "width": 150
         },
 		{

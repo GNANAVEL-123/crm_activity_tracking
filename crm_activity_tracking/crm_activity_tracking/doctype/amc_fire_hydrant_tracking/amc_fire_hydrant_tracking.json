@@ -140,6 +140,7 @@
   {
    "fieldname": "service_by",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Service By",
    "options": "Employee"
   },
@@ -278,6 +279,7 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Company",
    "options": "Company",
    "reqd": 1
@@ -472,7 +474,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-24 22:30:34.132550",
+ "modified": "2025-08-21 12:59:18.493944",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Hydrant Tracking",

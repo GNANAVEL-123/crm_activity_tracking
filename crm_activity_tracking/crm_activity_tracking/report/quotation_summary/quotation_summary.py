@@ -51,6 +51,18 @@ def get_columns(filters):
             "fieldname": "status",
             "width": 150
         },
+        {
+            "label": _("Enquiry Mobile No"),
+            "fieldtype": "Data",
+            "fieldname": "eq_mobile_no",
+            "width": 150
+        },
+        {
+            "label": _("Company Email ID"),
+            "fieldtype": "Data",
+            "fieldname": "company_email_id",
+            "width": 150
+        },
     ]
 
 def get_data(filters):
@@ -73,12 +85,17 @@ def get_data(filters):
         filters=quo_filter,
         fields=[
             "name", "transaction_date", "custom_region",
-            "custom_assigned_to", "party_name", "status"
+            "custom_assigned_to", "party_name", "status", "custom_phone", "customer_address"
         ],
         order_by="transaction_date"
     )
 
     for quo in quo_list:
+        if quo.customer_address:
+            email = ""
+            add_doc = frappe.get_doc("Address", quo.customer_address)
+            if add_doc and add_doc.email_id:
+                email = add_doc.email_id
         data.append({
             "quotation": quo.name,
             "date": quo.transaction_date,
@@ -86,6 +103,8 @@ def get_data(filters):
             "region": quo.custom_region,
             "allocated_to": quo.custom_assigned_to,
             "status": quo.status,
+            "eq_mobile_no": quo.custom_phone,
+            "company_email_id": email,
         })
 
     return data

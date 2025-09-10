@@ -283,7 +283,7 @@ class Document(BaseDocument):
 		self._validate_links()
 		# Customized By Thirvusoft
 		# Start
-		if self.doctype not in ["Lead","Quotation", "Refilling Report No", "Sales and Service Details", "Project"]:
+		if self.doctype not in ["Lead","Quotation","Refilling Report No", "Sales and Service Details", "Project", "Task"]:
 			self.check_permission("create")
 		# End 
 		self.run_method("before_insert")

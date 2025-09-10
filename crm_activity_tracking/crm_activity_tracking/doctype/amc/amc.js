@@ -50,6 +50,7 @@ frappe.ui.form.on("AMC", {
                         company: frm.doc.company,
                         company_address: frm.doc.company_address,
                         customer_address: frm.doc.customer_address,
+                        fire_extinguisher_amc_scope_of_work : frm.doc.fire_extinguisher_amc_scope_of_work
                     });
     
                     frappe.model.clear_table(new_doc, 'refilling_schedule');
@@ -65,6 +66,15 @@ frappe.ui.form.on("AMC", {
                             full_weight: row.full_weight,
                             empty_weight: row.empty_weight,
                             actual_weight: row.actual_weight,
+                        });
+                    });
+
+                    frappe.model.clear_table(new_doc, 'amc_tracking_notes_details');
+                    frm.doc.amc_tracking_notes_details.forEach(row => {
+                        let new_row = frappe.model.add_child(new_doc, 'amc_tracking_notes_details');
+                        Object.assign(new_row, {
+                            header: row.header,
+                            amc_scope_of_work: row.amc_scope_of_work,
                         });
                     });
     

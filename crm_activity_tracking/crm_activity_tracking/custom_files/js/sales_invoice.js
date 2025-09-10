@@ -97,3 +97,29 @@ frappe.ui.form.on("Sales Invoice", {
     },
 
 })
+
+frappe.ui.form.on("Sales Invoice Item", {
+
+	item_code: function (frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
+
+		if (!row.item_code || !frm.doc.posting_date || !frm.doc.customer) return;
+
+		frappe.call({
+			method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_last_selling_rate",
+			args: {
+				item_code: row.item_code,
+				transaction_date: frm.doc.posting_date,
+				customer: frm.doc.customer
+			},
+			callback: function (r) {
+				if (r.message) {
+					frappe.model.set_value(cdt, cdn, "custom_last_customer_selling_rate", r.message);
+					frappe.model.set_value(cdt, cdn, "rate", r.message).then(() => {
+              frm.refresh_field("items");
+          });
+				}
+			}
+		});
+	},
+})

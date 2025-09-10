@@ -38,6 +38,9 @@
   "naming_series",
   "section_break_jxwf",
   "refilling_schedule",
+  "notes_details_section",
+  "fire_extinguisher_amc_scope_of_work",
+  "amc_tracking_notes_details",
   "hours_adding_deduction_section",
   "hour",
   "column_break_nwrp",
@@ -337,11 +340,28 @@
    "fieldtype": "Link",
    "label": "Customer Address",
    "options": "Address"
+  },
+  {
+   "fieldname": "notes_details_section",
+   "fieldtype": "Section Break",
+   "label": "Notes Details"
+  },
+  {
+   "fieldname": "fire_extinguisher_amc_scope_of_work",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "FIRE EXTINGUISHER AMC SCOPE OF WORK"
+  },
+  {
+   "fieldname": "amc_tracking_notes_details",
+   "fieldtype": "Table",
+   "label": "AMC Tracking Notes Details",
+   "options": "AMC Tracking Notes Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-06 20:59:18.910251",
+ "modified": "2025-08-25 14:26:56.878941",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

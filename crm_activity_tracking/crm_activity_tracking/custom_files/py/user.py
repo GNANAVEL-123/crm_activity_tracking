@@ -32,7 +32,7 @@ def manage_user_permissions(doc, event):
         # Manage permissions for Quotation and Lead
         if doc.role_profile_name not in restricted_roles:
             create_user_permission(doc.name, 'Quotation')
-            create_user_permisrole_profile_namesion(doc.name, 'Lead')
+            create_user_permission(doc.name, 'Lead')
             create_user_permission(doc.name, 'Project')
         else:
             delete_user_permissions(doc.name, 'Quotation')
@@ -48,7 +48,7 @@ def manage_user_permissions(doc, event):
             delete_user_permissions(doc.name, 'Refilling Report No')
 
         # Task User Permision
-        if doc.role_profile_name not in ['Admin', 'Super Admin']:
+        if doc.role_profile_name not in ['Admin', 'Super Admin', 'Regional Admin']:
             create_user_permission(doc.name, "Task")
         else:
             delete_user_permissions(doc.name, 'Task')

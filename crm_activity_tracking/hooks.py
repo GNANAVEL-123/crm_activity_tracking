@@ -160,6 +160,7 @@ doc_events = {
 	"Sales Invoice" : {
 		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.sales_inv_naming",
 		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.si_delete",
+		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.sales_invoice.validate_customer_lastprice",
 	},
 	"Delivery Note" : {
 		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.dn_naming",
@@ -204,6 +205,10 @@ scheduler_events = {
 		],
 		'* * * * *': [
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.schedule_whatsapp_message",
+		],
+		'0 8 * * *': [
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.quotation_tracking_email_send",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.task_tracking_email_send",
 		],
     }
 }

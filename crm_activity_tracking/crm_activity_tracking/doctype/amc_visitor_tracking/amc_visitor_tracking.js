@@ -18,6 +18,18 @@ frappe.ui.form.on("AMC Visitor Tracking", {
                 }
             }
         });
+        frm.add_custom_button(__('Take Refilling Sheet Print'), function() {
+            // Build print format URL
+            let doctype = frm.doc.doctype;
+            let docname = frm.doc.name;
+            let print_format = "Refilling Sheet"; // your custom print format name
+            let letterhead = 0; // 0 = with letterhead, 1 = without
+
+            let url = `/printview?doctype=${doctype}&name=${docname}&format=${print_format}&no_letterhead=${letterhead}`;
+
+            // Open in new tab
+            window.open(url, "_blank");
+        });
         frm.set_query("company_address", function () {
 			return {
 				filters: {

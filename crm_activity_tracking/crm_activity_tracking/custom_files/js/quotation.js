@@ -338,11 +338,11 @@ frappe.ui.form.on("Follow-Up", {
 			cur_frm.set_value('custom_status_updated',1)
 		}
 	},
-	followed_by: function(frm, cdt, cdn){
+	description: function(frm, cdt, cdn){
         let row = locals[cdt][cdn];
-        if(row.followed_by){
-            frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
-            frm.refresh_field("custom_followup");
+        if(row.description){
+            frappe.model.set_value(cdt, cdn, "custom_enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("custom_view_follow_up_details_copy");
         }
     }
 })
