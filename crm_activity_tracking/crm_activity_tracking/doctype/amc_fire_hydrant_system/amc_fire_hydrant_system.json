@@ -52,6 +52,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company Name",
    "options": "Customer",
    "reqd": 1
@@ -184,8 +185,7 @@
    "fieldname": "landing_valve_table",
    "fieldtype": "Table",
    "label": "Landing Valve Table",
-   "options": "AMC Fire Hydrant Table",
-   "reqd": 1
+   "options": "AMC Fire Hydrant Table"
   },
   {
    "fieldname": "details_of_hose_box_and_rrl_hose_section",
@@ -253,7 +253,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-03 15:25:14.750917",
+ "modified": "2025-10-04 11:27:40.621179",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Hydrant System",

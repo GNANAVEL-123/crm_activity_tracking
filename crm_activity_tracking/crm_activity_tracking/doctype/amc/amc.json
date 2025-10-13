@@ -50,6 +50,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company Name",
    "options": "Customer",
    "reqd": 1
@@ -226,7 +227,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-25 14:27:43.640247",
+ "modified": "2025-09-23 11:07:52.599725",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",
