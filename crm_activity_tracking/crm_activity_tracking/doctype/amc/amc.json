@@ -195,6 +195,8 @@
    "label": "AMC Master",
    "options": "AMC Master",
    "reqd": 1
+  },
+  {
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -233,11 +235,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
-<<<<<<< HEAD
- "modified": "2025-04-28 10:22:08.440911",
-=======
  "modified": "2025-09-23 11:07:52.599725",
->>>>>>> e982481e5c08a18dff369e815a521122cd2a34d7
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",
