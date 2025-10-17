@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"FEZ5lSBzq9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Regional Admin</span>\",\"col\":12}},{\"id\":\"jltv8bAry9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"2MFRaDuyog\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"M8Yejx5wWZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"SHEdpe_Ero\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"jmnxBnCtsZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"2tQj29HNvu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"6vPCP_wwKW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"R4srXnxJc7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hydro Pressure Test\",\"col\":3}},{\"id\":\"gNPbGf-Pqq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No\",\"col\":3}},{\"id\":\"5nqFZEW3bj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"191YTaDZIE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"MmhKDbpH5x\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"c58qJ2V-IH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"ZaWTdaCvX_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"FVPfi602nn\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "content": "[{\"id\":\"FEZ5lSBzq9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Regional Admin</span>\",\"col\":12}},{\"id\":\"jltv8bAry9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"2MFRaDuyog\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"M8Yejx5wWZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quotation\",\"col\":3}},{\"id\":\"SHEdpe_Ero\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"-JcTtZJDXr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"43JEas18pI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"jh6XOXGZR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"IWWx66tuqB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"jmnxBnCtsZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"2tQj29HNvu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Warranty Certificate\",\"col\":3}},{\"id\":\"6vPCP_wwKW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Certificate\",\"col\":3}},{\"id\":\"R4srXnxJc7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hydro Pressure Test\",\"col\":3}},{\"id\":\"gNPbGf-Pqq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Refilling Report No\",\"col\":3}},{\"id\":\"5nqFZEW3bj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Attendance Report\",\"col\":3}},{\"id\":\"IovBXJccdK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task\",\"col\":3}},{\"id\":\"191YTaDZIE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"MmhKDbpH5x\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today Tracking\",\"col\":3}},{\"id\":\"c58qJ2V-IH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Tracking Status\",\"col\":3}},{\"id\":\"ZaWTdaCvX_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Tracking Events\",\"col\":3}},{\"id\":\"FVPfi602nn\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
  "creation": "2025-01-05 22:24:12.524749",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Regional Admin",
  "links": [],
- "modified": "2025-01-16 14:46:11.513089",
+ "modified": "2025-07-31 17:13:20.701398",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Regional Admin",
@@ -34,6 +34,38 @@
    "doc_view": "List",
    "label": "Daily Attendance Report",
    "link_to": "Sales and Service Details",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Task",
+   "link_to": "Task",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Supplier",
+   "link_to": "Supplier",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Delivery Note",
+   "link_to": "Delivery Note",
    "stats_filter": "[]",
    "type": "DocType"
   },
@@ -65,6 +97,14 @@
    "doc_view": "List",
    "label": "Refilling Report No",
    "link_to": "Refilling Report No",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Order",
+   "link_to": "Purchase Order",
    "stats_filter": "[]",
    "type": "DocType"
   },

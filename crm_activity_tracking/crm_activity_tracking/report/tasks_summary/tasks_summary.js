@@ -25,6 +25,12 @@ frappe.query_reports["Tasks Summary"] = {
 			fieldtype: "Select",
 			options: ["", "Open", "Working", "Pending Review", "Overdue", "Completed"],
 		},
+		{
+			fieldname: "allocated_to",
+			label: __("Allocated To"),
+			fieldtype: "Link",
+			options: "User",
+		},
 	],
 	formatter: function (value, row, column, data, default_formatter) {
 		value = default_formatter(value, row, column, data);

@@ -274,7 +274,7 @@ def get_data(filters):
 		site_task=tasks
 		task_filter['name'] = ['in', site_task]
 
-		tasks = frappe.db.get_list('Task', filters=task_filter, fields=['name', 'custom_customer as company_name', 'status', 'custom_contact_no as contact_number', 'custom_contact_name as contact_name',  ])
+		tasks = frappe.db.get_list('Task', filters=task_filter, fields=['name', 'custom_customer as company_name', 'status', 'custom_contact_no as contact_number', 'custom_contact_name as contact_name',  'custom_payment_amount as remarks', 'custom_email_id as customer_mail'])
 
 		for i in tasks:
 			i['description']=desc[i["name"]][0]

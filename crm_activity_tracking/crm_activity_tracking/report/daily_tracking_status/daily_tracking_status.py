@@ -87,6 +87,13 @@ def get_columns(filters):
         },
 
         {
+			'fieldname':'custom_enter_datetime',
+			'fieldtype':'Datetime',
+			'label':'Description Entertime',
+			'width':200
+		},
+
+        {
             'fieldname': 'for_number_card',
             'fieldtype': 'Int',
             'label': 'For Number Card',
@@ -112,7 +119,7 @@ def get_data(filters):
         if (filters.get('user')):
             follow_up_filter['followed_by'] = filters.get('user')
 
-        all_leads = frappe.db.get_all('Follow-Up', filters=follow_up_filter, fields=['idx', 'parent','followed_by','description', "longitude", "latitude", "date"])
+        all_leads = frappe.db.get_all('Follow-Up', filters=follow_up_filter, fields=['idx', 'parent','followed_by','description', "longitude", "latitude", "date", "custom_enter_datetime"])
         all_leads1=[]
         for i in all_leads:
             follow_up_filter['parent'] = i['parent']
@@ -124,7 +131,7 @@ def get_data(filters):
                     all_leads1.append(i)
                 elif(filters.get("user") and i.get("followed_by")==filters.get("user")):
                     all_leads1.append(i)
-        desc={i['parent']:[i['description'],i.get("followed_by")  or "",i.get("longitude"),i.get("latitude"), i.get('date')] for i in all_leads1}
+        desc={i['parent']:[i['description'],i.get("followed_by")  or "",i.get("longitude"),i.get("latitude"), i.get('date'),  i.get('custom_enter_datetime') ] for i in all_leads1}
 
         leads = [i['parent'] for i in all_leads1]
         site_lead=leads
@@ -137,6 +144,7 @@ def get_data(filters):
             i['description']=desc[i["name"]][0]
             i['next_followup_by']=desc[i["name"]][1]
             i['date'] = desc[i["name"]][4]
+            i['custom_enter_datetime'] = desc[i["name"]][5]
             
             long = desc[i["name"]][2]
             lat = desc[i["name"]][3]
@@ -186,7 +194,8 @@ def get_data(filters):
         if (filters.get('user')):
             follow_up_filter['followed_by'] = filters.get('user')
 
-        all_leads = frappe.db.get_all('Follow-Up', filters=follow_up_filter, fields=['idx', 'parent','followed_by','description', "longitude", "latitude", "date"])
+        all_leads = frappe.db.get_all('Follow-Up', filters=follow_up_filter, fields=['idx', 'parent','followed_by','description', "longitude", "latitude", "date", "custom_enter_datetime"])
+        frappe.errprint(all_leads)
         all_leads1=[]
         for i in all_leads:
             follow_up_filter['parent'] = i['parent']
@@ -198,7 +207,7 @@ def get_data(filters):
                     all_leads1.append(i)
                 elif(filters.get("user") and i.get("followed_by")==filters.get("user")):
                     all_leads1.append(i)
-        desc={i['parent']:[i['description'],i.get("followed_by") or "",i.get("longitude"),i.get("latitude"), i.get('date')] for i in all_leads1}
+        desc={i['parent']:[i['description'],i.get("followed_by") or "",i.get("longitude"),i.get("latitude"), i.get('date'),  i.get('custom_enter_datetime') ] for i in all_leads1}
 
 
         leads = [i['parent'] for i in all_leads1]
@@ -212,7 +221,7 @@ def get_data(filters):
             i['description']=desc[i["name"]][0]
             i['next_followup_by']=desc[i["name"]][1]
             i['date'] = desc[i["name"]][4]
-            
+            i['custom_enter_datetime'] = desc[i["name"]][5]
             long = desc[i["name"]][2]
             lat = desc[i["name"]][3]
             

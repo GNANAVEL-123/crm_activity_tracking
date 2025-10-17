@@ -87,7 +87,7 @@ def get_data(filters):
     if filters.get("refilling_certificate") == 1:
         rc_filter = {}
         if filters.get('from_date') and filters.get('to_date'):
-            rc_filter["refilling_report_date"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
+            rc_filter["refilling_due_date"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
         if filters.get('region'):
             rc_filter["region"] = filters.get("region")
         rc_list = frappe.db.get_all(
@@ -151,7 +151,7 @@ def get_data(filters):
     if filters.get("warranty_certificate") == 1:
         wc_filter = {}
         if filters.get('from_date') and filters.get('to_date'):
-            wc_filter["refilling__report_date"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
+            wc_filter["refilling_due_date"] = ["between", [filters.get("from_date"), filters.get("to_date")]]
         if filters.get('region'):
             wc_filter["region"] = filters.get("region")
         wc_list = frappe.db.get_all(

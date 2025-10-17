@@ -22,6 +22,9 @@ frappe.ui.form.on("AMC Fire Alarm System", {
                         client_designation: frm.doc.client_designation,
                         employee_name:frm.doc.employee_name,
                         amc_fire_alarm_template: frm.doc.name,
+                        company:frm.doc.company,
+                        company_address: frm.doc.company_address,
+                        customer_address: frm.doc.customer_address,
                     });
     
                     frappe.model.clear_table(new_doc, 'refilling_schedule');
@@ -47,6 +50,21 @@ frappe.ui.form.on("AMC Fire Alarm System", {
                 'font-weight': 'bold',
             });
         }
+        frm.set_query("company_address", function () {
+			return {
+				filters: {
+					is_your_company_address: 1,
+				},
+			};
+		});
+        frm.set_query('customer_address',function(frm){
+            return {
+                filters:[
+                     ["Dynamic Link","link_name","=",frm.customer_name],
+                     ["Dynamic Link","link_doctype","=","Customer"]
+                ]
+            }
+        })
     }
 });
 frappe.ui.form.on('AMC Fire Alaram Table', {

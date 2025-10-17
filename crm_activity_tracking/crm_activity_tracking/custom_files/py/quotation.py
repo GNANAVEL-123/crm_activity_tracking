@@ -29,6 +29,9 @@ def validate(doc,event):
                 amt.custom_visit_count_amount = (doc.custom_visit_count or 0) * (amt.amount or 0)
                 tot_visit_amt += amt.custom_visit_count_amount
         doc.custom_total_visit_amount = tot_visit_amt
+    if doc.custom_tracking_email_id:
+        frappe.utils.validate_email_address(doc.custom_tracking_email_id, throw=True)
+    validate_customer_lastprice(doc, event)
 
 def after_insert(doc,event):
     create_user_permission(doc)
@@ -191,3 +194,48 @@ def tax_details(doc):
             value.append(final_value)
 
     return key, value
+
+
+@frappe.whitelist()
+def get_last_selling_rate(item_code, transaction_date, customer):
+    if not item_code or not transaction_date or not customer:
+        return None
+
+    transaction_date = getdate(transaction_date)
+
+    result = frappe.db.sql("""
+        SELECT sii.rate
+        FROM `tabSales Invoice Item` sii
+        JOIN `tabSales Invoice` si ON sii.parent = si.name
+        WHERE si.customer = %s
+            AND sii.item_code = %s
+            AND si.docstatus != 2
+            AND si.posting_date <= %s
+        ORDER BY si.posting_date DESC, si.modified DESC
+        LIMIT 1
+    """, (customer, item_code, transaction_date), as_dict=True)
+
+    if result:
+        return result[0].rate
+
+    return 0
+
+def validate_customer_lastprice(doc, event):
+    """
+    This will be triggered when saving Quotation.
+    It will update each item's `custom_last_customer_selling_rate` field.
+    """
+    if not doc.transaction_date or not doc.party_name:
+        return
+
+    for item in doc.items:
+        if not item.item_code:
+            continue
+
+        last_rate = get_last_selling_rate(
+            item_code=item.item_code,
+            transaction_date=doc.transaction_date,
+            customer=doc.party_name
+        )
+
+        item.custom_last_customer_selling_rate = last_rate

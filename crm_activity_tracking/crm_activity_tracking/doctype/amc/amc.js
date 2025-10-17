@@ -9,6 +9,21 @@ frappe.ui.form.on("AMC", {
         update_total_extinguisher(frm);
     },
     refresh(frm) {
+        frm.set_query("company_address", function () {
+			return {
+				filters: {
+					is_your_company_address: 1,
+				},
+			};
+		});
+        frm.set_query('customer_address',function(frm){
+            return {
+                filters:[
+                     ["Dynamic Link","link_name","=",frm.customer_name],
+                     ["Dynamic Link","link_doctype","=","Customer"]
+                ]
+            }
+        })
         if (!frm.is_new()) {
             frm.add_custom_button(__("Create AMC Visitor Tracking"), function () {
                 frappe.model.with_doctype('AMC Visitor Tracking', function () {
@@ -32,6 +47,10 @@ frappe.ui.form.on("AMC", {
                         po_number: frm.doc.po_number,
                         frequency: frm.doc.amc_frequency,
                         amc_template: frm.doc.name,
+                        company: frm.doc.company,
+                        company_address: frm.doc.company_address,
+                        customer_address: frm.doc.customer_address,
+                        fire_extinguisher_amc_scope_of_work : frm.doc.fire_extinguisher_amc_scope_of_work
                     });
     
                     frappe.model.clear_table(new_doc, 'refilling_schedule');
@@ -49,6 +68,15 @@ frappe.ui.form.on("AMC", {
                             actual_weight: row.actual_weight,
                             qr_code: row.qr_code,
                             qr_attach: row.qr_attach,
+                        });
+                    });
+
+                    frappe.model.clear_table(new_doc, 'amc_tracking_notes_details');
+                    frm.doc.amc_tracking_notes_details.forEach(row => {
+                        let new_row = frappe.model.add_child(new_doc, 'amc_tracking_notes_details');
+                        Object.assign(new_row, {
+                            header: row.header,
+                            amc_scope_of_work: row.amc_scope_of_work,
                         });
                     });
     

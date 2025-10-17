@@ -47,11 +47,16 @@ def manage_user_permissions(doc, event):
             delete_user_permissions(doc.name, 'Sales and Service Details')
             delete_user_permissions(doc.name, 'Refilling Report No')
 
+        # Task User Permision
+        if doc.role_profile_name not in ['Admin', 'Super Admin', 'Regional Admin']:
+            create_user_permission(doc.name, "Task")
+        else:
+            delete_user_permissions(doc.name, 'Task')
 
 
 
 def user_lead_permission():
-    crmprofile = frappe.db.get_all("User", filters={"role_profile_name": ["not in", ['Admin', 'CRM Admin']]}, fields=["name"])
+    crmprofile = frappe.db.get_all("User", filters={"role_profile_name": ["not in", ['Admin', 'CRM Admin', 'Super Admin']]}, fields=["name"])
     if crmprofile:
         for crm in crmprofile:
             if not frappe.db.exists('User Permission', {'allow': 'Refilling Report No', 'user': crm.name, 'for_value': ''}):
@@ -82,6 +87,30 @@ def user_lead_permission():
                 new_doc = frappe.new_doc("User Permission")
                 new_doc.user = crm.name
                 new_doc.allow = 'Lead'
+                new_doc.for_value = ''
+                new_doc.flags.ignore_mandatory = True
+                new_doc.save()
+
+def user_project_permission():
+    crmprofile = frappe.db.get_all("User", filters={"role_profile_name": ["not in", ['Admin', 'CRM Admin', 'Super Admin']]}, fields=["name"])
+    if crmprofile:
+        for crm in crmprofile:
+            if not frappe.db.exists('User Permission', {'allow': 'Project', 'user': crm.name, 'for_value': ''}):
+                new_doc = frappe.new_doc("User Permission")
+                new_doc.user = crm.name
+                new_doc.allow = 'Project'
+                new_doc.for_value = ''
+                new_doc.flags.ignore_mandatory = True
+                new_doc.save()
+
+def user_task_permission():
+    crmprofile = frappe.db.get_all("User", filters={"role_profile_name": ["not in", ['Admin', 'Super Admin']]}, fields=["name"])
+    if crmprofile:
+        for crm in crmprofile:
+            if not frappe.db.exists('User Permission', {'allow': 'Task', 'user': crm.name, 'for_value': ''}):
+                new_doc = frappe.new_doc("User Permission")
+                new_doc.user = crm.name
+                new_doc.allow = 'Task'
                 new_doc.for_value = ''
                 new_doc.flags.ignore_mandatory = True
                 new_doc.save()

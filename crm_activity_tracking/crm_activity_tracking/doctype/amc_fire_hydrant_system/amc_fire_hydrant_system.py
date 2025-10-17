@@ -60,6 +60,9 @@ def amc_fire_hydrant_tracker():
 							amc_tracker_doc.po_number = amc_doc.po_number
 							amc_tracker_doc.amc_fire_hydrant_template = amc_doc.name
 							amc_tracker_doc.next_amc_service_due_date = next_date
+							amc_tracker_doc.company = amc_doc.company
+							amc_tracker_doc.company_address = amc_doc.company_address
+							amc_tracker_doc.customer_address = amc_doc.customer_address
 							if amc_doc.landing_valve_table:
 								for refilling_entry in amc_doc.landing_valve_table:
 									refilling_child = amc_tracker_doc.append("landing_valve_table", {})

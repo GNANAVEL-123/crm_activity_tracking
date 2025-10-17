@@ -68,6 +68,10 @@ def amc_visitor_tracker():
                             amc_tracker_doc.recommendations_quote_no = amc_doc.recommendations_quote_no
                             amc_tracker_doc.vendor_number = amc_doc.vendor_number
                             amc_tracker_doc.po_number = amc_doc.po_number
+                            amc_tracker_doc.company = amc_doc.company
+                            amc_tracker_doc.company_address = amc_doc.company_address
+                            amc_tracker_doc.customer_address = amc_doc.customer_address
+                            amc_tracker_doc.fire_extinguisher_amc_scope_of_work = amc_doc.fire_extinguisher_amc_scope_of_work
                             if amc_doc.refilling_schedule:
                                 for refilling_entry in amc_doc.refilling_schedule:
                                     refilling_child = amc_tracker_doc.append("refilling_schedule", {})
@@ -82,6 +86,11 @@ def amc_visitor_tracker():
                                     refilling_child.expiry_life_due = refilling_entry.expiry_life_due
                                     refilling_child.qr_code = refilling_entry.qr_code
                                     refilling_child.qr_attach = refilling_entry.qr_attach
+                            if amc_doc.amc_tracking_notes_details:
+                                for notes in amc_doc.amc_tracking_notes_details:
+                                    notes_child = amc_tracker_doc.append("amc_tracking_notes_details", {})
+                                    notes_child.header =  notes.header
+                                    notes_child.amc_scope_of_work =  notes.amc_scope_of_work
                             amc_tracker_doc.save(ignore_permissions=True)
 
 

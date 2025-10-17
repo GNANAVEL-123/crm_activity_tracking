@@ -102,6 +102,7 @@ def get_data(filters):
 
     data1 = []
     data2 = []
+    data3 = []
 
     if filters.get('lead'):
 
@@ -202,8 +203,50 @@ def get_data(filters):
                 {i["lead_quotation_id"]}
             </a>
             '''
+    if filters.get('task'):
 
-    data=data1+data2
+        if filters.get('user'):
+
+            follow_condition = f"""AND (
+                SELECT follow.next_follow_up_by
+                FROM `tabFollow-Up` AS follow
+                WHERE follow.parent = task.name
+                ORDER BY follow.idx DESC
+                LIMIT 1
+            ) = '{filters.get('user')}'"""
+
+        data3 = frappe.db.sql(f'''
+        SELECT
+            1 as for_number_card,
+            task.name AS lead_quotation_id,
+            task.custom_customer AS lead_name,
+            REPLACE(task.custom_contact_no, '-', '')  as contact_number,
+            task.status AS status,
+            (
+                SELECT follow.description
+                FROM `tabFollow-Up` AS follow
+                WHERE follow.parent = task.name
+                ORDER BY follow.idx DESC
+                LIMIT 1
+            ) AS description
+        FROM `tabTask` AS task
+        WHERE task.status NOT IN ('Template', 'Completed', 'Cancelled') 
+            AND (
+                SELECT MAX(follow.next_follow_up_date)
+                FROM `tabFollow-Up` AS follow
+                WHERE follow.parent = task.name
+            ) <= '{filters.get("date")}'
+            {follow_condition}
+        ''', as_dict = 1)
+        for i in data3:
+            # i['lead_owner'] = frappe.get_value("User", {"name": i['lead_owner']}, "username")
+            i['lead_quotation_id'] = f'''
+            <a href="#" style="text-decoration: underline; color: #007bff; font-size: 13px;" onclick='frappe.set_route("Form", "Task", "{i["lead_quotation_id"]}")'>
+                {i["lead_quotation_id"]}
+            </a>
+            '''
+
+    data=data1+data2+data3
     return data
 
 @frappe.whitelist()

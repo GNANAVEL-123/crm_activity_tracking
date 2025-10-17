@@ -13,6 +13,9 @@
   "number_of_portable_fire_extinguisher",
   "job_sheet_no",
   "completion_report_no",
+  "company",
+  "company_address",
+  "customer_address",
   "column_break_mopi",
   "customer_name",
   "mail_id",
@@ -33,7 +36,10 @@
   "section_break_aosm",
   "amc_frequency_list",
   "section_break_jxwf",
-  "refilling_schedule"
+  "refilling_schedule",
+  "notes_details_section",
+  "fire_extinguisher_amc_scope_of_work",
+  "amc_tracking_notes_details"
  ],
  "fields": [
   {
@@ -45,6 +51,7 @@
    "fieldname": "customer_name",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company Name",
    "options": "Customer",
    "reqd": 1
@@ -188,11 +195,49 @@
    "label": "AMC Master",
    "options": "AMC Master",
    "reqd": 1
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "notes_details_section",
+   "fieldtype": "Section Break",
+   "label": "Notes Details"
+  },
+  {
+   "fieldname": "fire_extinguisher_amc_scope_of_work",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "FIRE EXTINGUISHER AMC SCOPE OF WORK"
+  },
+  {
+   "fieldname": "amc_tracking_notes_details",
+   "fieldtype": "Table",
+   "label": "AMC Tracking Notes Details",
+   "options": "AMC Tracking Notes Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
+<<<<<<< HEAD
  "modified": "2025-04-28 10:22:08.440911",
+=======
+ "modified": "2025-09-23 11:07:52.599725",
+>>>>>>> e982481e5c08a18dff369e815a521122cd2a34d7
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",
@@ -214,5 +259,8 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

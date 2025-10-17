@@ -13,6 +13,8 @@
   "refilling_frequency",
   "refilling_due_date",
   "enter_datetime",
+  "refilling_print",
+  "refilling_complete",
   "column_break_gjii",
   "year_of_mfg",
   "year_frequency",
@@ -72,13 +74,11 @@
   {
    "fieldname": "year_of_mfg",
    "fieldtype": "Int",
-   "in_list_view": 1,
    "label": "Year of Mfg"
   },
   {
    "fieldname": "expiry_life_due",
    "fieldtype": "Int",
-   "in_list_view": 1,
    "label": "Expiry Life Due",
    "read_only": 1
   },
@@ -95,6 +95,7 @@
    "label": "Full Weight"
   },
   {
+   "columns": 1,
    "fieldname": "remarks",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -110,7 +111,6 @@
   {
    "fieldname": "year_frequency",
    "fieldtype": "Float",
-   "in_list_view": 1,
    "label": "Year Frequency"
   },
   {
@@ -140,12 +140,28 @@
    "fieldtype": "Attach",
    "label": "QR Attach",
    "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "refilling_print",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Print"
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "refilling_complete",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Complete"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-04-27 21:17:18.144668",
+ "modified": "2025-08-29 11:19:33.218048",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Schedule Table",

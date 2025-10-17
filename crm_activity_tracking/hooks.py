@@ -31,7 +31,13 @@ app_license = "mit"
 doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 			"Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
 			"Task" :"crm_activity_tracking/custom_files/js/task.js",
-			"Project": "crm_activity_tracking/custom_files/js/project.js"}
+			"Project": "crm_activity_tracking/custom_files/js/project.js",
+			"Purchase Order": "crm_activity_tracking/custom_files/js/purchase_order.js",
+			"Purchase Receipt": "crm_activity_tracking/custom_files/js/purchase_receipt.js",
+			"Purchase Invoice": "crm_activity_tracking/custom_files/js/purchase_invoice.js",
+			"Sales Order": "crm_activity_tracking/custom_files/js/sales_order.js",
+			"Delivery Note": "crm_activity_tracking/custom_files/js/delivery_note.js",
+			"Sales Invoice": "crm_activity_tracking/custom_files/js/sales_invoice.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -64,8 +70,9 @@ doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 # add methods and filters to jinja environment
 jinja = {
     "methods" : [
-      "frappe.utils.data.money_in_words",
-	  "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.tax_details"
+		"frappe.utils.data.money_in_words",
+		"crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.tax_details",
+		"crm_activity_tracking.crm_activity_tracking.custom_files.py.print_format.get_invoice_item_and_tax_details",
     ]
 }
 # Installation
@@ -149,6 +156,25 @@ doc_events = {
 		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.validate",
 		"after_insert":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.after_insert",
 		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.project.on_trash"
+	},
+	"Sales Invoice" : {
+		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.sales_inv_naming",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.si_delete",
+		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.sales_invoice.validate_customer_lastprice",
+	},
+	"Delivery Note" : {
+		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.dn_naming",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.dn_delete",
+	},
+	"Purchase Order" : {
+		"autoname":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.po_naming",
+		"on_trash":"crm_activity_tracking.crm_activity_tracking.custom_files.py.auto_name.po_delete",
+		"validate":"crm_activity_tracking.crm_activity_tracking.custom_files.py.purchase_order.validate_supplier_lastprice"
+	},
+	"Task" : {
+		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.validate",
+		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.after_insert",
+		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.on_trash"
 	}
 }
 # Scheduled Taskss
@@ -177,7 +203,14 @@ scheduler_events = {
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_hydrant_system.amc_fire_hydrant_system.amc_fire_hydrant_tracker",
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.leave_allocation"
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_master.amc_master.amc_creation"
-		]
+		],
+		'* * * * *': [
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.schedule_whatsapp_message",
+		],
+		'0 8 * * *': [
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.quotation_tracking_email_send",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.task_tracking_email_send",
+		],
     }
 }
 
