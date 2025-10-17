@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-01 15:06:02.190002",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "qr_scanner",
+  "amc_visitor_tracking_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "qr_scanner",
+   "fieldtype": "Data",
+   "label": "QR Scanner",
+   "options": "Barcode"
+  },
+  {
+   "fieldname": "amc_visitor_tracking_details",
+   "fieldtype": "Table",
+   "label": "AMC Visitor Tracking Details",
+   "options": "AMC Visitor Tracking Details"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-06-05 19:38:46.816682",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Visitor Tracking Details Scanner",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Guest",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

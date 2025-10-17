@@ -8,11 +8,20 @@ import string
 import secrets
 from india_compliance.gst_india.utils.jinja import get_qr_code
 import base64
+import io
+from frappe.utils.file_manager import save_file
+from frappe.utils import getdate, add_months, nowdate
+from datetime import timedelta, date
+from dateutil.relativedelta import relativedelta
+import calendar
 
 class AMCMaster(Document):
-	pass
-
-
+    def validate(self):
+        if self.number_of_portable_fire_extinguisher or self.number_of_trolley_fireextinguisher:
+            self.total_extinguisher = (
+                int(self.number_of_portable_fire_extinguisher or 0) + 
+                int(self.number_of_trolley_fireextinguisher or 0)
+            )
 
 
 @frappe.whitelist()
@@ -40,12 +49,26 @@ def qrcode_creation(docname):
 
     unique_codes = generate_unique_codes(count, existing_codes)
 
-    # Update only the rows that need QR codes
     for i, row in enumerate(rows_to_update):
         new_code = unique_codes[i]
         row.qr_code = new_code
-        row.qr_image = f"<img width='120px' height='120px' src='data:image/png;base64,{get_qr_code(new_code, scale=2)}' class='qrcode'>"
-        frappe.errprint(row.qr_image)
+        
+        qr_code_base64 = get_qr_code(new_code, scale=5)
+        img_bytes = base64.b64decode(qr_code_base64)
+
+        # Save file properly
+        saved_file = save_file(
+            fname=f"{new_code}.png",
+            content=img_bytes,
+            dt="AMC Master",
+            dn=docname,
+            folder=None,
+            is_private=0
+        )
+
+        # Now properly set the qr_attach
+        row.qr_attach = saved_file.file_url
+
 
     doc.save(ignore_permissions=True)
     return f"{count} QR code(s) generated and saved."

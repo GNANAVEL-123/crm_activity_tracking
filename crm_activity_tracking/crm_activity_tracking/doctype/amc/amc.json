@@ -20,6 +20,7 @@
   "recommendations_quote_no",
   "product_delivery_date",
   "number_of_trolley_fireextinguisher",
+  "amc_master",
   "column_break_sawh",
   "concern_person",
   "contact_number",
@@ -180,11 +181,18 @@
    "hidden": 1,
    "label": "naming_series",
    "options": "AMC-.YY.-.#####"
+  },
+  {
+   "fieldname": "amc_master",
+   "fieldtype": "Link",
+   "label": "AMC Master",
+   "options": "AMC Master",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-30 22:10:56.882371",
+ "modified": "2025-04-28 10:22:08.440911",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",

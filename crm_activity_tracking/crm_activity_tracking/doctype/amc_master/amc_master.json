@@ -145,15 +145,14 @@
   {
    "fieldname": "amc_frequency",
    "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "AMC Frequency",
-   "reqd": 1
+   "hidden": 1,
+   "label": "AMC Frequency"
   },
   {
    "fieldname": "no_of_month",
    "fieldtype": "Float",
-   "label": "No of Month",
-   "reqd": 1
+   "hidden": 1,
+   "label": "No of Month"
   },
   {
    "default": "MA-.YYYY.-.####",
@@ -170,6 +169,7 @@
   {
    "fieldname": "amc_frequency_list",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "AMC Frequency List",
    "options": "AMC Frequency Table"
   },
@@ -190,10 +190,9 @@
    "label": "Generate QR Code"
   }
  ],
- "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-09 21:26:54.560178",
+ "modified": "2025-04-28 21:16:58.040462",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Master",
@@ -213,7 +212,6 @@
    "write": 1
   }
  ],
- "read_only": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

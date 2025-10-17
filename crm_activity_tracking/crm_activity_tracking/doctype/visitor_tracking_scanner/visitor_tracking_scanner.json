@@ -1,0 +1,271 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-29 15:27:55.209115",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "column_break_btbn",
+  "amc",
+  "column_break_xtxm",
+  "amc_visitor_tracking",
+  "section_break_pgcv",
+  "scan_qr_code",
+  "column_break_njmf",
+  "section_break_yrqz",
+  "location",
+  "row_name",
+  "column_break_zxlv",
+  "type",
+  "column_break_fasm",
+  "cap",
+  "column_break_ilhe",
+  "date_refilling",
+  "column_break_aomo",
+  "refilling_frequency",
+  "section_break_lzhi",
+  "refilling_due_date",
+  "column_break_ydpa",
+  "year_of_mfg",
+  "column_break_wahm",
+  "enter_datetime",
+  "column_break_oqst",
+  "year_frequency",
+  "column_break_dvsq",
+  "expiry_life_due",
+  "section_break_pilf",
+  "full_weight",
+  "column_break_qlha",
+  "empty_weight",
+  "column_break_tfbh",
+  "actual_weight",
+  "column_break_iply",
+  "remarks",
+  "column_break_nbvz",
+  "qr_code"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_btbn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xtxm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amc",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "AMC",
+   "options": "AMC",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amc_visitor_tracking",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "AMC Visitor Tracking",
+   "options": "AMC Visitor Tracking",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_pgcv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "scan_qr_code",
+   "fieldtype": "Data",
+   "label": "Scan QR Code",
+   "options": "Barcode"
+  },
+  {
+   "fieldname": "section_break_yrqz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "label": "Location",
+   "options": "AMC Location",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zxlv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Link",
+   "label": "Type",
+   "options": "AMC Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_fasm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cap",
+   "fieldtype": "Data",
+   "label": "Cap",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ilhe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_refilling",
+   "fieldtype": "Date",
+   "label": "Date Refilling"
+  },
+  {
+   "fieldname": "column_break_aomo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refilling_frequency",
+   "fieldtype": "Float",
+   "label": "Refilling Frequency"
+  },
+  {
+   "fieldname": "section_break_lzhi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "refilling_due_date",
+   "fieldtype": "Date",
+   "label": "Refilling Due Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ydpa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "year_of_mfg",
+   "fieldtype": "Int",
+   "label": "Year of Mfg"
+  },
+  {
+   "fieldname": "column_break_oqst",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "year_frequency",
+   "fieldtype": "Float",
+   "label": "Year Frequency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dvsq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expiry_life_due",
+   "fieldtype": "Int",
+   "label": "Expiry Life Due",
+   "read_only": 1
+  },
+  {
+   "fieldname": "full_weight",
+   "fieldtype": "Float",
+   "label": "Full Weight"
+  },
+  {
+   "fieldname": "section_break_pilf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "empty_weight",
+   "fieldtype": "Float",
+   "label": "Empty Weight"
+  },
+  {
+   "fieldname": "column_break_qlha",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actual_weight",
+   "fieldtype": "Float",
+   "label": "Actual Weight"
+  },
+  {
+   "fieldname": "column_break_iply",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "column_break_nbvz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "qr_code",
+   "fieldtype": "Data",
+   "label": "QR Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "row_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Row Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_njmf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_wahm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enter_datetime",
+   "fieldtype": "Datetime",
+   "label": "Enter Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_tfbh",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-04-29 21:51:18.609115",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Visitor Tracking Scanner",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -47,6 +47,8 @@ frappe.ui.form.on("AMC", {
                             full_weight: row.full_weight,
                             empty_weight: row.empty_weight,
                             actual_weight: row.actual_weight,
+                            qr_code: row.qr_code,
+                            qr_attach: row.qr_attach,
                         });
                     });
     
@@ -62,7 +64,46 @@ frappe.ui.form.on("AMC", {
                 'font-weight': 'bold',
             });
         }
+        if (frm.doc.amc_master){
+            console.log("MMMMMM")
+            frm.set_query("location", 'refilling_schedule', function(frm, cdt, cdn){
+                let row = locals[cdt][cdn];
+                return {
+                    query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",
+                    filters: {
+                        amc_master: frm.doc.amc_master,
+                    }
+                }
+            })
+        }
+    },
+    amc_master: function(frm) {
+        if (frm.doc.amc_master) {
+            console.log("MMMMMM");
+            frm.fields_dict.refilling_schedule.grid.get_field("location").get_query = function(doc, cdt, cdn) {
+                return {
+                    query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",
+                    filters: {
+                        amc_master: doc.amc_master
+                    }
+                };
+            };
+        }
+    },
+    on_load: function(frm) {
+        if (frm.doc.amc_master) {
+            console.log("MMMMMM");
+            frm.fields_dict.refilling_schedule.grid.get_field("location").get_query = function(doc, cdt, cdn) {
+                return {
+                    query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",
+                    filters: {
+                        amc_master: doc.amc_master
+                    }
+                };
+            };
+        }
     }
+    
     
 });
 

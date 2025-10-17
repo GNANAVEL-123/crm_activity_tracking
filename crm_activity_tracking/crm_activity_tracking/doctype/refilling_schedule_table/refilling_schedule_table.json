@@ -131,9 +131,9 @@
   },
   {
    "fieldname": "qr_image",
-   "fieldtype": "HTML",
+   "fieldtype": "Image",
    "label": "QR Image",
-   "read_only": 1
+   "options": "qr_attach"
   },
   {
    "fieldname": "qr_attach",
@@ -145,7 +145,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-04-08 10:46:41.950777",
+ "modified": "2025-04-27 21:17:18.144668",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Schedule Table",
