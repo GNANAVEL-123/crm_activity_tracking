@@ -13,6 +13,8 @@
   "number_of_portable_fire_extinguisher",
   "job_sheet_no",
   "completion_report_no",
+  "company_address",
+  "customer_address",
   "column_break_mopi",
   "customer_name",
   "mail_id",
@@ -38,7 +40,7 @@
  "fields": [
   {
    "fieldname": "location",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Location",
    "options": "Territory"
   },
@@ -188,11 +190,23 @@
    "fieldname": "generate_qr_code",
    "fieldtype": "Button",
    "label": "Generate QR Code"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-28 21:16:58.040462",
+ "modified": "2025-10-17 22:19:27.817727",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Master",

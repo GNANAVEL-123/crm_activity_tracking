@@ -93,7 +93,6 @@ frappe.ui.form.on("AMC", {
             });
         }
         if (frm.doc.amc_master){
-            console.log("MMMMMM")
             frm.set_query("location", 'refilling_schedule', function(frm, cdt, cdn){
                 let row = locals[cdt][cdn];
                 return {
@@ -107,7 +106,6 @@ frappe.ui.form.on("AMC", {
     },
     amc_master: function(frm) {
         if (frm.doc.amc_master) {
-            console.log("MMMMMM");
             frm.fields_dict.refilling_schedule.grid.get_field("location").get_query = function(doc, cdt, cdn) {
                 return {
                     query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",
@@ -120,7 +118,6 @@ frappe.ui.form.on("AMC", {
     },
     on_load: function(frm) {
         if (frm.doc.amc_master) {
-            console.log("MMMMMM");
             frm.fields_dict.refilling_schedule.grid.get_field("location").get_query = function(doc, cdt, cdn) {
                 return {
                     query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",

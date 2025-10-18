@@ -21,6 +21,21 @@ frappe.ui.form.on("AMC Master", {
         update_total_extinguisher(frm);
     },
     refresh(frm) {
+        frm.set_query("company_address", function () {
+			return {
+				filters: {
+					is_your_company_address: 1,
+				},
+			};
+		});
+        frm.set_query('customer_address',function(frm){
+            return {
+                filters:[
+                     ["Dynamic Link","link_name","=",frm.customer_name],
+                     ["Dynamic Link","link_doctype","=","Customer"]
+                ]
+            }
+        })
         if (!frm.is_new()) {
             frm.add_custom_button(__("Create AMC"), function () {
                 frappe.model.with_doctype('AMC', function () {
@@ -45,6 +60,8 @@ frappe.ui.form.on("AMC Master", {
                         amc_frequency: frm.doc.amc_frequency,
                         no_of_month: frm.doc.no_of_month,
                         amc_master: frm.doc.name,
+                        customer_address: frm.doc.customer_address,
+                        company_address: frm.doc.company_address
                     });
     
                     frappe.model.clear_table(new_doc, 'refilling_schedule');
@@ -52,14 +69,18 @@ frappe.ui.form.on("AMC Master", {
                         let new_row = frappe.model.add_child(new_doc, 'refilling_schedule');
                         Object.assign(new_row, {
                             location: row.location,
-                            type: row.type,
-                            cap: row.cap,
                             year_of_mfg: row.year_of_mfg,
+                            type: row.type,
                             year_frequency: row.year_frequency,
                             expiry_life_due: row.expiry_life_due,
+                            cap: row.cap,
+                            date_refilling: row.date_refilling,
                             full_weight: row.full_weight,
+                            refilling_frequency: row.refilling_frequency,
+                            refilling_due_date: row.refilling_due_date,
                             empty_weight: row.empty_weight,
                             actual_weight: row.actual_weight,
+                            remarks: row.remarks,
                             qr_code: row.qr_code,
                             qr_attach: row.qr_attach,
                         });

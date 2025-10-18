@@ -202,7 +202,6 @@ scheduler_events = {
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_alarm_system.amc_fire_alarm_system.amc_fire_alarm_tracker",
 			"crm_activity_tracking.crm_activity_tracking.doctype.amc_fire_hydrant_system.amc_fire_hydrant_system.amc_fire_hydrant_tracker",
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.leave_allocation"
-			"crm_activity_tracking.crm_activity_tracking.doctype.amc_master.amc_master.amc_creation"
 		],
 		'* * * * *': [
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.schedule_whatsapp_message",
