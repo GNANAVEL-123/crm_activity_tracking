@@ -169,7 +169,7 @@ def amc_to_amc_master_creation():
 
 def amc_to_amc_master_creation_withdate():
     today = getdate(nowdate())
-    amc_list = frappe.db.get_list("AMC", filters={"amc_master":["is", "not set"], "amc_service_date":["is", "not set"]}, pluck="name")
+    amc_list = frappe.db.get_list("AMC", filters={"amc_master":["is", "not set"]}, pluck="name")
 
     for amc in amc_list:
         amc_doc = frappe.get_doc("AMC", amc)
