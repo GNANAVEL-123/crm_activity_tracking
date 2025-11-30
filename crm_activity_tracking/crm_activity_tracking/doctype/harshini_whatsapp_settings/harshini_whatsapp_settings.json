@@ -9,7 +9,18 @@
   "url",
   "access_token",
   "payment_tab",
-  "upi"
+  "upi",
+  "inactive_customer_email_tab",
+  "inactive_customer_email_settings_section",
+  "send_email_for_inactive_customers",
+  "inactive_days",
+  "column_break_auof",
+  "last_email_send_date",
+  "frequency_of_days",
+  "payment_remainder_customer_email_tab",
+  "send_email_for_payment_remainder",
+  "last_payment_send_date",
+  "frequency_of_payment_remainder_days"
  ],
  "fields": [
   {
@@ -36,12 +47,68 @@
    "fieldname": "upi",
    "fieldtype": "Data",
    "label": "UPI"
+  },
+  {
+   "fieldname": "inactive_customer_email_tab",
+   "fieldtype": "Tab Break",
+   "label": "Inactive Customer Email"
+  },
+  {
+   "fieldname": "inactive_customer_email_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Inactive Customer Email Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "send_email_for_inactive_customers",
+   "fieldtype": "Check",
+   "label": "Send Email For Inactive Customers"
+  },
+  {
+   "fieldname": "inactive_days",
+   "fieldtype": "Int",
+   "label": "Inactive Days"
+  },
+  {
+   "fieldname": "column_break_auof",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_email_send_date",
+   "fieldtype": "Date",
+   "label": "Last Email Send Date"
+  },
+  {
+   "fieldname": "frequency_of_days",
+   "fieldtype": "Int",
+   "label": "Frequency Of Days"
+  },
+  {
+   "fieldname": "payment_remainder_customer_email_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payment Remainder Customer Email"
+  },
+  {
+   "default": "0",
+   "fieldname": "send_email_for_payment_remainder",
+   "fieldtype": "Check",
+   "label": "Send Email For Payment Remainder"
+  },
+  {
+   "fieldname": "last_payment_send_date",
+   "fieldtype": "Date",
+   "label": "Last Payment Email Send Date"
+  },
+  {
+   "fieldname": "frequency_of_payment_remainder_days",
+   "fieldtype": "Int",
+   "label": "Frequency Of Payment Remainder Days"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-08 11:39:24.600822",
+ "modified": "2025-11-30 12:04:54.155581",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Harshini Whatsapp Settings",

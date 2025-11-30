@@ -209,6 +209,8 @@ scheduler_events = {
 		'0 8 * * *': [
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.quotation_tracking_email_send",
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.task_tracking_email_send",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.inactive_email_cron",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.payment_remainder_email_send_cron",
 		],
     }
 }

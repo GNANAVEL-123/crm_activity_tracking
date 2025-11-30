@@ -5,6 +5,8 @@ from frappe.utils import cint, comma_or, cstr, flt, format_time, formatdate, get
 import calendar
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
+from crm_activity_tracking.crm_activity_tracking.doctype.harshini_whatsapp_settings.harshini_whatsapp_settings import inactive_customer_email_send
+from crm_activity_tracking.crm_activity_tracking.doctype.harshini_whatsapp_settings.harshini_whatsapp_settings import payment_remainder_email_send
 
 def leave_allocation():
     current_date = frappe.utils.nowdate()
@@ -154,3 +156,8 @@ def task_tracking_email_send():
                                 send_priority=1,
                                 sender="admin@harshinifire.com",
                             )
+def inactive_email_cron():
+    inactive_customer_email_send()
+
+def payment_remainder_email_send_cron():
+    payment_remainder_email_send()
