@@ -4,24 +4,33 @@ import requests
 from urllib.parse import quote
 
 @frappe.whitelist()
-def send_sales_invoice_whatsapp(invoice):
-    if(isinstance(invoice, str)):
-        doc = frappe.get_doc("Sales Invoice", invoice)
-    pdf_options={
-        "page-size":"A4"
-    }
-    fcontent = frappe.get_print(doc=doc, print_format="Sales Invoice", as_pdf=1, no_letterhead=1,pdf_options=pdf_options)
-    pdf_file_name = "{0}.pdf".format(doc.name)
+def send_sales_invoice_whatsapp(invoice, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
 
-    _file = frappe.get_doc(
-        {
-            "doctype": "File",
-            "file_name": pdf_file_name,
-            "content": fcontent,
-        }
+    if isinstance(invoice, str):
+        doc = frappe.get_doc("Sales Invoice", invoice)
+
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    pdf_options = {"page-size": "A4"}
+    fcontent = frappe.get_print(
+        doc=doc,
+        print_format="Sales Invoice",
+        as_pdf=1,
+        no_letterhead=1,
+        pdf_options=pdf_options
     )
-    _file.insert()
-    file_path = os.path.join(frappe.get_site_path("public", "files"), _file.file_name)
+
+    file_name = f"{doc.name}.pdf"
+
+    file_doc = frappe.get_doc({
+        "doctype": "File",
+        "file_name": file_name,
+        "content": fcontent,
+    })
+    file_doc.insert()
+
     message = (
         f"*Sales Invoice* 📄\n"
         f"Customer: *{doc.customer}*\n"
@@ -31,51 +40,61 @@ def send_sales_invoice_whatsapp(invoice):
         f"Thank you for your business!"
     )
     frappe.enqueue(
-                send_whatsapp,
-                media_url=frappe.utils.get_url()+_file.file_url,
-                doc=doc,
-                message=message,
-                invoice=doc.name
-            )
-    return 'Success'
+        send_whatsapp_sales_invoice,
+        media_url=frappe.utils.get_url() + file_doc.file_url,
+        message=message,
+        doc=doc,
+        mobile_no=mobile_no
+    )
+
+    return "Success"
 	
-def send_whatsapp(media_url, message, doc, invoice=None):
-    response=""
-    url_message = ""
-    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings",'instance_id')
-    # access = frappe.db.get_single_value("Whatsapp Settings",'access_token')
-    url = frappe.db.get_single_value("Harshini Whatsapp Settings",'url')
-    customer_mobile_no = ""
-    if doc.customer_address:
-        add_doc = frappe.get_doc("Address", doc.customer_address)
-        if add_doc.phone:
-            customer_mobile_no = add_doc.phone
-        else:
-            frappe.throw("Customer phone number not found in the linked Address.")
-    else:
-        frappe.throw("No customer address linked to this document.")
-    # customer_mobile_no='8838077682'
-    if customer_mobile_no:
-            encoded_message = quote(message)
-            log_doc = frappe.new_doc('Whatsapp Log')
-            log_doc.mobile_no = customer_mobile_no
-            log_doc.status = 'Not Sent'
-            log_doc.reference_doctype = 'Sales Invoice'
-            log_doc.reference_document = doc.name
-            url_message = f"{url}FileWithCaption?token={instance_id}&phone=91{customer_mobile_no}&link={media_url}&message={encoded_message}"
-            log_doc.request_url = url_message
-            log_doc.save()
-            try:
-                payload={}
-                headers = {}
-                response = requests.request("GET", url_message, headers=headers, data=payload)
-                frappe.log_error(title="Whatsapp Invoice Success", message=f""" {media_url}\n{response}\n{url_message}\n""")
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'status','Success')
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'response',str(response.json()))
-            except Exception as e:
-                frappe.log_error(title="Whatsapp Invoice Failure", message=f""" {media_url}\n{response}\n{url_message}\n""")
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'status','Failure')
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'response',str(response.json()))
+def send_whatsapp_sales_invoice(media_url, message, doc, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required to send WhatsApp message.")
+
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", "instance_id")
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", "url")
+
+    encoded_message = quote(message)
+
+    # Create WhatsApp Log
+    log_doc = frappe.new_doc("Whatsapp Log")
+    log_doc.mobile_no = mobile_no
+    log_doc.status = "Not Sent"
+    log_doc.reference_doctype = "Sales Invoice"
+    log_doc.reference_document = doc.name
+
+    url_message = (
+        f"{url}FileWithCaption?token={instance_id}"
+        f"&phone=91{mobile_no}&link={media_url}&message={encoded_message}"
+    )
+
+    log_doc.request_url = url_message
+    log_doc.save()
+
+    try:
+        response = requests.get(url_message)
+
+        # Log success
+        frappe.log_error(
+            title="WhatsApp Quotation Success",
+            message=f"URL: {url_message}\nResponse: {response.text}"
+        )
+
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Success")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(response.json()))
+
+    except Exception as e:
+
+        # Log failure
+        frappe.log_error(
+            title="WhatsApp Quotation Failure",
+            message=f"URL: {url_message}\nError: {str(e)}"
+        )
+
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Failure")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(e))
 
 @frappe.whitelist()
 def send_task_message(invoice):
@@ -139,24 +158,29 @@ def send_task_message(invoice):
         frappe.throw("No user assigned in the 'Allocated To' field of the Task.")
 
 @frappe.whitelist()
-def send_quotation_whatsapp(invoice):
-    if(isinstance(invoice, str)):
-        doc = frappe.get_doc("Quotation", invoice)
-    pdf_options={
-        "page-size":"A4"
-    }
-    fcontent = frappe.get_print(doc=doc, print_format="Quotation With Logo", as_pdf=1, no_letterhead=1,pdf_options=pdf_options)
-    pdf_file_name = "{0}.pdf".format(doc.name)
+def send_quotation_whatsapp(invoice, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
 
-    _file = frappe.get_doc(
-        {
-            "doctype": "File",
-            "file_name": pdf_file_name,
-            "content": fcontent,
-        }
+    if isinstance(invoice, str):
+        doc = frappe.get_doc("Quotation", invoice)
+
+    # Clean number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    pdf_options = {"page-size": "A4"}
+    fcontent = frappe.get_print(
+        doc=doc, print_format="Quotation With Logo", as_pdf=1, no_letterhead=1, pdf_options=pdf_options
     )
+
+    pdf_file_name = f"{doc.name}.pdf"
+    _file = frappe.get_doc({
+        "doctype": "File",
+        "file_name": pdf_file_name,
+        "content": fcontent,
+    })
     _file.insert()
-    file_path = os.path.join(frappe.get_site_path("public", "files"), _file.file_name)
+
     message = (
         f"*Quotation* 📄\n"
         f"Customer: *{doc.party_name}*\n"
@@ -165,49 +189,60 @@ def send_quotation_whatsapp(invoice):
         f"Amount: ₹{frappe.utils.fmt_money(doc.rounded_total or doc.grand_total)}\n\n"
         f"Thank you for your interest!"
     )
+
     frappe.enqueue(
-                send_whatsapp_quotation,
-                media_url=frappe.utils.get_url()+_file.file_url,
-                doc=doc,
-                message=message,
-                invoice=doc.name
-            )
-    return 'Success'
+        send_whatsapp_quotation,
+        media_url=frappe.utils.get_url() + _file.file_url,
+        doc=doc,
+        message=message,
+        mobile_no=mobile_no
+    )
+
+    return "Success"
 	
-def send_whatsapp_quotation(media_url, message, doc, invoice=None):
-    response=""
+def send_whatsapp_quotation(media_url, message, doc, mobile_no=None, invoice=None):
+    response = ""
     url_message = ""
-    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings",'instance_id')
-    # access = frappe.db.get_single_value("Whatsapp Settings",'access_token')
-    url = frappe.db.get_single_value("Harshini Whatsapp Settings",'url')
-    customer_mobile_no = ""
-    if doc.customer_address:
-        add_doc = frappe.get_doc("Address", doc.customer_address)
-        if add_doc.phone:
-            customer_mobile_no = add_doc.phone
-        else:
-            frappe.throw("Customer phone number not found in the linked Address.")
-    else:
-        frappe.throw("No customer address linked to this document.")
-    # customer_mobile_no='8838077682'
-    if customer_mobile_no:
-            encoded_message = quote(message)
-            log_doc = frappe.new_doc('Whatsapp Log')
-            log_doc.mobile_no = customer_mobile_no
-            log_doc.status = 'Not Sent'
-            log_doc.reference_doctype = 'Quotation'
-            log_doc.reference_document = doc.name
-            url_message = f"{url}FileWithCaption?token={instance_id}&phone=91{customer_mobile_no}&link={media_url}&message={encoded_message}"
-            log_doc.request_url = url_message
-            log_doc.save()
-            try:
-                payload={}
-                headers = {}
-                response = requests.request("GET", url_message, headers=headers, data=payload)
-                frappe.log_error(title="Whatsapp Invoice Success", message=f""" {media_url}\n{response}\n{url_message}\n""")
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'status','Success')
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'response',str(response.json()))
-            except Exception as e:
-                frappe.log_error(title="Whatsapp Invoice Failure", message=f""" {media_url}\n{response}\n{url_message}\n""")
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'status','Failure')
-                frappe.db.set_value('Whatsapp Log',log_doc.name,'response',str(response.json()))
+
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    # Clean the mobile number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", 'instance_id')
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", 'url')
+
+    encoded_message = quote(message)
+
+    # Create WhatsApp Log
+    log_doc = frappe.new_doc('Whatsapp Log')
+    log_doc.mobile_no = mobile_no
+    log_doc.status = 'Not Sent'
+    log_doc.reference_doctype = 'Quotation'
+    log_doc.reference_document = doc.name
+
+    url_message = (
+        f"{url}FileWithCaption?token={instance_id}"
+        f"&phone=91{mobile_no}&link={media_url}&message={encoded_message}"
+    )
+
+    log_doc.request_url = url_message
+    log_doc.save()
+
+    try:
+        response = requests.get(url_message)
+        frappe.log_error(
+            title="Whatsapp Invoice Success",
+            message=f"""{media_url}\n{response}\n{url_message}\n"""
+        )
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Success')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(response.json()))
+
+    except Exception as e:
+        frappe.log_error(
+            title="Whatsapp Invoice Failure",
+            message=f"""{media_url}\n{response}\n{url_message}\n"""
+        )
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))
