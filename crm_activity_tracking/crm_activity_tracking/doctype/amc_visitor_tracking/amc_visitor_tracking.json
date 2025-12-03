@@ -37,6 +37,7 @@
   "amc_frequency",
   "naming_series",
   "section_break_jxwf",
+  "print_check",
   "refilling_schedule",
   "notes_details_section",
   "fire_extinguisher_amc_scope_of_work",
@@ -358,11 +359,18 @@
    "fieldtype": "Table",
    "label": "AMC Tracking Notes Details",
    "options": "AMC Tracking Notes Details"
+  },
+  {
+   "default": "0",
+   "description": "If \u2018Refilling Schedule Print\u2019 is checked, check all rows. If it is unchecked, uncheck all rows.",
+   "fieldname": "print_check",
+   "fieldtype": "Check",
+   "label": "Print(Check and Uncheck)"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-04 11:24:58.822225",
+ "modified": "2025-12-03 11:30:45.047442",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
