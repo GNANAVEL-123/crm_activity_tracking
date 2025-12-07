@@ -37,7 +37,8 @@ doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 			"Purchase Invoice": "crm_activity_tracking/custom_files/js/purchase_invoice.js",
 			"Sales Order": "crm_activity_tracking/custom_files/js/sales_order.js",
 			"Delivery Note": "crm_activity_tracking/custom_files/js/delivery_note.js",
-			"Sales Invoice": "crm_activity_tracking/custom_files/js/sales_invoice.js"}
+			"Sales Invoice": "crm_activity_tracking/custom_files/js/sales_invoice.js",
+			"Payment Entry": "crm_activity_tracking/custom_files/js/payment_entry.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

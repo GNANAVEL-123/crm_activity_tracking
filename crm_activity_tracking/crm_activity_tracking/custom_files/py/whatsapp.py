@@ -119,7 +119,7 @@ def send_task_message(invoice):
             frappe.throw(f"Mobile number not found for user: {task_doc.custom_allocated_to}")
 
         # Prepare message and WhatsApp URL
-        site_url = f"https://erp.srihariharantraders.com/app/task/{task_doc.name}"
+        site_url = f"{frappe.utils.get_url()}/app/task/{task_doc.name}"
         message = (
             f"*Task Assigned* 📋\n"
             f"Task ID: *{task_doc.name}*\n"
@@ -246,3 +246,58 @@ def send_whatsapp_quotation(media_url, message, doc, mobile_no=None, invoice=Non
         )
         frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
         frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))
+
+
+@frappe.whitelist()
+def send_payment_entry_whatsapp(payment_entry, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    if isinstance(payment_entry, str):
+        doc = frappe.get_doc("Payment Entry", payment_entry)
+
+    if doc.party_type != "Customer":
+        frappe.throw("WhatsApp sending allowed only for Customer payments.")
+
+    # Clean number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    # WhatsApp text message only — No file
+    message = (
+        f"*Payment Confirmation* 📄\n"
+        f"Customer: *{doc.party}*\n"
+        f"Payment Entry: *{doc.name}*\n"
+        f"Date: {doc.get_formatted('posting_date')}\n"
+        f"Amount: ₹{frappe.utils.fmt_money(doc.paid_amount)}\n\n"
+        f"Thank you for your payment!"
+    )
+
+    # Encode message
+    encoded_message = quote(message)
+
+    # Fetch credentials
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", "instance_id")
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", "url")
+
+    # WhatsApp message URL (text only)
+    url_message = f"{url}Text?token={instance_id}&phone=91{mobile_no}&message={encoded_message}"
+
+    # Create log record
+    log_doc = frappe.new_doc("Whatsapp Log")
+    log_doc.mobile_no = mobile_no
+    log_doc.status = "Not Sent"
+    log_doc.reference_doctype = "Payment Entry"
+    log_doc.reference_document = doc.name
+    log_doc.request_url = url_message
+    log_doc.save()
+
+    try:
+        response = requests.get(url_message)
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Success")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(response.text))
+
+    except Exception as e:
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Failure")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(e))
+
+    return "Success"
