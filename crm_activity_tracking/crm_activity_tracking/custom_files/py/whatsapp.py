@@ -119,7 +119,7 @@ def send_task_message(invoice):
             frappe.throw(f"Mobile number not found for user: {task_doc.custom_allocated_to}")
 
         # Prepare message and WhatsApp URL
-        site_url = f"https://erp.srihariharantraders.com/app/task/{task_doc.name}"
+        site_url = f"{frappe.utils.get_url()}/app/task/{task_doc.name}"
         message = (
             f"*Task Assigned* 📋\n"
             f"Task ID: *{task_doc.name}*\n"
@@ -280,7 +280,7 @@ def send_payment_entry_whatsapp(payment_entry, mobile_no=None):
     url = frappe.db.get_single_value("Harshini Whatsapp Settings", "url")
 
     # WhatsApp message URL (text only)
-    url_message = f"{url}SendMessage?token={instance_id}&phone=91{mobile_no}&message={encoded_message}"
+    url_message = f"{url}Text?token={instance_id}&phone=91{mobile_no}&message={encoded_message}"
 
     # Create log record
     log_doc = frappe.new_doc("Whatsapp Log")
