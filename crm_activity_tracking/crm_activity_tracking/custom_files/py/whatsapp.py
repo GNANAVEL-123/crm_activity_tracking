@@ -256,21 +256,32 @@ def send_payment_entry_whatsapp(payment_entry, mobile_no=None):
     if isinstance(payment_entry, str):
         doc = frappe.get_doc("Payment Entry", payment_entry)
 
-    if doc.party_type != "Customer":
-        frappe.throw("WhatsApp sending allowed only for Customer payments.")
+    # Allowed types
+    if doc.party_type not in ["Customer", "Supplier"]:
+        frappe.throw("WhatsApp sending allowed only for Customer or Supplier payments.")
 
     # Clean number
     mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
 
-    # WhatsApp text message only — No file
-    message = (
-        f"*Payment Confirmation* 📄\n"
-        f"Customer: *{doc.party}*\n"
-        f"Payment Entry: *{doc.name}*\n"
-        f"Date: {doc.get_formatted('posting_date')}\n"
-        f"Amount: ₹{frappe.utils.fmt_money(doc.paid_amount)}\n\n"
-        f"Thank you for your payment!"
-    )
+    # Create message based on party type
+    if doc.party_type == "Customer":
+        message = (
+            f"*Payment Confirmation* 📄\n"
+            f"Customer: *{doc.party}*\n"
+            f"Payment Entry: *{doc.name}*\n"
+            f"Date: {doc.get_formatted('posting_date')}\n"
+            f"Amount Received: ₹{frappe.utils.fmt_money(doc.paid_amount)}\n\n"
+            f"Thank you for your payment!"
+        )
+    else:  # Supplier message
+        message = (
+            f"*Payment Made* 📄\n"
+            f"Supplier: *{doc.party}*\n"
+            f"Payment Entry: *{doc.name}*\n"
+            f"Date: {doc.get_formatted('posting_date')}\n"
+            f"Amount Paid: ₹{frappe.utils.fmt_money(doc.paid_amount)}\n\n"
+            f"Payment has been made successfully."
+        )
 
     # Encode message
     encoded_message = quote(message)
@@ -279,10 +290,10 @@ def send_payment_entry_whatsapp(payment_entry, mobile_no=None):
     instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", "instance_id")
     url = frappe.db.get_single_value("Harshini Whatsapp Settings", "url")
 
-    # WhatsApp message URL (text only)
+    # WhatsApp message URL
     url_message = f"{url}Text?token={instance_id}&phone=91{mobile_no}&message={encoded_message}"
 
-    # Create log record
+    # Create log
     log_doc = frappe.new_doc("Whatsapp Log")
     log_doc.mobile_no = mobile_no
     log_doc.status = "Not Sent"

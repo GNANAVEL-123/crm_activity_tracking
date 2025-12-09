@@ -7,25 +7,28 @@ def send_payment_entry_email(payment_entry, email_id=None):
     if isinstance(payment_entry, str):
         doc = frappe.get_doc("Payment Entry", payment_entry)
 
-    if doc.party_type != "Customer":
-        frappe.throw("Email sending allowed only for Customer payments.")
+    # One template for both Customer & Supplier
+    template_doc = frappe.get_doc("Email Template", "Payment Confirmation Email Template")
 
-    subject = f"Payment Confirmation - {doc.name}"
+    html_template = template_doc.response_html or template_doc.message
 
-    message = f"""
-        <b>Payment Confirmation</b><br><br>
-        <b>Customer:</b> {doc.party}<br>
-        <b>Payment Entry:</b> {doc.name}<br>
-        <b>Date:</b> {doc.get_formatted('posting_date')}<br>
-        <b>Amount:</b> ₹{frappe.utils.fmt_money(doc.paid_amount)}<br><br>
-        Thank you for your payment!
-    """
+    # Render with Jinja
+    message = frappe.render_template(html_template, {"doc": doc})
+
+    # Dynamic subject
+    if doc.party_type == "Customer":
+        subject = f"Payment Confirmation - {doc.name}"
+    else:
+        subject = f"Payment Advice - {doc.name}"
 
     try:
         frappe.sendmail(
             recipients=[email_id],
             subject=subject,
             message=message,
+            reference_doctype="Payment Entry",
+            reference_name=doc.name,
+            send_priority=1,
             sender="admin@harshinifire.com",
         )
         return "Success"

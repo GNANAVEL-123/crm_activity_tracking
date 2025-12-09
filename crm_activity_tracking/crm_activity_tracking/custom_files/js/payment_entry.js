@@ -1,6 +1,9 @@
 frappe.ui.form.on("Payment Entry", {
     refresh(frm) {
-        if (frm.doc.docstatus === 1 && frm.doc.party_type === "Customer") {
+        if (
+                frm.doc.docstatus === 1 &&
+                (frm.doc.party_type === "Customer" || frm.doc.party_type === "Supplier")
+            ) {
             // WhatsApp Button
             frm.add_custom_button("Send WhatsApp", () => {
                 frm.events.open_whatsapp_dialog(frm);
