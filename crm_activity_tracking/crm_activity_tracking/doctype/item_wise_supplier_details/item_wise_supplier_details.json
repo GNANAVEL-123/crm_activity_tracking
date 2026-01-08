@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-08 19:25:17.993349",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "buyer",
+  "purchase_rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "buyer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Buyer",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purchase_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Purchase Rate",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-01-08 19:36:41.745989",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Item Wise Supplier Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
