@@ -195,6 +195,37 @@ frappe.ui.form.on("Quotation", {
 		// 	}
 		// })
     },
+	party_name: function (frm) {
+		if (!frm.doc.party_name || frm.doc.quotation_to !== "Customer") return;
+
+		frappe.call({
+			method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_customer_executives",
+			args: {
+				quotation_to: frm.doc.quotation_to,
+				party_name: frm.doc.party_name,
+			},
+			callback: function (r) {
+				if (!r.message) return;
+
+				const data = r.message;
+
+				// 🔹 Sales Executive
+				if (data.executive) {
+					frm.set_value("custom_executive", data.executive.name);
+					frm.set_value("custom_executive_mobile_no", data.executive.mobile_no);
+					frm.set_value("custom_executive_email", data.executive.email);
+				}
+
+				// 🔹 Manager / Admin
+				if (data.manager) {
+					frm.set_value("custom_manager", data.manager.name);
+					frm.set_value("custom_manager_mobile_no", data.manager.mobile_no);
+					frm.set_value("custom_manager_email", data.manager.email);
+				}
+			}
+		});
+	},
+
 	open_whatsapp_dialog(frm) {
         let default_mobile = "";
         if (frm.doc.customer_address) {
@@ -327,7 +358,18 @@ frappe.ui.form.on("Quotation Item", {
 		const row = locals[cdt][cdn];
 
 		if (!row.item_code || !frm.doc.transaction_date || !frm.doc.party_name) return;
-
+		frappe.call({
+			method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_lowest_buyer_rate",
+			args: {
+				item_code: row.item_code,
+			},
+			callback: function (r) {
+				if (r.message) {
+					frappe.model.set_value(cdt, cdn, "custom_buyer", r.message.buyer);
+					frappe.model.set_value(cdt, cdn, "custom_purchase_rate", r.message.rate);
+				}
+			}
+		});
 		frappe.call({
 			method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_last_selling_rate",
 			args: {

@@ -1,6 +1,6 @@
 import frappe
 import json
-from frappe.utils import getdate, nowdate
+from frappe.utils import getdate, nowdate, flt
 from frappe.desk.reportview import get_filters_cond, get_match_cond
 from frappe.permissions import (
 	add_user_permission,
@@ -239,3 +239,65 @@ def validate_customer_lastprice(doc, event):
         )
 
         item.custom_last_customer_selling_rate = last_rate
+
+@frappe.whitelist()
+def get_lowest_buyer_rate(item_code):
+    item = frappe.get_doc("Item", item_code)
+
+    lowest_rate = None
+    lowest_buyer = None
+
+    for row in item.custom_buyer_details:
+        rate = flt(row.purchase_rate)
+        if rate <= 0:
+            continue
+
+        if lowest_rate is None or rate < lowest_rate:
+            lowest_rate = rate
+            lowest_buyer = row.buyer
+
+    if lowest_rate is not None:
+        return {
+            "buyer": lowest_buyer,
+            "rate": lowest_rate
+        }
+
+    return None
+
+import frappe
+
+@frappe.whitelist()
+def get_customer_executives(quotation_to, party_name):
+    if quotation_to != "Customer" or not party_name:
+        return {}
+
+    customer = frappe.get_doc("Customer", party_name)
+
+    result = {
+        "executive": {},
+        "manager": {}
+    }
+
+    def get_exec_details(email):
+        if not email:
+            return None
+
+        exec_doc = frappe.db.get_value(
+            "Executive",
+            {"email": email},
+            ["name", "email", "mobile_no"],
+            as_dict=True
+        )
+        return exec_doc
+
+    # 🔹 Sales Executive
+    exec_details = get_exec_details(customer.custom_sales_executive)
+    if exec_details:
+        result["executive"] = exec_details
+
+    # 🔹 Admin / Manager
+    manager_details = get_exec_details(customer.custom_admin)
+    if manager_details:
+        result["manager"] = manager_details
+
+    return result

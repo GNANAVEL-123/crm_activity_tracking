@@ -312,3 +312,188 @@ def send_payment_entry_whatsapp(payment_entry, mobile_no=None):
         frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(e))
 
     return "Success"
+
+
+import frappe
+import requests
+from urllib.parse import quote
+
+@frappe.whitelist()
+def send_refilling_report_no(rr_no, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    if isinstance(rr_no, str):
+        doc = frappe.get_doc("Refilling Report No", rr_no)
+    else:
+        frappe.throw("Invalid Refilling Report No")
+
+    mobile_no = ( str(mobile_no).replace(" ", "").replace("+91", "").replace("-", ""))
+
+    items = []
+    for row in doc.refilling_report_table:
+        if row.item_name:
+            items.append(f"- {row.item_name}")
+
+    items_text = "\n".join(items) if items else "- N/A"
+
+    employee_name = None
+    employee_mobile = None
+    if doc.employee:
+        user = frappe.get_doc("User", doc.employee)
+        employee_mobile = user.mobile_no or user.phone
+        if employee_mobile:
+            employee_name = user.full_name or user.name
+
+
+    message = (
+        f"*Refilling Information* 🛢️\n\n"
+        f"Customer: *{doc.customer}*\n"
+        f"Refilling Report No: *{doc.name}*\n"
+        f"Date: {doc.get_formatted('date')}\n\n"
+        f"*Refilled Product(s):*\n"
+        f"{items_text}\n\n"
+        f"Our staff from *Harshini Fire Protection Equipments & Service* "
+        f"have taken your fire extinguishers for maintenance. "
+        f"We will send them back to you soon.\n\n"
+    )
+    if employee_mobile:
+        message += (
+            f"*Handled By:*\n"
+            f"Name: {employee_name}\n"
+            f"Contact: {employee_mobile}\n\n"
+        )
+    message += (
+        f"*Toll Free No:* 1800 425 9101 / 9543102101\n\n"
+        f"Thank you for choosing our service."
+    )
+
+    # Encode message
+    encoded_message = quote(message)
+
+    # WhatsApp credentials
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", "instance_id")
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", "url")
+
+    # WhatsApp API URL
+    whatsapp_url = (
+        f"{url}Text?"
+        f"token={instance_id}"
+        f"&phone=91{mobile_no}"
+        f"&message={encoded_message}"
+    )
+
+    # Create WhatsApp Log
+    log_doc = frappe.new_doc("Whatsapp Log")
+    log_doc.mobile_no = mobile_no
+    log_doc.status = "Not Sent"
+    log_doc.reference_doctype = doc.doctype
+    log_doc.reference_document = doc.name
+    log_doc.request_url = whatsapp_url
+    log_doc.insert(ignore_permissions=True)
+
+    # Send WhatsApp message
+    try:
+        response = requests.get(whatsapp_url, timeout=20)
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Success")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", response.text)
+    except Exception as e:
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Failure")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(e))
+
+    return "Success"
+
+@frappe.whitelist()
+def send_refilling_certificate(rc_no, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    if isinstance(rc_no, str):
+        doc = frappe.get_doc("Refilling Certificate", rc_no)
+    else:
+        frappe.throw("Invalid Refilling Certificate No")
+
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    items = []
+    for row in doc.table_wxkh:
+        if row.item:
+            items.append(f"- {row.item}")
+
+    items_text = "\n".join(items) if items else "- N/A"
+
+    employee_name = None
+    employee_mobile = None
+    if doc.employee:
+        user = frappe.get_doc("User", doc.employee)
+        employee_mobile = user.mobile_no or user.phone
+        if employee_mobile:
+            employee_name = user.full_name or user.name
+
+    message = (
+        f"*Refilling Review Completed* ✅🧯\n\n"
+        f"*Customer:* {doc.customer}\n"
+        f"*Refilling Date:* {doc.get_formatted('refilling_report_date')}\n"
+        f"*Refilling Due Date:* {doc.get_formatted('refilling_due_date')}\n"
+        f"*Invoice No & Date:* {doc.invoice_number} - {doc.get_formatted('from_date')}\n\n"
+        f"This is to inform you that the review of your fire extinguisher "
+        f"refilling report has been completed successfully.\n\n"
+        f"The invoice and certificate will be sent to our employee shortly.\n\n"
+    )
+
+    # ✅ Add employee details ONLY if mobile exists
+    if employee_mobile:
+        message += (
+            f"*Handled By:*\n"
+            f"Name: {employee_name}\n"
+            f"Contact: {employee_mobile}\n\n"
+        )
+
+    # ✅ Footer (only once)
+    message += (
+        f"*Admin By:*\n"
+        f"Gnanavel\n"
+        f"📞 9543102101\n\n"
+        f"*Toll Free No:* 1800 425 9101 / 9543102101\n\n"
+        f"Thank you for choosing *Harshini Fire Protection Equipments & Service*."
+    )
+
+
+    # Encode message
+    encoded_message = quote(message)
+
+    # WhatsApp credentials
+    instance_id = frappe.db.get_single_value(
+        "Harshini Whatsapp Settings", "instance_id"
+    )
+    url = frappe.db.get_single_value(
+        "Harshini Whatsapp Settings", "url"
+    )
+
+    # WhatsApp API URL
+    whatsapp_url = (
+        f"{url}Text?"
+        f"token={instance_id}"
+        f"&phone=91{mobile_no}"
+        f"&message={encoded_message}"
+    )
+
+    # Create WhatsApp Log
+    log_doc = frappe.new_doc("Whatsapp Log")
+    log_doc.mobile_no = mobile_no
+    log_doc.status = "Not Sent"
+    log_doc.reference_doctype = doc.doctype
+    log_doc.reference_document = doc.name
+    log_doc.request_url = whatsapp_url
+    log_doc.insert(ignore_permissions=True)
+
+    # Send WhatsApp message
+    try:
+        response = requests.get(whatsapp_url, timeout=20)
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Success")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", response.text)
+    except Exception as e:
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "status", "Failure")
+        frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(e))
+
+    return "Success"
