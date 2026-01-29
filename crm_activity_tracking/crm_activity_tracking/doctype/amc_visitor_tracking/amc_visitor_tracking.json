@@ -34,6 +34,7 @@
   "total_extinguisher",
   "vendor_number",
   "po_number",
+  "po_date",
   "amc_frequency",
   "naming_series",
   "section_break_jxwf",
@@ -366,11 +367,16 @@
    "fieldname": "print_check",
    "fieldtype": "Check",
    "label": "Print(Check and Uncheck)"
+  },
+  {
+   "fieldname": "po_date",
+   "fieldtype": "Date",
+   "label": "PO Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-03 11:30:45.047442",
+ "modified": "2026-01-27 14:04:12.087864",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

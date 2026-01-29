@@ -37,8 +37,9 @@
   "amc_frequency_list",
   "section_break_jxwf",
   "refilling_schedule",
-  "column_break_uuhm",
+  "section_break_udch",
   "fire_extinguisher_amc_scope_of_work",
+  "section_break_tgmz",
   "amc_tracking_notes_details"
  ],
  "fields": [
@@ -227,13 +228,17 @@
    "options": "AMC Tracking Notes Details"
   },
   {
-   "fieldname": "column_break_uuhm",
-   "fieldtype": "Column Break"
+   "fieldname": "section_break_udch",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_tgmz",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-30 02:59:28.989279",
+ "modified": "2026-01-19 11:21:42.951962",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",

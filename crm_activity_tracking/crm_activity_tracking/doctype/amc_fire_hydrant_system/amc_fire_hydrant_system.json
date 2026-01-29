@@ -29,6 +29,8 @@
   "no_of_month",
   "amc_service_date",
   "next_amc_service_due_date",
+  "quotation_no",
+  "invoice_no",
   "section_break_aosm",
   "amc_frequency_list",
   "details_of_landing_valve_section",
@@ -102,7 +104,7 @@
   },
   {
    "fieldname": "service_by",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Service By",
    "options": "Employee"
   },
@@ -249,11 +251,21 @@
    "fieldtype": "Link",
    "label": "Customer Address",
    "options": "Address"
+  },
+  {
+   "fieldname": "quotation_no",
+   "fieldtype": "Data",
+   "label": "Quotation No"
+  },
+  {
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-04 11:27:40.621179",
+ "modified": "2026-01-19 11:05:57.436794",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Hydrant System",

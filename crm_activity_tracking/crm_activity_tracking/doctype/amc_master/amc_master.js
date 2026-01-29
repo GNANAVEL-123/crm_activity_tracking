@@ -68,8 +68,10 @@ frappe.ui.form.on("AMC Master", {
                     frm.doc.refilling_schedule.forEach(row => {
                         let new_row = frappe.model.add_child(new_doc, 'refilling_schedule');
                         Object.assign(new_row, {
+                            point_no: row.point_no,
                             location: row.location,
                             year_of_mfg: row.year_of_mfg,
+                            hpt_due_date: row.hpt_due_date,
                             type: row.type,
                             year_frequency: row.year_frequency,
                             expiry_life_due: row.expiry_life_due,
@@ -124,8 +126,8 @@ frappe.ui.form.on('Refilling Schedule Table', {
 
     year_frequency: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        if (row.year_of_mfg && row.year_frequency) {
-            let yearOfMfg = parseInt(row.year_of_mfg, 10);
+        if (row.hpt_due_date && row.year_frequency) {
+            let yearOfMfg = parseInt(row.hpt_due_date, 10);
             let yearFrequency = parseInt(row.year_frequency, 10);
             row.expiry_life_due = yearOfMfg + yearFrequency;
             frm.refresh_field("refilling_schedule");
