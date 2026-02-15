@@ -185,8 +185,8 @@ frappe.ui.form.on('Refilling Schedule Table', {
 
     year_frequency: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        if (row.hpt_due_date && row.year_frequency) {
-            let yearOfMfg = parseInt(row.hpt_due_date, 10); 
+        if (row.hpt && row.year_frequency) {
+            let yearOfMfg = parseInt(row.hpt, 10); 
             let yearFrequency = parseInt(row.year_frequency, 10); 
             row.expiry_life_due = yearOfMfg + yearFrequency;
             frm.refresh_field("refilling_schedule");

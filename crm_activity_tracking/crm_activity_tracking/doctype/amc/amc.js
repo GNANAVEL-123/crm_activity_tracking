@@ -62,7 +62,7 @@ frappe.ui.form.on("AMC", {
                             type: row.type,
                             cap: row.cap,
                             year_of_mfg: row.year_of_mfg,
-                            hpt_due_date: row.hpt_due_date,
+                            hpt: row.hpt,
                             year_frequency: row.year_frequency,
                             expiry_life_due: row.expiry_life_due,
                             full_weight: row.full_weight,
@@ -156,8 +156,8 @@ frappe.ui.form.on('Refilling Schedule Table', {
 
     year_frequency: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        if (row.hpt_due_date && row.year_frequency) {
-            let yearOfMfg = parseInt(row.hpt_due_date, 10);
+        if (row.hpt && row.year_frequency) {
+            let yearOfMfg = parseInt(row.hpt, 10);
             let yearFrequency = parseInt(row.year_frequency, 10);
             row.expiry_life_due = yearOfMfg + yearFrequency;
             frm.refresh_field("refilling_schedule");

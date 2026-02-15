@@ -18,7 +18,7 @@
   "refilling_complete",
   "column_break_gjii",
   "year_of_mfg",
-  "hpt_due_date",
+  "hpt",
   "year_frequency",
   "expiry_life_due",
   "full_weight",
@@ -170,15 +170,16 @@
    "permlevel": 2
   },
   {
-   "fieldname": "hpt_due_date",
-   "fieldtype": "Date",
+   "fieldname": "hpt",
+   "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "HPT"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-01-27 14:09:03.951916",
+ "modified": "2026-01-29 17:50:46.858218",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Schedule Table",

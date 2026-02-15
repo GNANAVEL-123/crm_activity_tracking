@@ -83,7 +83,7 @@ def amc_visitor_tracker():
                                     refilling_child.actual_weight = refilling_entry.actual_weight
                                     refilling_child.empty_weight = refilling_entry.empty_weight
                                     refilling_child.year_of_mfg = refilling_entry.year_of_mfg
-                                    refilling_child.hpt_due_date = refilling_entry.hpt_due_date
+                                    refilling_child.hpt = refilling_entry.hpt
                                     refilling_child.year_frequency = refilling_entry.year_frequency
                                     refilling_child.expiry_life_due = refilling_entry.expiry_life_due
                                     refilling_child.qr_code = refilling_entry.qr_code
