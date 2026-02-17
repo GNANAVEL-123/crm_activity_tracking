@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-12-14 13:10:55.828557",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "location_update_interval",
+  "column_break_mjhl",
+  "default_company",
+  "default_tax_category",
+  "default_sales_taxes_and_charges_template",
+  "default_price_list"
+ ],
+ "fields": [
+  {
+   "default": "20",
+   "description": "Time interval in seconds for fetching user location.",
+   "fieldname": "location_update_interval",
+   "fieldtype": "Int",
+   "label": "Location Update Interval"
+  },
+  {
+   "fieldname": "column_break_mjhl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "label": "Default Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "default_tax_category",
+   "fieldtype": "Link",
+   "label": "Default Tax Category",
+   "options": "Tax Category"
+  },
+  {
+   "fieldname": "default_sales_taxes_and_charges_template",
+   "fieldtype": "Link",
+   "label": "Default Sales Taxes and Charges Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "default_price_list",
+   "fieldtype": "Link",
+   "label": "Default Price List",
+   "options": "Price List"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-01-19 23:18:13.243835",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Mobile App Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
