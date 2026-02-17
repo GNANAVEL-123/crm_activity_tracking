@@ -57,10 +57,12 @@ frappe.ui.form.on("AMC", {
                     frm.doc.refilling_schedule.forEach(row => {
                         let new_row = frappe.model.add_child(new_doc, 'refilling_schedule');
                         Object.assign(new_row, {
+                            point_no: row.point_no,
                             location: row.location,
                             type: row.type,
                             cap: row.cap,
                             year_of_mfg: row.year_of_mfg,
+                            hpt: row.hpt,
                             year_frequency: row.year_frequency,
                             expiry_life_due: row.expiry_life_due,
                             full_weight: row.full_weight,
@@ -92,16 +94,16 @@ frappe.ui.form.on("AMC", {
                 'font-weight': 'bold',
             });
         }
-        if (frm.doc.amc_master){
-            frm.set_query("location", 'refilling_schedule', function(frm, cdt, cdn){
+        if (frm.doc.amc_master) {
+            frm.set_query("location", "refilling_schedule", function(doc, cdt, cdn) {
                 let row = locals[cdt][cdn];
                 return {
                     query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",
                     filters: {
-                        amc_master: frm.doc.amc_master,
+                        amc_master: doc.amc_master,
                     }
-                }
-            })
+                };
+            });
         }
     },
     amc_master: function(frm) {
@@ -118,18 +120,17 @@ frappe.ui.form.on("AMC", {
     },
     on_load: function(frm) {
         if (frm.doc.amc_master) {
-            frm.fields_dict.refilling_schedule.grid.get_field("location").get_query = function(doc, cdt, cdn) {
+            frm.set_query("location", "refilling_schedule", function(doc, cdt, cdn) {
+                let row = locals[cdt][cdn];
                 return {
                     query: "crm_activity_tracking.crm_activity_tracking.doctype.amc.amc.location_list",
                     filters: {
-                        amc_master: doc.amc_master
+                        amc_master: doc.amc_master,
                     }
                 };
-            };
+            });
         }
     }
-    
-    
 });
 
 function update_total_extinguisher(frm) {
@@ -155,8 +156,8 @@ frappe.ui.form.on('Refilling Schedule Table', {
 
     year_frequency: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        if (row.year_of_mfg && row.year_frequency) {
-            let yearOfMfg = parseInt(row.year_of_mfg, 10);
+        if (row.hpt && row.year_frequency) {
+            let yearOfMfg = parseInt(row.hpt, 10);
             let yearFrequency = parseInt(row.year_frequency, 10);
             row.expiry_life_due = yearOfMfg + yearFrequency;
             frm.refresh_field("refilling_schedule");

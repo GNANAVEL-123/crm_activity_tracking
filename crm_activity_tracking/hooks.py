@@ -39,7 +39,9 @@ doctype_js = {
 			"Purchase Invoice": "crm_activity_tracking/custom_files/js/purchase_invoice.js",
 			"Sales Order": "crm_activity_tracking/custom_files/js/sales_order.js",
 			"Delivery Note": "crm_activity_tracking/custom_files/js/delivery_note.js",
-			"Sales Invoice": "crm_activity_tracking/custom_files/js/sales_invoice.js"}
+			"Sales Invoice": "crm_activity_tracking/custom_files/js/sales_invoice.js",
+			"Payment Entry": "crm_activity_tracking/custom_files/js/payment_entry.js",
+			"Customer": "crm_activity_tracking/custom_files/js/customer.js",}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -211,6 +213,8 @@ scheduler_events = {
 		'0 8 * * *': [
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.quotation_tracking_email_send",
 			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.task_tracking_email_send",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.inactive_email_cron",
+			"crm_activity_tracking.crm_activity_tracking.custom_files.py.cron.payment_remainder_email_send_cron",
 		],
     }
 }

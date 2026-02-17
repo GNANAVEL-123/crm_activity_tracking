@@ -169,7 +169,7 @@ def amc_to_amc_master_creation():
 
 def amc_to_amc_master_creation_withdate():
     today = getdate(nowdate())
-    amc_list = frappe.db.get_list("AMC", filters={"amc_master":["is", "not set"], "amc_service_date":["is", "not set"]}, pluck="name")
+    amc_list = frappe.db.get_list("AMC", filters={"amc_master":["is", "not set"]}, pluck="name")
 
     for amc in amc_list:
         amc_doc = frappe.get_doc("AMC", amc)
@@ -214,7 +214,9 @@ def amc_to_amc_master_creation_withdate():
 
             refilling_child = amc_master_doc.append("refilling_schedule", {})
             refilling_child.location = ref_row.location
+            refilling_child.point_no = ref_row.point_no
             refilling_child.year_of_mfg = ref_row.year_of_mfg
+            refilling_child.hpt = ref_row.hpt
             refilling_child.type = ref_row.type
             refilling_child.year_frequency = ref_row.year_frequency
             refilling_child.expiry_life_due = ref_row.expiry_life_due

@@ -17,7 +17,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 4,
+   "link_count": 6,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -61,9 +61,29 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Inactive Customers",
+   "link_count": 0,
+   "link_to": "Inactive Customers",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sales Person Wise Sales Invoice Summary",
+   "link_count": 0,
+   "link_to": "Sales Person Wise Sales Invoice Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-05-24 11:54:20.514407",
+ "modified": "2026-01-05 11:01:13.255715",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Retailing",

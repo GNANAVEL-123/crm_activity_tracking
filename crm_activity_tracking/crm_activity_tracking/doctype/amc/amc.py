@@ -76,12 +76,14 @@ def amc_visitor_tracker():
                                 for refilling_entry in amc_doc.refilling_schedule:
                                     refilling_child = amc_tracker_doc.append("refilling_schedule", {})
                                     refilling_child.location = refilling_entry.location
+                                    refilling_child.point_no = refilling_entry.point_no
                                     refilling_child.type = refilling_entry.type
                                     refilling_child.cap = refilling_entry.cap
                                     refilling_child.full_weight = refilling_entry.full_weight
                                     refilling_child.actual_weight = refilling_entry.actual_weight
                                     refilling_child.empty_weight = refilling_entry.empty_weight
                                     refilling_child.year_of_mfg = refilling_entry.year_of_mfg
+                                    refilling_child.hpt = refilling_entry.hpt
                                     refilling_child.year_frequency = refilling_entry.year_frequency
                                     refilling_child.expiry_life_due = refilling_entry.expiry_life_due
                                     refilling_child.qr_code = refilling_entry.qr_code

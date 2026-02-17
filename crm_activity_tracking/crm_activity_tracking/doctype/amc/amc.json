@@ -37,8 +37,9 @@
   "amc_frequency_list",
   "section_break_jxwf",
   "refilling_schedule",
-  "notes_details_section",
+  "section_break_udch",
   "fire_extinguisher_amc_scope_of_work",
+  "section_break_tgmz",
   "amc_tracking_notes_details"
  ],
  "fields": [
@@ -75,8 +76,7 @@
    "fieldname": "invoice_number",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Invoice Number",
-   "unique": 1
+   "label": "Invoice Number"
   },
   {
    "fieldname": "product_delivery_date",
@@ -216,11 +216,6 @@
    "options": "Address"
   },
   {
-   "fieldname": "notes_details_section",
-   "fieldtype": "Section Break",
-   "label": "Notes Details"
-  },
-  {
    "fieldname": "fire_extinguisher_amc_scope_of_work",
    "fieldtype": "Long Text",
    "hidden": 1,
@@ -231,11 +226,19 @@
    "fieldtype": "Table",
    "label": "AMC Tracking Notes Details",
    "options": "AMC Tracking Notes Details"
+  },
+  {
+   "fieldname": "section_break_udch",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_tgmz",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-23 11:07:52.599725",
+ "modified": "2026-01-19 11:21:42.951962",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC",

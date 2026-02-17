@@ -26,7 +26,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Zone/Loop",
-   "options": "Zone 1\nZone 2\nZone 3\nZone 4\nZone 5\nZone 6\nZone 7\nZone 8\nAddressable Loop 1\nAddressable Loop 2\nRepeater Panel",
+   "options": "Zone 1\nZone 2\nZone 3\nZone 4\nZone 5\nZone 6\nZone 7\nZone 8\nAddressable Loop 1\nAddressable Loop 2\nRepeater Panel\nHOTTER",
    "reqd": 1
   },
   {
@@ -61,7 +61,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-31 14:48:25.603150",
+ "modified": "2025-12-30 10:46:22.989838",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alaram Table",

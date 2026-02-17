@@ -30,6 +30,18 @@ frappe.ui.form.on("AMC Visitor Tracking", {
             // Open in new tab
             window.open(url, "_blank");
         });
+        frm.add_custom_button(__('Take Remarks Details Print'), function() {
+            // Build print format URL
+            let doctype = frm.doc.doctype;
+            let docname = frm.doc.name;
+            let print_format = "AMC Remarks Details Print"; // your custom print format name
+            let letterhead = 0; // 0 = with letterhead, 1 = without
+
+            let url = `/printview?doctype=${doctype}&name=${docname}&format=${print_format}&no_letterhead=${letterhead}`;
+
+            // Open in new tab
+            window.open(url, "_blank");
+        });
         frm.set_query("company_address", function () {
 			return {
 				filters: {
@@ -61,6 +73,16 @@ frappe.ui.form.on("AMC Visitor Tracking", {
         } else {
             frappe.msgprint(__('Check-out time is already updated!'));
         }
+    },
+    print_check(frm) {
+        // value will be 1 if checked, 0 if unchecked
+        let value = frm.doc.print_check ? 1 : 0;
+
+        frm.doc.refilling_schedule.forEach(row => {
+            row.refilling_print = value;
+        });
+
+        frm.refresh_field('refilling_schedule');
     },
     amc_frequency(frm) {
         if (frm.doc.amc_frequency && frm.doc.amc_service_date) {
@@ -163,8 +185,8 @@ frappe.ui.form.on('Refilling Schedule Table', {
 
     year_frequency: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
-        if (row.year_of_mfg && row.year_frequency) {
-            let yearOfMfg = parseInt(row.year_of_mfg, 10); 
+        if (row.hpt && row.year_frequency) {
+            let yearOfMfg = parseInt(row.hpt, 10); 
             let yearFrequency = parseInt(row.year_frequency, 10); 
             row.expiry_life_due = yearOfMfg + yearFrequency;
             frm.refresh_field("refilling_schedule");

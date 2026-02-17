@@ -34,6 +34,7 @@
    "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Customer",
    "reqd": 1
@@ -42,6 +43,7 @@
    "fieldname": "region",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Region",
    "options": "Territory",
    "reqd": 1
@@ -152,13 +154,14 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Customer Name",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-10 22:43:44.684427",
+ "modified": "2025-12-15 10:08:08.368214",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Report No",

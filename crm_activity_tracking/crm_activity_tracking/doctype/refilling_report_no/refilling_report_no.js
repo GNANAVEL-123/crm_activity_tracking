@@ -49,7 +49,23 @@ frappe.ui.form.on("Refilling Report No", {
                 'background-color': '#bb6b93',
                 'font-weight': 'bold'
             });
-        }        
+        }   
+        if (!frm.is_new()) { 
+            frm.add_custom_button("Send Whatsapp", () => {
+                frm.events.open_whatsapp_dialog(frm);
+            });    
+            setTimeout(() => {
+                $('button:contains("Send Whatsapp")')
+                    .removeClass('btn-default')
+                    .addClass('btn-success')
+                    .css({
+                        'background-color': '#423586ff',
+                        'border-color': '#25D366',
+                        'color': '#ffffff',
+                        'font-weight': '600'
+                    });
+            }, 300);
+        }
     },        
     year(frm) {
 		if (frm.doc.refilling_date && frm.doc.year) {
@@ -60,4 +76,57 @@ frappe.ui.form.on("Refilling Report No", {
 			frm.set_value("refilling_due_date", due_date);
 		}
 	},
+    open_whatsapp_dialog(frm) {
+        let default_mobile = "";
+        if (frm.doc.mobile_no) {
+            default_mobile = frm.doc.mobile_no;
+            create_dialog(default_mobile);
+        } else {
+            create_dialog("");
+        }
+
+        function create_dialog(default_mobile_no) {
+            let d = new frappe.ui.Dialog({
+                title: "Send WhatsApp Message",
+                fields: [
+                    {
+                        label: "Whatsapp Number",
+                        fieldname: "mobile_no",
+                        fieldtype: "Data",
+                        reqd: 1,
+                        default: default_mobile_no,   // 👈 Set default number here
+                        description: "Enter WhatsApp number (only digits)"
+                    }
+                ],
+                primary_action_label: "Send",
+                primary_action(values) {
+
+                    frm.call({
+                        method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.whatsapp.send_refilling_report_no",
+                        args: {
+                            rr_no: frm.doc.name,
+                            mobile_no: values.mobile_no    // send dialog value
+                        },
+                        callback: function (response) {
+                            if (response.message === "Success") {
+                                frappe.show_alert({
+                                    message: __("WhatsApp Message Sent Successfully"),
+                                    indicator: "green",
+                                });
+                            } else {
+                                frappe.show_alert({
+                                    message: __("Failed to send WhatsApp Message"),
+                                    indicator: "red",
+                                });
+                            }
+                        }
+                    });
+
+                    d.hide();
+                }
+            });
+
+            d.show();
+        }
+    },
 });
