@@ -215,7 +215,6 @@ def fetch_profile():
 
 @frappe.whitelist(allow_guest=False)
 def todays_followup():
-    frappe.throw('Test')
     date = frappe.utils.nowdate()
 
     query = """
