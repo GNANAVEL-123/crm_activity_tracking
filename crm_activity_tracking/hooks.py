@@ -28,7 +28,9 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
+doctype_js = {
+			"User": "crm_activity_tracking/utils/user.js",
+			"Lead" : "crm_activity_tracking/custom_files/js/lead.js",
 			"Quotation" : "crm_activity_tracking/custom_files/js/quotation.js",
 			"Task" :"crm_activity_tracking/custom_files/js/task.js",
 			"Project": "crm_activity_tracking/custom_files/js/project.js",
@@ -81,7 +83,7 @@ jinja = {
 # ------------
 
 # before_install = "crm_activity_tracking.install.before_install"
-# after_install = "crm_activity_tracking.install.after_install"
+after_install = "crm_activity_tracking.crm_activity_tracking.utils.install.after_install"
 
 # Uninstallation
 # ------------
