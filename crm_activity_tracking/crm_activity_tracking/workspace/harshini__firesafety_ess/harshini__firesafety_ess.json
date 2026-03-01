@@ -1,0 +1,59 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"z07C61Gpg9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Harshini  FireSafety ESS</span>\",\"col\":12}},{\"id\":\"cilRJzbL-N\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile App Settings\",\"col\":8}},{\"id\":\"0W_Y0ghqf0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Location Log\",\"col\":8}},{\"id\":\"Uq9yaFhZmP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mobile App Profile\",\"col\":8}},{\"id\":\"C2trFzdFI3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hSDk_Cn1uS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Location Time Line\",\"col\":8}}]",
+ "creation": "2026-02-08 19:38:02.336145",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Harshini  FireSafety ESS",
+ "links": [],
+ "modified": "2026-02-28 21:47:41.560613",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Harshini  FireSafety ESS",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 49.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Mobile App Settings",
+   "link_to": "Mobile App Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Location Log",
+   "link_to": "Employee Location Log",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Mobile App Profile",
+   "link_to": "Mobile App Profile",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Location Time Line",
+   "link_to": "location-timeline",
+   "type": "Page"
+  }
+ ],
+ "title": "Harshini  FireSafety ESS"
+}
