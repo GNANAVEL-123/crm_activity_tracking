@@ -65,3 +65,25 @@ frappe.ui.form.on("Follow-Up", {
         }
     }
 })
+frappe.ui.form.on("Task Item Details", {
+
+    qty: function(frm, cdt, cdn) {
+        calculate_amount(frm, cdt, cdn);
+    },
+
+    rate: function(frm, cdt, cdn) {
+        calculate_amount(frm, cdt, cdn);
+    }
+
+});
+
+function calculate_amount(frm, cdt, cdn) {
+    let row = locals[cdt][cdn];
+
+    let qty = row.qty || 0;
+    let rate = row.rate || 0;
+
+    let amount = qty * rate;
+
+    frappe.model.set_value(cdt, cdn, "amount", amount);
+}

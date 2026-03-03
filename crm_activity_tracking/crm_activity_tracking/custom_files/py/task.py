@@ -9,6 +9,11 @@ from frappe.permissions import (
 def validate(doc, method):
     if not doc.get('__islocal'):
         manage_user_permission(doc)
+    if doc.custom_refilling_item_details:
+        total_amt = 0
+        for item in doc.custom_refilling_item_details:
+            total_amt += item.amount
+        doc.custom_total_amount = total_amt
 
 def after_insert(doc, method):  
     manage_user_permission(doc)
