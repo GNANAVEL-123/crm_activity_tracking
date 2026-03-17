@@ -142,7 +142,8 @@ override_doctype_class = {
 doc_events = {
 	"Lead": {
 		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.validate",
-		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.after_insert",
+		"after_insert": ["crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.after_insert",
+						"crm_activity_tracking.crm_activity_tracking.custom_files.py.whatsapp.send_welcome_message_on_lead_insert"],
 		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.lead.on_trash"
 	},
   "Quotation": {

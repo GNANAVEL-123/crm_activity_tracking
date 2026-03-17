@@ -497,3 +497,43 @@ def send_refilling_certificate(rc_no, mobile_no=None):
         frappe.db.set_value("Whatsapp Log", log_doc.name, "response", str(e))
 
     return "Success"
+
+def send_welcome_message_on_lead_insert(doc, method):
+    frappe.errprint("KKKKK")
+    if not doc.mobile_no:
+        frappe.throw("Mobile number not found for this Lead.")
+
+    # Fetch WhatsApp settings
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", 'instance_id')
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", 'url')
+
+    customer_mobile_no = doc.mobile_no
+
+    # Prepare message
+    site_url = f"{frappe.utils.get_url()}/app/lead/{doc.name}"
+    message = (
+        f"🌟 *Welcome!* 🌟\n"
+        f"Hi {doc.lead_name or 'there'},\n"
+        f"Thank you for connecting with us.\n"
+    )
+    encoded_message = quote(message)
+
+    # Create Whatsapp Log
+    log_doc = frappe.new_doc('Whatsapp Log')
+    log_doc.mobile_no = customer_mobile_no
+    log_doc.status = 'Not Sent'
+    log_doc.reference_doctype = 'Lead'
+    log_doc.reference_document = doc.name
+    url_message = f"{url}Text?token={instance_id}&phone=91{customer_mobile_no}&message={encoded_message}"
+    log_doc.request_url = url_message
+    log_doc.save()
+
+    try:
+        response = requests.get(url_message)
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Success')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(response.json()))
+        frappe.log_error(title="Whatsapp Lead Welcome Success", message=f"{response.text}\n{url_message}")
+    except Exception as e:
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))
+        frappe.log_error(title="Whatsapp Lead Welcome Failure", message=f"{str(e)}\n{url_message}")
