@@ -499,7 +499,6 @@ def send_refilling_certificate(rc_no, mobile_no=None):
     return "Success"
 
 def send_welcome_message_on_lead_insert(doc, method):
-    frappe.errprint("KKKKK")
     if not doc.mobile_no:
         frappe.throw("Mobile number not found for this Lead.")
 
@@ -537,3 +536,93 @@ def send_welcome_message_on_lead_insert(doc, method):
         frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
         frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))
         frappe.log_error(title="Whatsapp Lead Welcome Failure", message=f"{str(e)}\n{url_message}")
+
+@frappe.whitelist()
+def send_purchase_order_whatsapp(invoice, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    if isinstance(invoice, str):
+        doc = frappe.get_doc("Purchase Order", invoice)
+
+    # Clean number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    pdf_options = {"page-size": "A4"}
+    fcontent = frappe.get_print(
+        doc=doc, print_format="Purchase Order", as_pdf=1, no_letterhead=1, pdf_options=pdf_options
+    )
+
+    pdf_file_name = f"{doc.name}.pdf"
+    _file = frappe.get_doc({
+        "doctype": "File",
+        "file_name": pdf_file_name,
+        "content": fcontent,
+    })
+    _file.insert()
+
+    message = (
+        f"*Purchase Order* 📄\n"
+        f"Supplier: *{doc.supplier}*\n"
+        f"PO No: *{doc.name}*\n"
+        f"Date: {frappe.utils.formatdate(doc.transaction_date)}\n\n"
+        f"We appreciate your business and look forward to fulfilling this order.\n"
+        f"Thank you!"
+    )
+
+    frappe.enqueue(
+        send_whatsapp_po,
+        media_url=frappe.utils.get_url() + _file.file_url,
+        doc=doc,
+        message=message,
+        mobile_no=mobile_no
+    )
+
+    return "Success"
+	
+def send_whatsapp_po(media_url, message, doc, mobile_no=None, invoice=None):
+    response = ""
+    url_message = ""
+
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    # Clean the mobile number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", 'instance_id')
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", 'url')
+
+    encoded_message = quote(message)
+
+    # Create WhatsApp Log
+    log_doc = frappe.new_doc('Whatsapp Log')
+    log_doc.mobile_no = mobile_no
+    log_doc.status = 'Not Sent'
+    log_doc.reference_doctype = 'Purchase Order'
+    log_doc.reference_document = doc.name
+
+    url_message = (
+        f"{url}FileWithCaption?token={instance_id}"
+        f"&phone=91{mobile_no}&link={media_url}&message={encoded_message}"
+    )
+
+    log_doc.request_url = url_message
+    log_doc.save()
+
+    try:
+        response = requests.get(url_message)
+        frappe.log_error(
+            title="Whatsapp Invoice Success",
+            message=f"""{media_url}\n{response}\n{url_message}\n"""
+        )
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Success')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(response.json()))
+
+    except Exception as e:
+        frappe.log_error(
+            title="Whatsapp Invoice Failure",
+            message=f"""{media_url}\n{response}\n{url_message}\n"""
+        )
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))
