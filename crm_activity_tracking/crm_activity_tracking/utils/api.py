@@ -129,6 +129,124 @@ def generate_keys(user: str):
 
     return {"api_secret": api_secret,"api_key": api_key}
 
+
+def get_current_employee():
+    employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user})
+    if not employee:
+        frappe.throw("Current user is not linked to an Employee record.", frappe.PermissionError)
+    return employee
+
+@frappe.whitelist()
+def update_amc_refilling_row(name, row_name, data):
+    if isinstance(data, str):
+        data = json.loads(data)
+
+    doc = frappe.get_doc("AMC Visitor Tracking", name)
+    row = next((
+        r for r in doc.refilling_schedule
+        if r.name == row_name or r.qr_code == row_name
+    ), None)
+
+    if not row:
+        frappe.throw("Refilling row not found")
+
+    updates = {}
+    for key, value in data.items():
+        if key in [
+            "name", "owner", "creation", "modified", "modified_by",
+            "docstatus", "idx", "parent", "parentfield", "parenttype", "doctype"
+        ]:
+            continue
+        updates[key] = value
+
+    if updates:
+        frappe.db.set_value(
+            row.doctype,
+            row.name,
+            updates,
+        )
+
+    if doc.status not in ("Working", "Completed"):
+        frappe.db.set_value("AMC Visitor Tracking", name, "status", "Working")
+
+    frappe.db.commit()
+
+    return {"status": "success", "message": "Row updated"}
+
+@frappe.whitelist()
+def get_today_amc_visitors():
+    today = str(nowdate())
+    employee = get_current_employee()
+
+    blocked_status = ["Not Assigned"]
+
+    return frappe.get_all(
+        "AMC Visitor Tracking",
+        filters={
+            "next_amc_service_due_date": today,
+            "assign_employee": employee,
+            "status": ["not in", blocked_status],
+        },
+        fields=[
+            "name",
+            "customer_name",
+            "amc_service_date",
+            "next_amc_service_due_date",
+            "contact_number",
+            "concern_person",
+            "location",
+            "status",
+            "assign_employee",
+        ],
+        order_by="creation desc",
+    )
+
+@frappe.whitelist()
+def get_amc_detail(name):
+    doc = frappe.get_doc("AMC Visitor Tracking", name)
+    return doc.as_dict()
+
+@frappe.whitelist()
+def start_amc_visit(name):
+    status = frappe.db.get_value("AMC Visitor Tracking", name, "status")
+    if status == "Working":
+        return {"status": "already_started", "message": "AMC already Working"}
+    if status == "Completed":
+        return {"status": "already_completed", "message": "AMC is already Completed"}
+
+    frappe.db.set_value("AMC Visitor Tracking", name, "status", "Working")
+    frappe.db.commit()
+
+    return {"status": "success", "message": "AMC visit started"}
+    
+
+@frappe.whitelist()
+def complete_amc_visit(name):
+    status = frappe.db.get_value("AMC Visitor Tracking", name, "status")
+    if status == "Completed":
+        return {"status": "already_completed", "message": "AMC is already Completed"}
+
+    frappe.db.set_value("AMC Visitor Tracking", name, "status", "Completed")
+    frappe.db.commit()
+
+    return {"status": "success", "message": "AMC visit completed"}
+
+@frappe.whitelist()
+def complete_refilling_schedule_row(parent_name, row_name):
+    doc = frappe.get_doc("AMC Visitor Tracking", parent_name)
+    row = next((r for r in doc.refilling_schedule if r.name == row_name), None)
+    if not row:
+        frappe.throw("Refilling schedule row not found.")
+
+    row.refilling_complete = 1
+    if doc.status not in ["Working", "Completed"]:
+        doc.status = "Working"
+
+    doc.save(ignore_permissions=True)
+    frappe.db.commit()
+
+    return {"status": "success", "message": "Row completed and AMC status updated"}
+
 @frappe.whitelist(allow_guest = False)
 def get_session_user_details():
     user = frappe.session.user

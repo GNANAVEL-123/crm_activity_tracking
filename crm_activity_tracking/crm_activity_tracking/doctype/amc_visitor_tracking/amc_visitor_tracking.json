@@ -37,6 +37,8 @@
   "po_date",
   "amc_frequency",
   "naming_series",
+  "status",
+  "assign_employee",
   "section_break_jxwf",
   "print_check",
   "refilling_schedule",
@@ -372,11 +374,24 @@
    "fieldname": "po_date",
    "fieldtype": "Date",
    "label": "PO Date"
+  },
+  {
+   "default": "Not Assigned",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Not Assigned\nAssigned\nWorking\nCompleted"
+  },
+  {
+   "fieldname": "assign_employee",
+   "fieldtype": "Link",
+   "label": "Assign Employee",
+   "options": "Employee"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-27 14:04:12.087864",
+ "modified": "2026-03-16 22:35:47.026783",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
