@@ -511,12 +511,24 @@ def send_welcome_message_on_lead_insert(doc, method):
     # Prepare message
     site_url = f"{frappe.utils.get_url()}/app/lead/{doc.name}"
     message = (
-        f"🌟 *Welcome!* 🌟\n"
-        f"Hi {doc.lead_name or 'there'},\n"
-        f"Thank you for connecting with us.\n"
+        "🔥 *Welcome to HARSHINI FIRE PROTECTION* 🔥\n\n"
+        "Thank you for contacting us! 🙏\n\n"
+        "We provide:\n"
+        "✔ Fire Extinguishers\n"
+        "✔ Fire Alarm Systems\n"
+        "✔ Fire Hydrant Systems\n"
+        "✔ AMC & Refilling Services\n"
+        "✔ All Safety Equipments\n"
+        "✔ All Road Safety Equipments\n"
+        "✔ All Chemical Safety Equipments\n\n"
+        "📍 Chennai | Vellore | Ambur | Ranipet\n\n"
+        "📱 WhatsApp: 9543102101\n"
+        "☎ Phone: 0416-2228101\n"
+        "📧 Email: admin@harshinifire.com\n\n"
+        "Our team will respond shortly.\n"
+        "Stay safe 🔥"
     )
     encoded_message = quote(message)
-
     # Create Whatsapp Log
     log_doc = frappe.new_doc('Whatsapp Log')
     log_doc.mobile_no = customer_mobile_no
