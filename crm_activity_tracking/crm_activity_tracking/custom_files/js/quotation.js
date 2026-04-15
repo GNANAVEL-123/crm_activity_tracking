@@ -401,7 +401,24 @@ frappe.ui.form.on("Quotation Item", {
 		var data = locals[cdt][cdn]
 		var per_amt = data.amount*frm.doc.custom_visit_count
 		frappe.model.set_value(cdt, cdn, "custom_visit_count_amount", per_amt)
-	}
+	},
+	custom_supply_rate: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        let amount = (row.qty || 0) * (row.custom_supply_rate || 0);
+        frappe.model.set_value(cdt, cdn, 'custom_supply_amount', amount);
+    },
+    qty: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        let amount_s = (row.qty || 0) * (row.custom_supply_rate || 0);
+		let amount_e = (row.qty || 0) * (row.custom_erection_rate || 0);
+        frappe.model.set_value(cdt, cdn, 'custom_supply_amount', amount_s);
+		frappe.model.set_value(cdt, cdn, 'custom_erection_amount', amount_e);
+    },
+	custom_erection_rate: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        let amount = (row.qty || 0) * (row.custom_erection_rate || 0);
+        frappe.model.set_value(cdt, cdn, 'custom_erection_amount', amount);
+    },
 })
 
 frappe.ui.form.on("Follow-Up", {

@@ -32,6 +32,7 @@ def validate(doc,event):
     if doc.custom_tracking_email_id:
         frappe.utils.validate_email_address(doc.custom_tracking_email_id, throw=True)
     validate_customer_lastprice(doc, event)
+    supply_erection_validate(doc, event)
 
 def after_insert(doc,event):
     create_user_permission(doc)
@@ -301,3 +302,20 @@ def get_customer_executives(quotation_to, party_name):
         result["manager"] = manager_details
 
     return result
+
+def supply_erection_validate(doc, event):
+    total_supply = 0
+    total_erection = 0
+
+    for item in doc.get("items", []):
+        # Row calculations
+        item.custom_supply_amount = flt(item.qty) * flt(item.custom_supply_rate)
+        item.custom_erection_amount = flt(item.qty) * flt(item.custom_erection_rate)
+
+        # Add to totals
+        total_supply += item.custom_supply_amount
+        total_erection += item.custom_erection_amount
+
+    # Parent totals
+    doc.custom_total_supply_amount = total_supply
+    doc.custom_total_erection_amount = total_erection
