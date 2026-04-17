@@ -32,6 +32,19 @@ frappe.ui.form.on("Task", {
 })
 
 frappe.ui.form.on("Follow-Up", {
+	form_render: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        // If row is already saved → make read only
+        if (!row.__islocal && row.date) {
+            frappe.utils.toggle_child_table_field(
+                frm,
+                "custom_followup",
+                "date",
+                true
+            );
+        }
+    },
 	date: function (frm, cdt, cdn) {
 		let row = locals[cdt][cdn]
 		if (row.date) {
@@ -49,6 +62,10 @@ frappe.ui.form.on("Follow-Up", {
 			frappe.model.set_value(cdt, cdn, "custom_enter_datetime",frappe.datetime.now_datetime());
             frm.refresh_field("custom_view_follow_up_details_copy");
 		}
+		if (row.date && !row.__islocal) {
+            frappe.msgprint("Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "date", row._original_date || "");
+        }
 	},
 	next_follow_up_date: function (frm, cdt, cdn) {
 		let row = locals[cdt][cdn]

@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-04-16 19:50:23.779224",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "item_name",
+  "description",
+  "column_break_uoyc",
+  "uom",
+  "qty",
+  "supply_rate",
+  "supply_amount",
+  "erection_rate",
+  "erection_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "item.description",
+   "fieldname": "description",
+   "fieldtype": "Long Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_uoyc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "supply_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Supply Rate"
+  },
+  {
+   "columns": 1,
+   "fieldname": "supply_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Supply Amount",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "erection_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Erection Rate"
+  },
+  {
+   "columns": 1,
+   "fieldname": "erection_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Erection Amount",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-16 20:56:54.190962",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Supply and Erection Item Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

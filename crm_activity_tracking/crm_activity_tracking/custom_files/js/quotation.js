@@ -422,6 +422,19 @@ frappe.ui.form.on("Quotation Item", {
 })
 
 frappe.ui.form.on("Follow-Up", {
+	form_render: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        // If row is already saved → make read only
+        if (!row.__islocal && row.date) {
+            frappe.utils.toggle_child_table_field(
+                frm,
+                "custom_followup",
+                "date",
+                true
+            );
+        }
+    },
 	date:function(frm,cdt,cdn){
 		let row = locals[cdt][cdn]
 		if(row.date){
@@ -436,6 +449,10 @@ frappe.ui.form.on("Follow-Up", {
 				break
 			}
 		}
+		if (row.date && !row.__islocal) {
+            frappe.msgprint("Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "date", row._original_date || "");
+        }
 	}
 
 	},

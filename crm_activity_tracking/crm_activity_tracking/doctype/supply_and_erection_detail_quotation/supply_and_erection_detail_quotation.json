@@ -1,0 +1,283 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-04-16 19:30:33.468861",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_pp0r",
+  "company",
+  "customer",
+  "customer_name",
+  "amended_from",
+  "status",
+  "column_break_tgew",
+  "date",
+  "quotation_contact_name",
+  "quotation_contact_number",
+  "naming_series",
+  "column_break_znem",
+  "region",
+  "valid_till",
+  "destination",
+  "column_break_zgmz",
+  "type_of_quotation",
+  "depatch_through",
+  "ref",
+  "address_and_contact_details_section",
+  "customer_address",
+  "column_break_vzii",
+  "company_address",
+  "items_details_section",
+  "items",
+  "section_break_nlhm",
+  "total_supply_amount",
+  "column_break_wkzj",
+  "total_erection_amount",
+  "column_break_lloz",
+  "total_amount",
+  "tracking_progress_tab",
+  "table_mgff",
+  "terms_and_conditions_tab",
+  "terms_and_conditions"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_pp0r",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Supply and Erection Detail Quotation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_tgew",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_znem",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Region",
+   "options": "Territory",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_zgmz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type_of_quotation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type of Quotation",
+   "options": "\nFIRE EXTINGUISHER\nFIRE ALARM\nHYDRANT\nFIRE FLOODING\nFIRE EXTINGUISHER & FIRE ALARM\nFIRE HYDRANT & FIRE ALARM\nFIRE EXTINGUISHER & FIRE HYDRANT\nFIRE EXTINGUISHER & FIRE ALARM, FIRE HYDRANT",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "valid_till",
+   "fieldtype": "Date",
+   "label": "Valid Till"
+  },
+  {
+   "fieldname": "tracking_progress_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tracking Progress"
+  },
+  {
+   "fieldname": "table_mgff",
+   "fieldtype": "Table",
+   "options": "Follow-Up"
+  },
+  {
+   "fieldname": "address_and_contact_details_section",
+   "fieldtype": "Section Break",
+   "label": "Address and Contact Details"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "column_break_vzii",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "items_details_section",
+   "fieldtype": "Section Break",
+   "label": "Items Details"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Supply and Erection Item Details",
+   "options": "Supply and Erection Item Details",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_supply_amount",
+   "fieldtype": "Currency",
+   "label": "Total Supply Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_erection_amount",
+   "fieldtype": "Currency",
+   "label": "Total Erection Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_nlhm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_wkzj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_lloz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "terms_and_conditions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Terms and Conditions"
+  },
+  {
+   "fieldname": "terms_and_conditions",
+   "fieldtype": "Table",
+   "label": "Terms and Conditions",
+   "options": "Terms and Condition Quotation"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "naming_series",
+   "options": "TK-.YYYY.-.####."
+  },
+  {
+   "fieldname": "quotation_contact_name",
+   "fieldtype": "Data",
+   "label": "Quotation Contact Name"
+  },
+  {
+   "fieldname": "quotation_contact_number",
+   "fieldtype": "Data",
+   "label": "Quotation Contact Number"
+  },
+  {
+   "fieldname": "destination",
+   "fieldtype": "Data",
+   "label": "Destination"
+  },
+  {
+   "fieldname": "ref",
+   "fieldtype": "Data",
+   "label": "Ref"
+  },
+  {
+   "fieldname": "depatch_through",
+   "fieldtype": "Data",
+   "label": "Despatch Through"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Open\nOrdered\nClosed"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-04-17 12:58:59.068692",
+ "modified_by": "Administrator",
+ "module": "Crm Activity Tracking",
+ "name": "Supply and Erection Detail Quotation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

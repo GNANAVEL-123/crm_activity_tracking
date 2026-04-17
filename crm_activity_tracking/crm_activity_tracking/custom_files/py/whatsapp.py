@@ -638,3 +638,94 @@ def send_whatsapp_po(media_url, message, doc, mobile_no=None, invoice=None):
         )
         frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
         frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))
+
+
+@frappe.whitelist()
+def send_quotation_supply_erection_whatsapp(invoice, mobile_no=None):
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    if isinstance(invoice, str):
+        doc = frappe.get_doc("Supply and Erection Detail Quotation", invoice)
+
+    # Clean number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    pdf_options = {"page-size": "A4"}
+    fcontent = frappe.get_print(
+        doc=doc, print_format="Supply and Erection Detail Quotation", as_pdf=1, no_letterhead=1, pdf_options=pdf_options
+    )
+
+    pdf_file_name = f"{doc.name}.pdf"
+    _file = frappe.get_doc({
+        "doctype": "File",
+        "file_name": pdf_file_name,
+        "content": fcontent,
+    })
+    _file.insert()
+
+    message = (
+        f"*Quotation* 📄\n"
+        f"Customer: *{doc.customer_name}*\n"
+        f"Quotation No: *{doc.name}*\n"
+        f"Date: {doc.date}\n"
+        f"Amount: ₹{frappe.utils.fmt_money(doc.total_amount)}\n\n"
+        f"Thank you for your interest!"
+    )
+
+    frappe.enqueue(
+        send_whatsapp_quotation_supply_erection,
+        media_url=frappe.utils.get_url() + _file.file_url,
+        doc=doc,
+        message=message,
+        mobile_no=mobile_no
+    )
+
+    return "Success"
+
+def send_whatsapp_quotation_supply_erection(media_url, message, doc, mobile_no=None, invoice=None):
+    response = ""
+    url_message = ""
+
+    if not mobile_no:
+        frappe.throw("Mobile number is required.")
+
+    # Clean the mobile number
+    mobile_no = str(mobile_no).replace(" ", "").replace("+91", "").replace("-", "")
+
+    instance_id = frappe.db.get_single_value("Harshini Whatsapp Settings", 'instance_id')
+    url = frappe.db.get_single_value("Harshini Whatsapp Settings", 'url')
+
+    encoded_message = quote(message)
+
+    # Create WhatsApp Log
+    log_doc = frappe.new_doc('Whatsapp Log')
+    log_doc.mobile_no = mobile_no
+    log_doc.status = 'Not Sent'
+    log_doc.reference_doctype = 'Supply and Erection Detail Quotation'
+    log_doc.reference_document = doc.name
+
+    url_message = (
+        f"{url}FileWithCaption?token={instance_id}"
+        f"&phone=91{mobile_no}&link={media_url}&message={encoded_message}"
+    )
+
+    log_doc.request_url = url_message
+    log_doc.save()
+
+    try:
+        response = requests.get(url_message)
+        frappe.log_error(
+            title="Whatsapp Invoice Success",
+            message=f"""{media_url}\n{response}\n{url_message}\n"""
+        )
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Success')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(response.json()))
+
+    except Exception as e:
+        frappe.log_error(
+            title="Whatsapp Invoice Failure",
+            message=f"""{media_url}\n{response}\n{url_message}\n"""
+        )
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'status', 'Failure')
+        frappe.db.set_value('Whatsapp Log', log_doc.name, 'response', str(e))

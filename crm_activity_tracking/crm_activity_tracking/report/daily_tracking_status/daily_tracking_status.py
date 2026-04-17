@@ -185,7 +185,7 @@ def get_data(filters):
             i['lead_owner'] = frappe.get_value("User", {"name": i['lead_owner']}, "username")
         
         data+=leads
-        
+
     if (filters.get('quotation')):
         follow_up_filter = {}
         lead_filter = {'docstatus': ['not in', [2]]}
@@ -348,6 +348,153 @@ def get_data(filters):
             i['lead_owner'] = frappe.get_value("User", i['lead_owner'], "username")
 
         data += leads
+    if (filters.get("task")):
+        follow_up_filter = {}
+        follow_up_filter['parenttype'] = 'Task'
+        task_filter = {'status': ['not in', ['Template', 'Completed', 'Cancelled']]}
+
+        # ✅ Mandatory
+        follow_up_filter['parenttype'] = 'Task'
+
+        # ✅ Date filter
+        if filters.get('from_date') and filters.get('to_date'):
+            follow_up_filter['date'] = ["between", [filters.get('from_date'), filters.get('to_date')]]
+
+        # ✅ User filter
+        if filters.get('user'):
+            follow_up_filter['followed_by'] = filters.get('user')
+
+        # ✅ Get followups
+        all_tasks = frappe.db.get_all(
+            'Follow-Up',
+            filters=follow_up_filter,
+            fields=[
+                'parent', 'followed_by', 'description',
+                'longitude', 'latitude', 'date', 'custom_enter_datetime'
+            ],
+            order_by="parent asc, custom_enter_datetime desc, date desc"
+        )
+
+        # ✅ Group by parent
+        grouped = {}
+        for i in all_tasks:
+            grouped.setdefault(i['parent'], []).append(i)
+
+        # ✅ Pick best row
+        all_tasks1 = []
+
+        for parent, rows in grouped.items():
+            best_row = None
+
+            for row in rows:
+                current_time = row.get('custom_enter_datetime') or row.get('date')
+
+                if not current_time:
+                    continue
+
+                if isinstance(current_time, str):
+                    current_time = frappe.utils.get_datetime(current_time)
+
+                if not best_row:
+                    best_row = row
+                    continue
+
+                best_time = best_row.get('custom_enter_datetime') or best_row.get('date')
+
+                if isinstance(best_time, str):
+                    best_time = frappe.utils.get_datetime(best_time)
+
+                # ✅ PRIORITY 1: description
+                if row.get("description") and not best_row.get("description"):
+                    best_row = row
+
+                # ✅ PRIORITY 2: both have → latest
+                elif row.get("description") and best_row.get("description"):
+                    if current_time > best_time:
+                        best_row = row
+
+                # ✅ PRIORITY 3: both empty → latest
+                elif not row.get("description") and not best_row.get("description"):
+                    if current_time > best_time:
+                        best_row = row
+
+            if best_row:
+                all_tasks1.append(best_row)
+
+        # ✅ Desc map
+        desc = {
+            i['parent']: [
+                i.get('description') or "",
+                i.get("followed_by") or "",
+                i.get("longitude"),
+                i.get("latitude"),
+                i.get('date'),
+                i.get('custom_enter_datetime')
+            ]
+            for i in all_tasks1
+        }
+        frappe.errprint(desc)
+
+        task_names = [i['parent'] for i in all_tasks1]
+
+        if not task_names:
+            return data
+
+        task_filter['name'] = ['in', task_names]
+
+        tasks = frappe.db.get_all(
+            'Task',
+            filters=task_filter,
+            fields=[
+                'name',
+                'subject as lead_name',
+                'owner as lead_owner',
+                'status'
+            ]
+        )
+
+        # ✅ Final data
+        for i in tasks:
+
+            if i["name"] not in desc:
+                continue
+
+            i["for_number_card"] = 1
+            i['description'] = desc[i["name"]][0]
+            i['next_followup_by'] = desc[i["name"]][1]
+            i['date'] = desc[i["name"]][4]
+            i['custom_enter_datetime'] = desc[i["name"]][5]
+
+            long = desc[i["name"]][2]
+            lat = desc[i["name"]][3]
+
+            # ✅ Map
+            if long and lat:
+                i['map'] = f'''
+                <button style="font-size:13px;background:#000;color:#fff;border-radius:5px;height:24px;"
+                onclick='window.open(`https://www.google.com/maps/search/?api=1&query={lat},{long}`)'>
+                View Map
+                </button>
+                '''
+            else:
+                i['map'] = '''
+                <button style="font-size:13px;background:#000;color:#fff;border-radius:5px;height:24px;">
+                No Record
+                </button>
+                '''
+
+            # ✅ Link
+            i['name'] = f'''
+            <a href="#" style="text-decoration:underline;color:#007bff;font-size:13px;"
+            onclick='frappe.set_route("Form","Task","{i["name"]}")'>
+            {i["name"]}
+            </a>
+            '''
+
+            # ✅ Owner
+            i['lead_owner'] = frappe.get_value("User", i['lead_owner'], "username")
+
+        data += tasks
     
     return data
     
