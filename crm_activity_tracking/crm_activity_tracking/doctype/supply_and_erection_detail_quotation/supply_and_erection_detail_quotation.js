@@ -122,6 +122,18 @@ frappe.ui.form.on("Supply and Erection Detail Quotation", {
     },
 });
 frappe.ui.form.on("Supply and Erection Item Details", {
+    item: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (row.item) {
+            frappe.db.get_value("Item Price", {
+                item_code: row.item,
+            }, "price_list_rate").then(r => {
+                let rate = r.message ? r.message.price_list_rate : 0;
+                frappe.model.set_value(cdt, cdn, "supply_rate", rate);
+                frappe.model.set_value(cdt, cdn, "erection_rate", rate);
+            });
+        }
+    },
     qty: function(frm, cdt, cdn) {
         calculate_amounts(frm, cdt, cdn);
     },
