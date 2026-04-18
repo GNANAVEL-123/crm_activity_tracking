@@ -431,6 +431,7 @@ frappe.ui.form.on("Follow-Up", {
                 frm,
                 "custom_followup",
                 "date",
+				"next_follow_up_date",
                 true
             );
         }
@@ -462,6 +463,10 @@ frappe.ui.form.on("Follow-Up", {
 			frappe.show_alert({message:`Follow Up Date - <span style='color:red'>${moment(row.next_follow_up_date).format('DD-MM-YYYY')}</span> should not be earlier than Date -<span style='color:red'> ${moment(row.date).format('DD-MM-YYYY')}</span>`,indicator:'red'})
 			row.next_follow_up_date = ''
 		}
+		if (row.next_follow_up_date && !row.__islocal) {
+            frappe.msgprint("Next Followup Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "next_follow_up_date", row._original_date || "");
+        }
 	},
 	status:function(frm,cdt,cdn){
 		let row = locals[cdt][cdn]

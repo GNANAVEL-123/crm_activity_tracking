@@ -162,3 +162,68 @@ function calculate_amounts(frm, cdt, cdn) {
 
     frm.refresh_field("items");
 }
+
+frappe.ui.form.on("Follow-Up", {
+	form_render: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        // If row is already saved → make read only
+        if (!row.__islocal && row.date) {
+            frappe.utils.toggle_child_table_field(
+                frm,
+                "custom_followup",
+                "date",
+                "next_follow_up_date",
+                true
+            );
+        }
+    },
+	date:function(frm,cdt,cdn){
+		let row = locals[cdt][cdn]
+		if(row.date){
+		for (var i in cur_frm.doc.custom_followup) {
+			var value = cur_frm.doc.custom_followup[i]
+			if (row.idx == value.idx){
+				break
+			}
+			if(row.date < value.date){
+				frappe.show_alert({message:`Row - ${row.idx} Date (<span style='color:red'>${moment(row.date).format('DD-MM-YYYY')}</span>) should not be earlier than Row - ${value.idx} Date (<span style='color:red'>${moment(value.date).format('DD-MM-YYYY')}</span>)`, indicator:'red'})
+				row.date = ''
+				break
+			}
+		}
+		if (row.date && !row.__islocal) {
+            frappe.msgprint("Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "date", row._original_date || "");
+        }
+	}
+
+	},
+	next_follow_up_date:function(frm,cdt,cdn){
+		let row = locals[cdt][cdn]
+		if(row.next_follow_up_date < row.date){
+			frappe.show_alert({message:`Follow Up Date - <span style='color:red'>${moment(row.next_follow_up_date).format('DD-MM-YYYY')}</span> should not be earlier than Date -<span style='color:red'> ${moment(row.date).format('DD-MM-YYYY')}</span>`,indicator:'red'})
+			row.next_follow_up_date = ''
+		}
+		if (row.next_follow_up_date && !row.__islocal) {
+            frappe.msgprint("Next Followup Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "next_follow_up_date", row._original_date || "");
+        }
+	},
+	status:function(frm,cdt,cdn){
+		let row = locals[cdt][cdn]
+		if(row.status == 'Do Not Disturb'){
+			cur_frm.set_value('custom_status_updated',0)
+		}
+		else{
+			cur_frm.set_value('custom_status_updated',1)
+		}
+	},
+	description: function(frm, cdt, cdn){
+        let row = locals[cdt][cdn];
+        if(row.description){
+            frappe.model.set_value(cdt, cdn, "custom_enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("custom_view_follow_up_details_copy");
+        }
+    }
+})
