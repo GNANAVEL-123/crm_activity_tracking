@@ -30,16 +30,16 @@ frappe.ui.form.on("Supply and Erection Detail Quotation", {
 
     customer(frm) {
         if (frm.doc.customer) {
-            frappe.call({
-                method: "frappe.contacts.doctype.address.address.get_default_address",
-                args: {
-                    doctype: "Customer",
-                    name: frm.doc.customer
-                },
-                callback: function (r) {
-                    if (r.message) {
-                        frm.set_value("customer_address", r.message.name);
-                    }
+            frappe.db.get_value(
+                "Customer",
+                frm.doc.customer,
+                "customer_primary_address"
+            ).then(r => {
+                if (r.message && r.message.customer_primary_address) {
+                    frm.set_value("customer_address", r.message.customer_primary_address);
+                } else {
+                    frappe.msgprint("No Primary Address set for this Customer");
+                    frm.set_value("customer_address", "");
                 }
             });
         }
@@ -125,12 +125,18 @@ frappe.ui.form.on("Supply and Erection Item Details", {
     item: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (row.item) {
-            frappe.db.get_value("Item Price", {
-                item_code: row.item,
-            }, "price_list_rate").then(r => {
-                let rate = r.message ? r.message.price_list_rate : 0;
-                frappe.model.set_value(cdt, cdn, "supply_rate", rate);
-                frappe.model.set_value(cdt, cdn, "erection_rate", rate);
+            frappe.call({
+                method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_last_selling_rate",
+                args: {
+                    item_code: row.item,
+                    transaction_date: frm.doc.date,
+                    customer: frm.doc.customer
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        frappe.model.set_value(cdt, cdn, "last_selling_price", r.message);
+                    }
+                }
             });
         }
     },
