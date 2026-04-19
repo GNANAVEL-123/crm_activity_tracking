@@ -30,16 +30,16 @@ frappe.ui.form.on("Supply and Erection Detail Quotation", {
 
     customer(frm) {
         if (frm.doc.customer) {
-            frappe.call({
-                method: "frappe.contacts.doctype.address.address.get_default_address",
-                args: {
-                    doctype: "Customer",
-                    name: frm.doc.customer
-                },
-                callback: function (r) {
-                    if (r.message) {
-                        frm.set_value("customer_address", r.message.name);
-                    }
+            frappe.db.get_value(
+                "Customer",
+                frm.doc.customer,
+                "customer_primary_address"
+            ).then(r => {
+                if (r.message && r.message.customer_primary_address) {
+                    frm.set_value("customer_address", r.message.customer_primary_address);
+                } else {
+                    frappe.msgprint("No Primary Address set for this Customer");
+                    frm.set_value("customer_address", "");
                 }
             });
         }
@@ -125,12 +125,18 @@ frappe.ui.form.on("Supply and Erection Item Details", {
     item: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (row.item) {
-            frappe.db.get_value("Item Price", {
-                item_code: row.item,
-            }, "price_list_rate").then(r => {
-                let rate = r.message ? r.message.price_list_rate : 0;
-                frappe.model.set_value(cdt, cdn, "supply_rate", rate);
-                frappe.model.set_value(cdt, cdn, "erection_rate", rate);
+            frappe.call({
+                method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.get_last_selling_rate",
+                args: {
+                    item_code: row.item,
+                    transaction_date: frm.doc.date,
+                    customer: frm.doc.customer
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        frappe.model.set_value(cdt, cdn, "last_selling_price", r.message);
+                    }
+                }
             });
         }
     },
@@ -156,3 +162,68 @@ function calculate_amounts(frm, cdt, cdn) {
 
     frm.refresh_field("items");
 }
+
+frappe.ui.form.on("Follow-Up", {
+	form_render: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        // If row is already saved → make read only
+        if (!row.__islocal && row.date) {
+            frappe.utils.toggle_child_table_field(
+                frm,
+                "custom_followup",
+                "date",
+                "next_follow_up_date",
+                true
+            );
+        }
+    },
+	date:function(frm,cdt,cdn){
+		let row = locals[cdt][cdn]
+		if(row.date){
+		for (var i in cur_frm.doc.custom_followup) {
+			var value = cur_frm.doc.custom_followup[i]
+			if (row.idx == value.idx){
+				break
+			}
+			if(row.date < value.date){
+				frappe.show_alert({message:`Row - ${row.idx} Date (<span style='color:red'>${moment(row.date).format('DD-MM-YYYY')}</span>) should not be earlier than Row - ${value.idx} Date (<span style='color:red'>${moment(value.date).format('DD-MM-YYYY')}</span>)`, indicator:'red'})
+				row.date = ''
+				break
+			}
+		}
+		if (row.date && !row.__islocal) {
+            frappe.msgprint("Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "date", row._original_date || "");
+        }
+	}
+
+	},
+	next_follow_up_date:function(frm,cdt,cdn){
+		let row = locals[cdt][cdn]
+		if(row.next_follow_up_date < row.date){
+			frappe.show_alert({message:`Follow Up Date - <span style='color:red'>${moment(row.next_follow_up_date).format('DD-MM-YYYY')}</span> should not be earlier than Date -<span style='color:red'> ${moment(row.date).format('DD-MM-YYYY')}</span>`,indicator:'red'})
+			row.next_follow_up_date = ''
+		}
+		if (row.next_follow_up_date && !row.__islocal) {
+            frappe.msgprint("Next Followup Date cannot be changed after saving.");
+            frappe.model.set_value(cdt, cdn, "next_follow_up_date", row._original_date || "");
+        }
+	},
+	status:function(frm,cdt,cdn){
+		let row = locals[cdt][cdn]
+		if(row.status == 'Do Not Disturb'){
+			cur_frm.set_value('custom_status_updated',0)
+		}
+		else{
+			cur_frm.set_value('custom_status_updated',1)
+		}
+	},
+	description: function(frm, cdt, cdn){
+        let row = locals[cdt][cdn];
+        if(row.description){
+            frappe.model.set_value(cdt, cdn, "custom_enter_datetime",frappe.datetime.now_datetime());
+            frm.refresh_field("custom_view_follow_up_details_copy");
+        }
+    }
+})
