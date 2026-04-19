@@ -109,4 +109,38 @@ frappe.ui.form.on("Purchase Order Item", {
 			}
 		});
 	},
+    custom_supplier_with_item_rate_details(frm, cdt, cdn) {
+
+        let row = locals[cdt][cdn];
+
+        if (!row.item_code) {
+            frappe.msgprint("Please select Item first");
+            return;
+        }
+
+        frappe.call({
+            method: "crm_activity_tracking.crm_activity_tracking.custom_files.py.purchase_order.get_supplier_rate_details_single",
+            args: {
+                item_code: row.item_code
+            },
+            callback: function (r) {
+                if (r.message) {
+
+                    let d = new frappe.ui.Dialog({
+                        title: "Supplier Rate Details - " + row.item_code,
+                        size: "large",
+                        fields: [
+                            {
+                                fieldtype: "HTML",
+                                fieldname: "html"
+                            }
+                        ]
+                    });
+
+                    d.fields_dict.html.$wrapper.html(r.message);
+                    d.show();
+                }
+            }
+        });
+    }
 })

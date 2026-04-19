@@ -44,3 +44,159 @@ def validate_supplier_lastprice(doc, event):
         )
 
         item.custom_last_supplier_buying_rate = last_rate
+
+
+@frappe.whitelist()
+def get_supplier_rate_details_single(item_code):
+
+    import frappe
+    from frappe.utils import formatdate
+
+    # -----------------------------
+    # GET DATA
+    # -----------------------------
+    data = frappe.db.sql("""
+        SELECT 
+            pi.supplier,
+            pii.rate,
+            pi.posting_date
+        FROM `tabPurchase Invoice Item` pii
+        INNER JOIN `tabPurchase Invoice` pi
+            ON pi.name = pii.parent
+        WHERE 
+            pii.item_code = %s
+            AND pi.docstatus = 1
+        ORDER BY pi.posting_date DESC
+    """, item_code, as_dict=True)
+
+    if not data:
+        return "<p style='padding:10px;'>No purchase history found</p>"
+
+    # -----------------------------
+    # UNIQUE SUPPLIER
+    # -----------------------------
+    supplier_map = {}
+    for d in data:
+        if d.supplier not in supplier_map:
+            supplier_map[d.supplier] = d
+
+    # -----------------------------
+    # LOWEST RATE
+    # -----------------------------
+    min_rate = min([d.rate for d in supplier_map.values()])
+
+    # -----------------------------
+    # HTML + CSS (Enhanced)
+    # -----------------------------
+    html = """
+    <style>
+    body {
+        background: linear-gradient(135deg, #f0f4f7, #e3f2fd);
+    }
+
+    .card {
+        font-family: 'Segoe UI', Arial;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        padding: 15px;
+        background: #ffffff;
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #2c3e50;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table th {
+        background: linear-gradient(45deg, #2196F3, #1565C0);
+        color: white;
+        padding: 10px;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 10px;
+        font-size: 13px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .table tr:hover {
+        background-color: #f1f8ff;
+        transition: 0.2s;
+    }
+
+    .best-rate {
+        background: #e8f5e9 !important;
+        font-weight: bold;
+        color: #2e7d32;
+    }
+
+    .badge {
+        background: #2e7d32;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        margin-left: 5px;
+    }
+
+    .footer {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #2e7d32;
+    }
+    </style>
+
+    <div class="card">
+        <div class="title">📊 Supplier-wise Latest Purchase Rate</div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Supplier</th>
+                    <th style="text-align:right;">Last Rate</th>
+                    <th>Last Purchase Date</th>
+                </tr>
+            </thead>
+            <tbody>
+    """
+
+    # -----------------------------
+    # TABLE ROWS
+    # -----------------------------
+    for s, d in supplier_map.items():
+
+        is_best = d.rate == min_rate
+        row_class = "best-rate" if is_best else ""
+        badge = '<span class="badge">Best</span>' if is_best else ""
+
+        # ✅ FORMAT DATE HERE
+        formatted_date = formatdate(d.posting_date, "dd-MM-yyyy")
+
+        html += f"""
+            <tr class="{row_class}">
+                <td>{s} {badge}</td>
+                <td style="text-align:right;">₹ {float(d.rate):,.2f}</td>
+                <td>{formatted_date}</td>
+            </tr>
+        """
+
+    html += """
+            </tbody>
+        </table>
+
+        <div class="footer">✔ Highlighted row indicates lowest supplier rate</div>
+    </div>
+    """
+
+    return html
