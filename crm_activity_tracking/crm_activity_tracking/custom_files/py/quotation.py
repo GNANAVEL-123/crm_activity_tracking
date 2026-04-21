@@ -247,6 +247,7 @@ def get_lowest_buyer_rate(item_code):
 
     lowest_rate = None
     lowest_buyer = None
+    purchase_date = None
 
     for row in item.custom_buyer_details:
         rate = flt(row.purchase_rate)
@@ -256,11 +257,13 @@ def get_lowest_buyer_rate(item_code):
         if lowest_rate is None or rate < lowest_rate:
             lowest_rate = rate
             lowest_buyer = row.buyer
+            purchase_date = row.date  # make sure this fieldname is correct
 
     if lowest_rate is not None:
         return {
             "buyer": lowest_buyer,
-            "rate": lowest_rate
+            "rate": lowest_rate,
+            "date": purchase_date
         }
 
     return None

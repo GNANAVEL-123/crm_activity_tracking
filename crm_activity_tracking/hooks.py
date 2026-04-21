@@ -180,7 +180,10 @@ doc_events = {
 		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.validate",
 		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.after_insert",
 		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.task.on_trash"
-	}
+	},
+	"Purchase Invoice" : {
+		"on_submit": "crm_activity_tracking.crm_activity_tracking.custom_files.py.purchase_invoice.update_item_buyer_details",
+	},
 }
 # Scheduled Taskss
 # ---------------

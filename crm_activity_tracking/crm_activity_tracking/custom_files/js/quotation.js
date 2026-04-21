@@ -365,8 +365,10 @@ frappe.ui.form.on("Quotation Item", {
 			},
 			callback: function (r) {
 				if (r.message) {
+					console.log(r.message)
 					frappe.model.set_value(cdt, cdn, "custom_buyer", r.message.buyer);
 					frappe.model.set_value(cdt, cdn, "custom_purchase_rate", r.message.rate);
+					frappe.model.set_value(cdt, cdn, "custom_purchase_date", r.message.date);
 				}
 			}
 		});
