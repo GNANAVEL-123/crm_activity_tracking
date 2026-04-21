@@ -12,11 +12,11 @@
   "column_break_uoyc",
   "uom",
   "qty",
+  "last_selling_price",
   "supply_rate",
   "supply_amount",
   "erection_rate",
-  "erection_amount",
-  "last_selling_price"
+  "erection_amount"
  ],
  "fields": [
   {
@@ -103,7 +103,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-18 11:17:03.628629",
+ "modified": "2026-04-18 11:52:04.240852",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Supply and Erection Item Details",
