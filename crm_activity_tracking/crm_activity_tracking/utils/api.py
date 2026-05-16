@@ -141,6 +141,12 @@ def update_amc_refilling_row(name, row_name, data):
     if isinstance(data, str):
         data = json.loads(data)
 
+    # Allow remarks to be sent as a list of selections
+    if isinstance(data.get("remarks"), list):
+        data["remarks"] = ", ".join(
+            str(item).strip() for item in data["remarks"] if item is not None and str(item).strip()
+        )
+
     doc = frappe.get_doc("AMC Visitor Tracking", name)
     row = next((
         r for r in doc.refilling_schedule
@@ -173,6 +179,16 @@ def update_amc_refilling_row(name, row_name, data):
 
     return {"status": "success", "message": "Row updated"}
 
+
+@frappe.whitelist(allow_guest=False)
+def get_remarks_options():
+    return frappe.get_all(
+        "Remarks",
+        fields=["name", "remarks", "description"],
+        order_by="remarks asc",
+    )
+
+
 @frappe.whitelist()
 def get_today_amc_visitors():
     today = str(nowdate())
@@ -180,10 +196,10 @@ def get_today_amc_visitors():
 
     blocked_status = ["Not Assigned"]
 
-    return frappe.get_all(
+    visitors = frappe.get_all(
         "AMC Visitor Tracking",
         filters={
-            "next_amc_service_due_date": today,
+            "amc_service_date": ["<=", today],
             "assign_employee": employee,
             "status": ["not in", blocked_status],
         },
@@ -200,6 +216,12 @@ def get_today_amc_visitors():
         ],
         order_by="creation desc",
     )
+
+    for visitor in visitors:
+        due_date = visitor.get("amc_service_date")
+        visitor["is_missed"] = bool(due_date and str(due_date) < today)
+
+    return visitors
 
 @frappe.whitelist()
 def get_amc_detail(name):
@@ -353,9 +375,10 @@ def todays_followup():
         WHERE fu.next_follow_up_date = %s
             AND (fu.parenttype = 'Lead' OR fu.parenttype = 'Quotation')
             AND fu.followed = 0
+            AND fu.followed_by = %s
     """
 
-    data = frappe.db.sql(query, (date,), as_dict=True)
+    data = frappe.db.sql(query, (date, frappe.session.user), as_dict=True)
     return {"success": True, "data": data}
 
 @frappe.whitelist(allow_guest=False)
