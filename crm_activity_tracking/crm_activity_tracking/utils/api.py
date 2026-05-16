@@ -375,9 +375,10 @@ def todays_followup():
         WHERE fu.next_follow_up_date = %s
             AND (fu.parenttype = 'Lead' OR fu.parenttype = 'Quotation')
             AND fu.followed = 0
+            AND fu.followed_by = %s
     """
 
-    data = frappe.db.sql(query, (date,), as_dict=True)
+    data = frappe.db.sql(query, (date, frappe.session.user), as_dict=True)
     return {"success": True, "data": data}
 
 @frappe.whitelist(allow_guest=False)
