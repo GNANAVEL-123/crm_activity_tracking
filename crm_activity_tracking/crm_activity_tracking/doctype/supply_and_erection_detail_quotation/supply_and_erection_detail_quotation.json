@@ -61,7 +61,6 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Company",
    "options": "Company",
    "reqd": 1
@@ -86,7 +85,6 @@
   {
    "fieldname": "region",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Region",
    "options": "Territory",
    "reqd": 1
@@ -116,7 +114,6 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Customer Name",
    "read_only": 1
@@ -256,7 +253,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-04-17 14:58:31.872200",
+ "modified": "2026-05-30 11:11:06.654635",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Supply and Erection Detail Quotation",
