@@ -1,3 +1,4 @@
+import base64
 import json
 import random
 import string
@@ -6,7 +7,8 @@ from frappe import _
 from frappe.utils import flt
 from frappe.utils import cint
 from frappe.utils.file_manager import save_file
-from frappe.utils import now_datetime, today,nowdate
+from frappe.utils.pdf import get_pdf
+from frappe.utils import now_datetime, today, nowdate
 
 @frappe.whitelist(allow_guest=True)
 def login():
@@ -1403,6 +1405,30 @@ def get_quotation_details(name):
     doc = frappe.get_doc("Quotation", name)
 
     return doc.as_dict()
+
+@frappe.whitelist(allow_guest = False)
+def get_quotation_pdf(name, print_format=None):
+    if not name:
+        frappe.throw("Quotation name is required")
+
+    if not frappe.db.exists("Quotation", name):
+        frappe.throw("Quotation not found")
+
+    html = frappe.get_print(
+        doctype="Quotation",
+        name=name,
+        print_format=print_format,
+        no_letterhead=False,
+    )
+
+    pdf_bytes = get_pdf(html)
+    file_name = f"{name.replace('/', '_')}.pdf"
+    encoded_pdf = base64.b64encode(pdf_bytes).decode()
+
+    return {
+        "pdf": encoded_pdf,
+        "filename": file_name,
+    }
 
 @frappe.whitelist(allow_guest = False)
 def get_quotation(id):
