@@ -486,6 +486,77 @@ def get_leads(limit_start=0, limit=20, name=None, type=None, status=None, source
         "source": source_list,
     }
     
+# @frappe.whitelist(allow_guest=False)
+# def get_quotations(limit_start=0, limit=20, name=None, status=None, territory=None):
+#     limit_start = int(limit_start)
+#     limit = int(limit)
+
+#     site_url = frappe.utils.get_url()
+
+#     status_list = frappe.get_meta("Quotation").get_field("status").options.split("\n")
+
+#     territory_list = frappe.get_all("Territory", pluck="name")
+
+#     conditions = ""
+#     filters = {}
+
+#     if name:
+#         conditions += " AND q.name LIKE %(name)s"
+#         filters["name"] = f"%{name}%"
+
+#     if status:
+#         conditions += " AND q.status = %(status)s"
+#         filters["status"] = status
+
+#     if territory:
+#         conditions += " AND q.territory = %(territory)s"
+#         filters["territory"] = territory
+
+#     query = f"""
+#         SELECT
+#             q.name,
+#             q.quotation_to,
+#             q.customer_name,
+#             q.party_name,
+#             q.status,
+#             q.transaction_date,
+#             q.valid_till,
+#             q.grand_total,
+#             q.territory,
+#             c.image AS customer_image
+#         FROM `tabQuotation` q
+#         LEFT JOIN `tabCustomer` c
+#             ON q.quotation_to = 'Customer'
+#            AND c.name = q.party_name
+#         WHERE q.docstatus < 2
+#         {conditions}
+#         ORDER BY q.creation DESC
+#         LIMIT {limit_start}, {limit}
+#     """
+
+#     data = frappe.db.sql(query, filters, as_dict=True)
+
+#     for row in data:
+#         if row.get("customer_image"):
+#             row["customer_image"] = site_url + row["customer_image"]
+#         else:
+#             row["customer_image"] = None
+
+#     total_count = frappe.db.sql(f"""
+#         SELECT COUNT(*)
+#         FROM `tabQuotation` q
+#         WHERE q.docstatus < 2
+#         {conditions}
+#     """, filters)[0][0]
+
+#     return {
+#         "quotations": data,
+#         "total": total_count,
+#         "status": status_list,
+#         "territory": territory_list
+#     }
+
+
 @frappe.whitelist(allow_guest=False)
 def get_quotations(limit_start=0, limit=20, name=None, status=None, territory=None):
     limit_start = int(limit_start)
@@ -494,63 +565,58 @@ def get_quotations(limit_start=0, limit=20, name=None, status=None, territory=No
     site_url = frappe.utils.get_url()
 
     status_list = frappe.get_meta("Quotation").get_field("status").options.split("\n")
-
     territory_list = frappe.get_all("Territory", pluck="name")
 
-    conditions = ""
-    filters = {}
-
-    if name:
-        conditions += " AND q.name LIKE %(name)s"
-        filters["name"] = f"%{name}%"
+    filters = {"docstatus": ["<", 2]}
 
     if status:
-        conditions += " AND q.status = %(status)s"
         filters["status"] = status
 
     if territory:
-        conditions += " AND q.territory = %(territory)s"
         filters["territory"] = territory
 
-    query = f"""
-        SELECT
-            q.name,
-            q.quotation_to,
-            q.customer_name,
-            q.party_name,
-            q.status,
-            q.transaction_date,
-            q.valid_till,
-            q.grand_total,
-            q.territory,
-            c.image AS customer_image
-        FROM `tabQuotation` q
-        LEFT JOIN `tabCustomer` c
-            ON q.quotation_to = 'Customer'
-           AND c.name = q.party_name
-        WHERE q.docstatus < 2
-        {conditions}
-        ORDER BY q.creation DESC
-        LIMIT {limit_start}, {limit}
-    """
+    quotations = frappe.get_list(
+        "Quotation",
+        filters=filters,
+        fields=[
+            "name",
+            "quotation_to",
+            "customer_name",
+            "party_name",
+            "status",
+            "transaction_date",
+            "valid_till",
+            "grand_total",
+            "territory",
+        ],
+        or_filters={
+            "name": ["like", f"%{name}%"]
+        } if name else None,
+        order_by="creation desc",
+        start=limit_start,
+        page_length=limit,
+    )
 
-    data = frappe.db.sql(query, filters, as_dict=True)
+    for row in quotations:
+        row["customer_image"] = None
 
-    for row in data:
-        if row.get("customer_image"):
-            row["customer_image"] = site_url + row["customer_image"]
-        else:
-            row["customer_image"] = None
+        if row.get("quotation_to") == "Customer" and row.get("party_name"):
+            image = frappe.db.get_value(
+                "Customer",
+                row["party_name"],
+                "image"
+            )
 
-    total_count = frappe.db.sql(f"""
-        SELECT COUNT(*)
-        FROM `tabQuotation` q
-        WHERE q.docstatus < 2
-        {conditions}
-    """, filters)[0][0]
+            if image:
+                row["customer_image"] = site_url + image
+
+    total_count = frappe.db.count(
+        "Quotation",
+        filters=filters
+    )
 
     return {
-        "quotations": data,
+        "quotations": quotations,
         "total": total_count,
         "status": status_list,
         "territory": territory_list
