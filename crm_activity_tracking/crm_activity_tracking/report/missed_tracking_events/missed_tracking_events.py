@@ -103,6 +103,7 @@ def get_data(filters):
     data1 = []
     data2 = []
     data3 = []
+    data4 = []
 
     if filters.get('lead'):
 
@@ -245,8 +246,61 @@ def get_data(filters):
                 {i["lead_quotation_id"]}
             </a>
             '''
+    if filters.get('supply_and_erection'):
 
-    data=data1+data2+data3
+        follow_condition = ""
+
+        if filters.get('user'):
+
+            follow_condition = f"""AND (
+                SELECT follow.next_follow_up_by
+                FROM `tabFollow-Up` AS follow
+                WHERE follow.parent = se.name
+                ORDER BY follow.idx DESC
+                LIMIT 1
+            ) = '{filters.get('user')}'"""
+
+        data4 = frappe.db.sql(f"""
+            SELECT
+                1 AS for_number_card,
+                se.name AS lead_quotation_id,
+                se.customer_name AS lead_name,
+                REPLACE(se.quotation_contact_number, '-', '') AS contact_number,
+                se.status AS status,
+                (
+                    SELECT follow.description
+                    FROM `tabFollow-Up` AS follow
+                    WHERE follow.parent = se.name
+                    ORDER BY follow.idx DESC
+                    LIMIT 1
+                ) AS description
+            FROM `tabSupply and Erection Detail Quotation` AS se
+            WHERE se.status NOT IN ('Cancelled', 'Ordered')
+                AND (
+                    SELECT MAX(follow.next_follow_up_date)
+                    FROM `tabFollow-Up` AS follow
+                    WHERE follow.parent = se.name
+                ) <= '{filters.get("date")}'
+                {follow_condition}
+        """, as_dict=1)
+
+        for i in data4:
+
+            if i.get("lead_owner"):
+                i["lead_owner"] = frappe.get_value(
+                    "User",
+                    {"name": i["lead_owner"]},
+                    "username"
+                )
+
+            i["lead_quotation_id"] = f'''
+            <a href="#" style="text-decoration: underline; color: #007bff; font-size: 13px;"
+            onclick='frappe.set_route("Form", "Supply and Erection Detail Quotation", "{i["lead_quotation_id"]}")'>
+                {i["lead_quotation_id"]}
+            </a>
+            '''
+
+    data = data1 + data2 + data3 + data4
     return data
 
 @frappe.whitelist()

@@ -312,6 +312,109 @@ def get_data(filters):
 
    
 		data+=tasks
+	if filters.get("supply_and_erection"):
+		follow_up_filter = {}
+		doc_filter = {
+			"docstatus": ["!=", 2]
+		}
+
+		if filters.get("date"):
+			follow_up_filter["next_follow_up_date"] = filters.get("date")
+
+		if filters.get("user"):
+			follow_up_filter["next_follow_up_by"] = filters.get("user")
+
+		all_followups = frappe.get_all(
+			"Follow-Up",
+			filters=follow_up_filter,
+			fields=[
+				"idx",
+				"parent",
+				"parentfield",
+				"next_follow_up_by",
+				"description",
+				"mode_of_communication",
+			],
+		)
+
+		# Take only Follow-Ups from Supply & Erection child table
+		all_followups = [
+			d for d in all_followups
+			if d.parentfield == "table_mgff"
+		]
+
+		latest_followups = []
+
+		for row in all_followups:
+			last_idx = max(
+				frappe.get_all(
+					"Follow-Up",
+					filters={
+						"parent": row.parent,
+						"parentfield": "table_mgff",
+					},
+					pluck="idx",
+				)
+			)
+
+			if last_idx == row.idx:
+				if not row.get("next_follow_up_by"):
+					latest_followups.append(row)
+				elif not filters.get("user"):
+					latest_followups.append(row)
+				elif row.get("next_follow_up_by") == filters.get("user"):
+					latest_followups.append(row)
+
+		desc = {
+			d.parent: [
+				d.description,
+				d.get("next_follow_up_by") or "",
+				d.get("mode_of_communication") or "",
+			]
+			for d in latest_followups
+		}
+
+		docnames = [d.parent for d in latest_followups]
+
+		doc_filter["name"] = ["in", docnames]
+
+		records = frappe.get_all(
+			"Supply and Erection Detail Quotation",
+			filters=doc_filter,
+			fields=[
+				"name",
+				"customer_name as company_name",
+				# "custom_quotation_owner as lead_owner",
+				"status",
+				"quotation_contact_number as contact_number",
+				"quotation_contact_name as contact_name",
+				# "company as company_name",
+				"customer_address",
+			],
+		)
+
+		for row in records:
+			row["description"] = desc[row["name"]][0]
+			row["next_followup_by"] = desc[row["name"]][1]
+			row["mode_of_communication"] = desc[row["name"]][2]
+
+			if row.customer_address:
+				email = frappe.db.get_value(
+					"Address",
+					row.customer_address,
+					"email_id",
+				)
+				if email:
+					row["customer_mail"] = email
+
+			row["name"] = f"""
+			<a href="#" style="text-decoration: underline; color: #007bff; font-size: 13px;"
+				onclick='frappe.set_route("Form", "Supply and Erection Detail Quotation", "{row["name"]}")'>
+				{row["name"]}
+			</a>
+			"""
+
+		data += records
 
 	return data
 	

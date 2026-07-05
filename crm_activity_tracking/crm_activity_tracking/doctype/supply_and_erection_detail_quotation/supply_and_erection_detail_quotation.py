@@ -60,3 +60,69 @@ class SupplyandErectionDetailQuotation(Document):
 			for term in terms_list:
 				row = self.append("terms_and_conditions", {})
 				row.terms = term  # 🔁 change fieldname if different
+
+
+
+import frappe
+
+@frappe.whitelist()
+def send_quotation_supply_erection_email(invoice, email=None):
+    if not email:
+        frappe.throw("Email ID is required.")
+
+    doc = frappe.get_doc("Supply and Erection Detail Quotation", invoice)
+
+    pdf = frappe.get_print(
+        doc=doc,
+        print_format="Supply and Erection Detail Quotation",
+        as_pdf=1,
+        no_letterhead=1,
+        pdf_options={"page-size": "A4"},
+    )
+
+    subject = f"Quotation - {doc.name}"
+
+    message = f"""
+    <p>Dear {doc.customer_name},</p>
+
+    <p>Please find the attached quotation.</p>
+
+    <table cellpadding="5">
+        <tr>
+            <td><b>Quotation No</b></td>
+            <td>{doc.name}</td>
+        </tr>
+        <tr>
+            <td><b>Date</b></td>
+            <td>{doc.date}</td>
+        </tr>
+        <tr>
+            <td><b>Amount</b></td>
+            <td>{frappe.utils.fmt_money(doc.total_amount)}</td>
+        </tr>
+    </table>
+
+    <br>
+
+    <p>Thank you for your interest.</p>
+
+    <p>Regards,<br>{doc.company}</p>
+    """
+
+    frappe.sendmail(
+        recipients=[email],
+        subject=subject,
+        message=message,
+        attachments=[
+            {
+                "fname": f"{doc.name}.pdf",
+                "fcontent": pdf
+            }
+        ],
+		sender="admin@harshinifire.com",
+        reference_doctype=doc.doctype,
+        reference_name=doc.name,
+        now=False      # Uses Email Queue
+    )
+
+    return "Success"

@@ -35,6 +35,12 @@ frappe.query_reports["Today Tracking"] = {
 			fieldtype: 'Check',
 			default: 1
 		},
+		{
+			fieldname: 'supply_and_erection',
+			label: 'Supply and Erection Quotaion',
+			fieldtype: 'Check',
+			default: 1
+		},
 	],
 
 	// onload: function(report){

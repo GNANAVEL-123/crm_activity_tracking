@@ -32,6 +32,12 @@ frappe.query_reports["Daily Tracking Status"] = {
 			fieldtype: 'Check',
 			default: 1
 		},
+        {
+			fieldname: 'supply_and_erection',
+			label: 'Supply and Erection',
+			fieldtype: 'Check',
+			default: 1
+		},
     ]
 };
 

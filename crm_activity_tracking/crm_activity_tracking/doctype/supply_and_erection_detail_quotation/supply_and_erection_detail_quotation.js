@@ -8,6 +8,9 @@ frappe.ui.form.on("Supply and Erection Detail Quotation", {
 			frm.add_custom_button("Send Whatsapp", () => {
 				frm.events.open_whatsapp_dialog(frm);
 			});
+            frm.add_custom_button("Send Email", () => {
+                frm.events.open_email_dialog(frm);
+            });
         // Filter company address
         frm.set_query("company_address", function () {
             return {
@@ -120,6 +123,73 @@ frappe.ui.form.on("Supply and Erection Detail Quotation", {
             d.show();
         }
     },
+    open_email_dialog(frm) {
+
+        let default_email = "";
+
+        if (frm.doc.customer_address) {
+            frappe.db.get_doc("Address", frm.doc.customer_address).then(doc => {
+
+                default_email = doc.email_id || "";
+
+                create_dialog(default_email);
+            });
+        } else {
+            create_dialog("");
+        }
+
+        function create_dialog(default_email) {
+
+            let d = new frappe.ui.Dialog({
+                title: "Send Email",
+                fields: [
+                    {
+                        fieldtype: "Data",
+                        fieldname: "email",
+                        label: "Email",
+                        reqd: 1,
+                        default: default_email
+                    }
+                ],
+
+                primary_action_label: "Send",
+
+                primary_action(values) {
+
+                    frm.call({
+                        method: "crm_activity_tracking.crm_activity_tracking.doctype.supply_and_erection_detail_quotation.supply_and_erection_detail_quotation.send_quotation_supply_erection_email",
+                        args: {
+                            invoice: frm.doc.name,
+                            email: values.email
+                        },
+                        callback(r) {
+
+                            if (r.message == "Success") {
+
+                                frappe.show_alert({
+                                    message: __("Email Queued Successfully"),
+                                    indicator: "green"
+                                });
+
+                            } else {
+
+                                frappe.show_alert({
+                                    message: __("Failed to Queue Email"),
+                                    indicator: "red"
+                                });
+
+                            }
+
+                        }
+                    });
+
+                    d.hide();
+                }
+            });
+
+            d.show();
+        }
+    }
 });
 frappe.ui.form.on("Supply and Erection Item Details", {
     item: function(frm, cdt, cdn) {
