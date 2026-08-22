@@ -3,6 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils import getdate, nowdate, flt
 
 
 class SupplyandErectionDetailQuotation(Document):
@@ -126,3 +127,30 @@ def send_quotation_supply_erection_email(invoice, email=None):
     )
 
     return "Success"
+
+@frappe.whitelist()
+def get_lowest_buyer_rate(item):
+    item = frappe.get_doc("Item", item)
+
+    lowest_rate = None
+    lowest_buyer = None
+    purchase_date = None
+
+    for row in item.custom_buyer_details:
+        rate = flt(row.purchase_rate)
+        if rate <= 0:
+            continue
+
+        if lowest_rate is None or rate < lowest_rate:
+            lowest_rate = rate
+            lowest_buyer = row.buyer
+            purchase_date = row.date  # make sure this fieldname is correct
+
+    if lowest_rate is not None:
+        return {
+            "buyer": lowest_buyer,
+            "rate": lowest_rate,
+            "date": purchase_date
+        }
+
+    return None

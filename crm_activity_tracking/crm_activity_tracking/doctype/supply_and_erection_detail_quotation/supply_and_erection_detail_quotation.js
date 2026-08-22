@@ -208,6 +208,19 @@ frappe.ui.form.on("Supply and Erection Item Details", {
                     }
                 }
             });
+            frappe.call({
+                method: "crm_activity_tracking.crm_activity_tracking.doctype.supply_and_erection_detail_quotation.supply_and_erection_detail_quotation.get_lowest_buyer_rate",
+                args: {
+                    item: row.item,
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        frappe.model.set_value(cdt, cdn, "custom_buyer", r.message.buyer);
+                        frappe.model.set_value(cdt, cdn, "custom_purchase_rate", r.message.rate);
+                        frappe.model.set_value(cdt, cdn, "custom_purchase_date", r.message.date);
+                    }
+                }
+            });
         }
     },
     qty: function(frm, cdt, cdn) {
