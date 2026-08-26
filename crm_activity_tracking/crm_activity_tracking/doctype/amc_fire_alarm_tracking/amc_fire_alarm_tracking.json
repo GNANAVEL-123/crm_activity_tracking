@@ -128,12 +128,14 @@
   {
    "fieldname": "amc_service_date",
    "fieldtype": "Date",
+   "in_standard_filter": 1,
    "label": "AMC Service Date",
    "reqd": 1
   },
   {
    "fieldname": "next_amc_service_due_date",
    "fieldtype": "Date",
+   "in_standard_filter": 1,
    "label": "Next AMC Service Due Date"
   },
   {
@@ -287,7 +289,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-04 11:27:06.951455",
+ "modified": "2026-08-26 09:56:18.444745",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Fire Alarm Tracking",
