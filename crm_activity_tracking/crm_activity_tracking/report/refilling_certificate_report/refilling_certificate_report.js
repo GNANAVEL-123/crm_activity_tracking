@@ -1,7 +1,7 @@
 // Copyright (c) 2024, CRM and contributors
 // For license information, please see license.txt
 
-frappe.query_reports["Refilling  Certicate Report"] = {
+frappe.query_reports["Refilling Certificate Report"] = {
 	"filters": [
 		{
 			"fieldname": "from_date",
@@ -12,6 +12,18 @@ frappe.query_reports["Refilling  Certicate Report"] = {
 		{
 			"fieldname": "to_date",
 			"label": __("To Date"),
+			"fieldtype": "Date",
+			"width": "80"
+		},
+		{
+			"fieldname": "due_from_date",
+			"label": __("Due From Date"),
+			"fieldtype": "Date",
+			"width": "80"
+		},
+		{
+			"fieldname": "due_to_date",
+			"label": __("Due To Date"),
 			"fieldtype": "Date",
 			"width": "80"
 		},

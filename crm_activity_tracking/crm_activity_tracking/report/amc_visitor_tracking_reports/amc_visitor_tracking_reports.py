@@ -9,9 +9,9 @@ def execute(filters=None):
 
     validate_filters(filters)
 
-    doctype = get_doctype(filters)
-    columns = get_columns(doctype)
-    data = get_data(doctype, filters)
+    doctypes = get_doctypes(filters)
+    columns = get_columns()
+    data = get_data(doctypes, filters)
 
     return columns, data
 
@@ -41,26 +41,26 @@ def validate_filters(filters):
             "Please select Fire Extinguisher, Fire Alarm, or Fire Hydrant."
         )
 
-    if selected_count > 1:
-        frappe.throw(
-            "Please select only one service type."
-        )
 
+def get_doctypes(filters):
+    # Returns a list of doctypes to pull data from, based on
+    # which checkboxes are selected. Multiple can be selected
+    # together now, so this returns all matching doctypes.
+    doctypes = []
 
-def get_doctype(filters):
     if filters.get("fire_extinguisher"):
-        return "AMC Visitor Tracking"
+        doctypes.append("AMC Visitor Tracking")
 
-    elif filters.get("fire_alarm"):
-        return "AMC Fire Alarm Tracking"
+    if filters.get("fire_alarm"):
+        doctypes.append("AMC Fire Alarm Tracking")
 
-    elif filters.get("fire_hydrant"):
-        return "AMC Fire Hydrant Tracking"
+    if filters.get("fire_hydrant"):
+        doctypes.append("AMC Fire Hydrant Tracking")
 
-    return None
+    return doctypes
 
 
-def get_columns(doctype):
+def get_columns():
     # Same column layout is used for all three service types
     # (Fire Extinguisher, Fire Alarm, Fire Hydrant)
     return [
@@ -69,6 +69,12 @@ def get_columns(doctype):
             "fieldname": "idx",
             "fieldtype": "Int",
             "width": 60
+        },
+        {
+            "label": "Service Type",
+            "fieldname": "service_type",
+            "fieldtype": "Data",
+            "width": 130
         },
         {
             "label": "Next Date",
@@ -98,12 +104,6 @@ def get_columns(doctype):
             "label": "No. of Extn Trolley",
             "fieldname": "no_of_extn_trolley",
             "fieldtype": "Int",
-            "width": 120
-        },
-        {
-            "label": "AMC Service Date",
-            "fieldname": "amc_service_date",
-            "fieldtype": "Date",
             "width": 120
         },
         {
@@ -163,11 +163,25 @@ def get_columns(doctype):
     ]
 
 
-def get_data(doctype, filters):
-    if not doctype:
+def get_data(doctypes, filters):
+    if not doctypes:
         return []
 
-    return get_doctype_data(doctype, filters)
+    all_data = []
+
+    for doctype in doctypes:
+        rows = get_doctype_data(doctype, filters)
+        all_data.extend(rows)
+
+    # Sort combined results by AMC due date
+    all_data.sort(
+        key=lambda r: (r.get("next_amc_service_due_date") is None, r.get("next_amc_service_due_date"))
+    )
+
+    for idx, row in enumerate(all_data, start=1):
+        row["idx"] = idx
+
+    return all_data
 
 
 def get_doctype_data(doctype, filters):
@@ -177,22 +191,32 @@ def get_doctype_data(doctype, filters):
 
     if filters.get("from_date"):
         conditions.append(
-            "amc_service_date >= %(from_date)s"
+            "next_amc_service_due_date >= %(from_date)s"
         )
         values["from_date"] = filters.get("from_date")
 
     if filters.get("to_date"):
         conditions.append(
-            "amc_service_date <= %(to_date)s"
+            "next_amc_service_due_date <= %(to_date)s"
         )
         values["to_date"] = filters.get("to_date")
 
+    # "region" is stored under a different column per doctype:
+    # - AMC Fire Alarm Tracking / AMC Fire Hydrant Tracking -> "region"
+    # - AMC Visitor Tracking (Fire Extinguisher)             -> "location"
+    if filters.get("region"):
+        if doctype == "AMC Visitor Tracking":
+            conditions.append("location = %(region)s")
+        else:
+            conditions.append("region = %(region)s")
+        values["region"] = filters.get("region")
     where_condition = ""
 
     if conditions:
         where_condition = "WHERE " + " AND ".join(conditions)
 
     if doctype == "AMC Fire Alarm Tracking":
+        service_type_label = "Fire Alarm"
         query = f"""
             SELECT
                 name,
@@ -222,9 +246,10 @@ def get_doctype_data(doctype, filters):
 
             {where_condition}
 
-            ORDER BY amc_service_date
+            ORDER BY next_amc_service_due_date
         """
     elif doctype == "AMC Fire Hydrant Tracking":
+        service_type_label = "Fire Hydrant"
         query = f"""
             SELECT
                 name,
@@ -238,7 +263,7 @@ def get_doctype_data(doctype, filters):
                 NULL AS no_of_extn_portable,
                 NULL AS no_of_extn_trolley,
 
-                invoice_no,
+                NULL AS invoice_no,
 
                 mail_id AS customer_mail_id,
 
@@ -248,16 +273,17 @@ def get_doctype_data(doctype, filters):
                 NULL AS status,
                 NULL AS invoice_date,
 
-                quotation_no AS qtn_no,
+                NULL AS qtn_no,
                 NULL AS qtn_date
 
             FROM `tab{doctype}`
 
             {where_condition}
 
-            ORDER BY amc_service_date
+            ORDER BY next_amc_service_due_date
         """
     else:
+        service_type_label = "Fire Extinguisher"
         query = f"""
             SELECT
                 name,
@@ -274,7 +300,7 @@ def get_doctype_data(doctype, filters):
                 number_of_trolley_fireextinguisher
                     AS no_of_extn_trolley,
 
-                invoice_number AS invoice_no,
+                NULL AS invoice_no,
 
                 mail_id AS customer_mail_id,
 
@@ -290,7 +316,7 @@ def get_doctype_data(doctype, filters):
 
             {where_condition}
 
-            ORDER BY amc_service_date
+            ORDER BY next_amc_service_due_date
         """
 
     data = frappe.db.sql(
@@ -299,10 +325,9 @@ def get_doctype_data(doctype, filters):
         as_dict=True
     )
 
-    for idx, row in enumerate(data, start=1):
-        row["idx"] = idx
-        row["next_date"] = row.get(
-            "next_amc_service_due_date"
-        )
+    for row in data:
+        row["service_type"] = service_type_label
+        row["next_date"] = row.get("amc_service_date")
+        row["next_amc_service_due_date"] = None
 
     return data
