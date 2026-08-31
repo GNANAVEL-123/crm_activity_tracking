@@ -22,6 +22,7 @@ frappe.query_reports["AMC Visitor Tracking Reports"] = {
             label: "Region",
             fieldtype: "Link",
             options: "Territory",
+            reqd: 1
         },
         {
             fieldname: "fire_extinguisher",
@@ -113,17 +114,17 @@ function print_amc_report(report) {
 		<tr>
 			<td class="num-col">${i + 1}</td>
 			<td>${row.service_type || ""}</td>
-			<td>${format_ddmmyyyy(row.next_date)}</td>
+			<td class="date-col">${format_ddmmyyyy(row.next_date)}</td>
 			<td>${row.company || ""}</td>
 			<td>${row.location || ""}</td>
 			<td class="num-col">${row.no_of_extn_portable || ""}</td>
 			<td class="num-col">${row.no_of_extn_trolley || ""}</td>
-			<td>${format_ddmmyyyy(row.amc_service_date)}</td>
-			<td>${format_ddmmyyyy(row.next_amc_service_due_date)}</td>
+			<td class="date-col">${format_ddmmyyyy(row.amc_service_date)}</td>
+			<td class="date-col">${format_ddmmyyyy(row.next_amc_service_due_date)}</td>
 			<td>${row.invoice_no || ""}</td>
-			<td>${format_ddmmyyyy(row.invoice_date)}</td>
+			<td class="date-col">${format_ddmmyyyy(row.invoice_date)}</td>
 			<td>${row.qtn_no || ""}</td>
-			<td>${format_ddmmyyyy(row.qtn_date)}</td>
+			<td class="date-col">${format_ddmmyyyy(row.qtn_date)}</td>
 			<td>${row.customer_mail_id || ""}</td>
 			<td>${row.customer_mobile_number || ""}</td>
 			<td>${row.service_by || ""}</td>
@@ -209,6 +210,10 @@ function print_amc_report(report) {
 			}
 			table.amc-table tbody td.num-col {
 				text-align: center;
+			}
+			table.amc-table tbody td.date-col,
+			table.amc-table thead th.date-col {
+				white-space: nowrap;
 			}
 			.amc-footer {
 				margin-top: 14px;

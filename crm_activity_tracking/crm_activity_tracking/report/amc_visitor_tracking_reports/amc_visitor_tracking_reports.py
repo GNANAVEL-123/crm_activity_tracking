@@ -210,6 +210,7 @@ def get_doctype_data(doctype, filters):
         else:
             conditions.append("region = %(region)s")
         values["region"] = filters.get("region")
+
     where_condition = ""
 
     if conditions:
@@ -263,7 +264,7 @@ def get_doctype_data(doctype, filters):
                 NULL AS no_of_extn_portable,
                 NULL AS no_of_extn_trolley,
 
-                NULL AS invoice_no,
+                invoice_no,
 
                 mail_id AS customer_mail_id,
 
@@ -273,7 +274,7 @@ def get_doctype_data(doctype, filters):
                 NULL AS status,
                 NULL AS invoice_date,
 
-                NULL AS qtn_no,
+                quotation_no AS qtn_no,
                 NULL AS qtn_date
 
             FROM `tab{doctype}`
@@ -300,7 +301,7 @@ def get_doctype_data(doctype, filters):
                 number_of_trolley_fireextinguisher
                     AS no_of_extn_trolley,
 
-                NULL AS invoice_no,
+                invoice_number AS invoice_no,
 
                 mail_id AS customer_mail_id,
 
@@ -327,7 +328,7 @@ def get_doctype_data(doctype, filters):
 
     for row in data:
         row["service_type"] = service_type_label
-        row["next_date"] = row.get("amc_service_date")
+        row["next_date"] = row.get("next_amc_service_due_date")
         row["next_amc_service_due_date"] = None
 
     return data
