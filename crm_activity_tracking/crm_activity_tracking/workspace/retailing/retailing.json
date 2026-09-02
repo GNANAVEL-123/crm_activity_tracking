@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"970igIzKvk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Retailing</span>\",\"col\":12}},{\"id\":\"aB_m4RefJu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"UBI6UkQYWN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"f5zYHhKmrk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"UHQO6Rbn5q\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "content": "[{\"id\":\"970igIzKvk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Retailing</span>\",\"col\":12}},{\"id\":\"aB_m4RefJu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"UBI6UkQYWN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"f5zYHhKmrk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"C2W86pj5NW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice - User Wise Summary\",\"col\":3}},{\"id\":\"UHQO6Rbn5q\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
  "creation": "2025-05-23 11:42:08.910215",
  "custom_blocks": [],
  "docstatus": 0,
@@ -83,7 +83,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-01-05 11:01:13.255715",
+ "modified": "2026-09-02 10:09:14.506167",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Retailing",
@@ -106,6 +106,13 @@
    "link_to": "Sales Order",
    "stats_filter": "[]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoice - User Wise Summary",
+   "link_to": "Sales Invoice - User Wise Summary",
+   "type": "Report"
   },
   {
    "color": "Grey",
