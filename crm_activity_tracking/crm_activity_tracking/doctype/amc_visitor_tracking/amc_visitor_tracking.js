@@ -48,6 +48,9 @@ frappe.ui.form.on("AMC Visitor Tracking", {
             // Open in new tab
             window.open(url, "_blank");
         });
+        frm.add_custom_button(__('Create Quotation'), function() {
+            create_quotation_from_amc(frm);
+        });
         frm.set_query("company_address", function () {
 			return {
 				filters: {
@@ -205,5 +208,245 @@ frappe.ui.form.on('Refilling Schedule Table', {
             frappe.model.set_value(cdt, cdn, "enter_datetime",frappe.datetime.now_datetime());
             frm.refresh_field("refilling_schedule");
         }
+    },
+
+    amc_remarks: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        if (!row.amc_remarks) {
+            return;
+        }
+
+        let new_value = row.amc_remarks.trim();
+
+        // Split existing remarks into a clean list, ignoring empty entries
+        let existing_list = (row.remarks || "")
+            .split(",")
+            .map(v => v.trim())
+            .filter(v => v.length > 0);
+
+        // Check for duplicate (case-insensitive)
+        let is_duplicate = existing_list.some(
+            v => v.toLowerCase() === new_value.toLowerCase()
+        );
+
+        if (is_duplicate) {
+            frappe.msgprint(__('"{0}" is already added in Remarks Details.', [new_value]));
+        } else {
+            existing_list.push(new_value);
+            let updated_remarks = existing_list.join(", ");
+            frappe.model.set_value(cdt, cdn, "remarks", updated_remarks);
+        }
+
+        // Always clear the link field after processing, whether duplicate or not
+        frappe.model.set_value(cdt, cdn, "amc_remarks", "");
+        frm.refresh_field("refilling_schedule");
+    },
+
+    clear_remarks: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        if (frm.doc.quotation) {
+            frappe.msgprint(__('Cannot clear Remarks because a Quotation ({0}) is already linked.', [frm.doc.quotation]));
+            return;
+        }
+
+        frappe.model.set_value(cdt, cdn, "remarks", "");
+        frappe.model.set_value(cdt, cdn, "amc_remarks", "");
+        frm.refresh_field("refilling_schedule");
     }
 });
+
+
+// ---------------------------------------------------------------
+// Create Quotation from AMC Visitor Tracking
+// ---------------------------------------------------------------
+
+async function get_item_qty_map_from_remarks(frm) {
+    // Collect every remark name across all refilling_schedule rows.
+    // Duplicates are kept intentionally — repeat count = quantity.
+    let remark_names = [];
+
+    (frm.doc.refilling_schedule || []).forEach(row => {
+        if (row.remarks) {
+            row.remarks.split(",").forEach(r => {
+                let v = r.trim();
+                if (v) {
+                    remark_names.push(v);
+                }
+            });
+        }
+    });
+
+    if (!remark_names.length) {
+        return {};
+    }
+
+    // Only fetch each unique remark's linked Item once (avoid duplicate DB calls)
+    let unique_remarks = [...new Set(remark_names)];
+    let remark_item_map = {};
+
+    await Promise.all(
+        unique_remarks.map(async (remark_name) => {
+            try {
+                let res = await frappe.db.get_value("AMC Remarks", remark_name, "item");
+                remark_item_map[remark_name] = (res && res.message) ? res.message.item : null;
+            } catch (e) {
+                remark_item_map[remark_name] = null;
+            }
+        })
+    );
+
+    // Build final { item_code: qty } map.
+    // If a remark has no linked item, it is skipped entirely (not added to quotation).
+    let item_qty_map = {};
+
+    remark_names.forEach(remark_name => {
+        let item_code = remark_item_map[remark_name];
+        if (item_code) {
+            item_qty_map[item_code] = (item_qty_map[item_code] || 0) + 1;
+        }
+    });
+
+    return item_qty_map;
+}
+
+async function create_quotation_from_amc(frm) {
+    // If a Quotation is already linked, just open it — don't create another.
+    // Check the local doc first, then fall back to a server check in case
+    // the local cache is stale (e.g. after navigating back without a reload).
+    let existing_quotation = frm.doc.quotation;
+
+    if (!existing_quotation) {
+        try {
+            let res = await frappe.db.get_value(frm.doc.doctype, frm.doc.name, "quotation");
+            existing_quotation = res && res.message ? res.message.quotation : null;
+        } catch (e) {
+            existing_quotation = null;
+        }
+    }
+
+    if (existing_quotation) {
+        frappe.set_route("Form", "Quotation", existing_quotation);
+        return;
+    }
+
+    if (!frm.doc.customer_name) {
+        frappe.msgprint(__('Customer is required before creating a Quotation.'));
+        return;
+    }
+
+    frappe.dom.freeze(__('Preparing Quotation...'));
+
+    let item_qty_map;
+    try {
+        item_qty_map = await get_item_qty_map_from_remarks(frm);
+    } finally {
+        frappe.dom.unfreeze();
+    }
+
+    let source = {
+        customer: frm.doc.customer_name,
+        location: frm.doc.location,
+        customer_address: frm.doc.customer_address,
+        company_address: frm.doc.company_address,
+        company: frm.doc.company,
+        custom_amc_tracking: frm.doc.name,
+        amc_docname: frm.doc.name,
+        amc_doctype: frm.doc.doctype
+    };
+
+    frappe.new_doc("Quotation");
+
+    // The new Quotation form loads asynchronously — poll briefly until
+    // cur_frm is actually pointing at the new (unsaved) Quotation.
+    let attempts = 0;
+    let max_attempts = 30; // ~4.5s total at 150ms interval
+
+    let setup_quotation = async function () {
+        attempts++;
+
+        let ready = (
+            cur_frm &&
+            cur_frm.doc &&
+            cur_frm.doc.doctype === "Quotation" &&
+            cur_frm.doc.__islocal
+        );
+
+        if (!ready) {
+            if (attempts < max_attempts) {
+                setTimeout(setup_quotation, 150);
+            } else {
+                frappe.msgprint(__('Quotation was created, but details could not be auto-filled. Please fill them manually.'));
+            }
+            return;
+        }
+
+        let q = cur_frm;
+
+        // Set fields in dependency order — quotation_to change clears
+        // party_name, and party_name change auto-fetches default addresses,
+        // so later calls intentionally override those auto-fetched values.
+        await q.set_value("quotation_to", "Customer");
+        await q.set_value("party_name", source.customer);
+        await q.set_value("customer_address", source.customer_address);
+        await q.set_value("company_address", source.company_address);
+        await q.set_value("company", source.company);
+
+        if (q.fields_dict.custom_region) {
+            await q.set_value("custom_region", source.location);
+        }
+
+        if (q.fields_dict.custom_amc_tracking) {
+            await q.set_value("custom_amc_tracking", source.custom_amc_tracking);
+        }
+
+        // Remove the blank default row Frappe adds to a new Quotation's
+        // items table, so our items start at row 1 instead of row 2.
+        q.clear_table("items");
+        q.refresh_field("items");
+
+        Object.keys(item_qty_map).forEach(item_code => {
+            let child = q.add_child("items");
+            frappe.model.set_value(child.doctype, child.name, "item_code", item_code);
+            frappe.model.set_value(child.doctype, child.name, "qty", item_qty_map[item_code]);
+        });
+        q.refresh_field("items");
+
+        if (!Object.keys(item_qty_map).length) {
+            frappe.msgprint(__('No items were added — none of the Remarks had a linked Item in AMC Remarks.'));
+        }
+
+        // Auto-save as Draft, then link the new Quotation's name back
+        // into the AMC Visitor Tracking record's "quotation" field.
+        try {
+            await q.save();
+
+            await frappe.db.set_value(
+                source.amc_doctype,
+                source.amc_docname,
+                "quotation",
+                q.doc.name
+            );
+
+            // Also update the local client-side cache for that document,
+            // so if the user navigates back without a full reload, the
+            // "quotation" field shows the new value immediately instead
+            // of a stale cached empty value.
+            if (locals[source.amc_doctype] && locals[source.amc_doctype][source.amc_docname]) {
+                locals[source.amc_doctype][source.amc_docname].quotation = q.doc.name;
+            }
+
+            frappe.show_alert({
+                message: __('Quotation {0} created and linked back to {1}.', [q.doc.name, source.amc_docname]),
+                indicator: 'green'
+            });
+        } catch (e) {
+            frappe.msgprint(
+                __('Quotation was created but could not be saved automatically (some required field may still be missing). Please complete and save it manually — the link back to AMC Visitor Tracking will not happen until then.')
+            );
+        }
+    };
+
+    setTimeout(setup_quotation, 150);
+}

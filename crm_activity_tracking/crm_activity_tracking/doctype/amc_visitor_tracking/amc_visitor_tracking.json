@@ -28,6 +28,7 @@
   "product_delivery_date",
   "number_of_trolley_fireextinguisher",
   "ultramarine",
+  "quotation",
   "column_break_sawh",
   "concern_person",
   "contact_number",
@@ -389,11 +390,18 @@
    "fieldtype": "Link",
    "label": "Assign Employee",
    "options": "Employee"
+  },
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Quotation",
+   "options": "Quotation",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-26 09:58:45.757762",
+ "modified": "2026-09-06 18:57:23.032753",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",
