@@ -150,7 +150,8 @@ doc_events = {
 		"validate": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.validate",
 		"after_insert": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.after_insert",
 		"on_update_after_submit":"crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.after_insert",
-		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.on_trash"
+		"on_trash": "crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation.on_trash",
+		"on_update": "crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking.link_quotation_to_amc"
 	},
 	'User':{
 		'after_insert':"crm_activity_tracking.crm_activity_tracking.custom_files.py.user.manage_user_permissions",

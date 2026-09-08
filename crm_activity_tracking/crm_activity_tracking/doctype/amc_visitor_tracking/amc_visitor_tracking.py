@@ -67,3 +67,67 @@ def description_list(doc):
         desc_list = [desc["name"] for desc in desc_list]
         return_list = [desc for desc in desc_list if desc not in given_des]
         return return_list
+
+
+@frappe.whitelist()
+def update_quotation_link(amc_name, quotation_name):
+    """
+    Directly updates the 'quotation' field on an AMC Visitor Tracking
+    record without triggering the full doc.save()/validate() cycle.
+
+    This avoids unrelated validation errors (e.g. duplicate checkin
+    dates, incomplete feedback table rows) from silently blocking the
+    quotation link-back after a Quotation is created from this record.
+    """
+    if not amc_name or not quotation_name:
+        frappe.throw(_("Both AMC Visitor Tracking name and Quotation name are required."))
+
+    frappe.db.set_value(
+        "AMC Visitor Tracking",
+        amc_name,
+        "quotation",
+        quotation_name,
+        update_modified=False
+    )
+    frappe.db.commit()
+
+    return {"status": "ok"}
+
+
+def link_quotation_to_amc(doc, method=None):
+    """
+    doc_events hook — runs automatically every time a Quotation is
+    saved (on_update), regardless of whether that save came from the
+    "Create Quotation" button's automated flow, a manual Save click by
+    the user afterward, the API, or a bulk/import operation.
+
+    If this Quotation has a linked AMC Visitor Tracking record
+    (via custom_amc_tracking), push this Quotation's name into that
+    record's "quotation" field — using a direct DB update so it does
+    not re-trigger AMC Visitor Tracking's own validate() logic.
+
+    Register this in hooks.py:
+
+        doc_events = {
+            "Quotation": {
+                "on_update": "crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking.link_quotation_to_amc"
+            }
+        }
+    """
+    amc_name = doc.get("custom_amc_tracking")
+
+    if not amc_name:
+        return
+
+    # Only update if it's not already pointing to this quotation,
+    # to avoid unnecessary DB writes on every save.
+    current_value = frappe.db.get_value("AMC Visitor Tracking", amc_name, "quotation")
+
+    if current_value != doc.name:
+        frappe.db.set_value(
+            "AMC Visitor Tracking",
+            amc_name,
+            "quotation",
+            doc.name,
+            update_modified=False
+        )

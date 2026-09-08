@@ -370,7 +370,10 @@ async function create_quotation_from_amc(frm) {
             cur_frm &&
             cur_frm.doc &&
             cur_frm.doc.doctype === "Quotation" &&
-            cur_frm.doc.__islocal
+            cur_frm.doc.__islocal &&
+            cur_frm.fields_dict &&
+            cur_frm.fields_dict.party_name &&
+            cur_frm.fields_dict.items
         );
 
         if (!ready) {
@@ -384,37 +387,71 @@ async function create_quotation_from_amc(frm) {
 
         let q = cur_frm;
 
-        // Set fields in dependency order — quotation_to change clears
-        // party_name, and party_name change auto-fetches default addresses,
-        // so later calls intentionally override those auto-fetched values.
-        await q.set_value("quotation_to", "Customer");
-        await q.set_value("party_name", source.customer);
-        await q.set_value("customer_address", source.customer_address);
-        await q.set_value("company_address", source.company_address);
-        await q.set_value("company", source.company);
+        try {
+            // Set fields in dependency order — quotation_to change clears
+            // party_name, and party_name change auto-fetches default addresses,
+            // so later calls intentionally override those auto-fetched values.
+            await q.set_value("quotation_to", "Customer");
 
-        if (q.fields_dict.custom_region) {
-            await q.set_value("custom_region", source.location);
-        }
+            // Give quotation_to's own internal side effects (it clears
+            // party_name asynchronously) time to fully settle before we
+            // set party_name ourselves, otherwise it can get wiped out
+            // by a race condition.
+            await new Promise(resolve => setTimeout(resolve, 300));
 
-        if (q.fields_dict.custom_amc_tracking) {
-            await q.set_value("custom_amc_tracking", source.custom_amc_tracking);
-        }
+            let party_attempts = 0;
+            while (q.doc.party_name !== source.customer && party_attempts < 5) {
+                await q.set_value("party_name", source.customer);
+                await new Promise(resolve => setTimeout(resolve, 250));
+                party_attempts++;
+            }
 
-        // Remove the blank default row Frappe adds to a new Quotation's
-        // items table, so our items start at row 1 instead of row 2.
-        q.clear_table("items");
-        q.refresh_field("items");
+            if (q.doc.party_name !== source.customer) {
+                console.warn(
+                    "create_quotation_from_amc: party_name did not stick after retries. Current value:",
+                    q.doc.party_name
+                );
+            }
 
-        Object.keys(item_qty_map).forEach(item_code => {
-            let child = q.add_child("items");
-            frappe.model.set_value(child.doctype, child.name, "item_code", item_code);
-            frappe.model.set_value(child.doctype, child.name, "qty", item_qty_map[item_code]);
-        });
-        q.refresh_field("items");
+            await q.set_value("customer_address", source.customer_address);
+            await q.set_value("company_address", source.company_address);
+            await q.set_value("company", source.company);
 
-        if (!Object.keys(item_qty_map).length) {
-            frappe.msgprint(__('No items were added — none of the Remarks had a linked Item in AMC Remarks.'));
+            if (q.fields_dict.custom_region) {
+                await q.set_value("custom_region", source.location);
+            }
+
+            if (q.fields_dict.custom_amc_tracking) {
+                await q.set_value("custom_amc_tracking", source.custom_amc_tracking);
+            }
+
+            // Remove the blank default row Frappe adds to a new Quotation's
+            // items table, so our items start at row 1 instead of row 2.
+            q.clear_table("items");
+            q.refresh_field("items");
+
+            Object.keys(item_qty_map).forEach(item_code => {
+                let child = q.add_child("items");
+                frappe.model.set_value(child.doctype, child.name, "item_code", item_code);
+                frappe.model.set_value(child.doctype, child.name, "qty", item_qty_map[item_code]);
+            });
+            q.refresh_field("items");
+
+            if (!Object.keys(item_qty_map).length) {
+                frappe.msgprint(__('No items were added — none of the Remarks had a linked Item in AMC Remarks.'));
+            }
+
+            if (q.doc.party_name !== source.customer) {
+                frappe.msgprint(
+                    __('Warning: Customer (Party Name) could not be set automatically. Please select it manually before saving.')
+                );
+            }
+        } catch (setup_error) {
+            console.error("create_quotation_from_amc: field setup failed", setup_error);
+            frappe.msgprint(
+                __('Something went wrong while filling the Quotation: {0}. Please check the browser console for details.', [setup_error.message || setup_error])
+            );
+            return;
         }
 
         // Auto-save as Draft, then link the new Quotation's name back
@@ -422,12 +459,13 @@ async function create_quotation_from_amc(frm) {
         try {
             await q.save();
 
-            await frappe.db.set_value(
-                source.amc_doctype,
-                source.amc_docname,
-                "quotation",
-                q.doc.name
-            );
+            await frappe.call({
+                method: "crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking.update_quotation_link",
+                args: {
+                    amc_name: source.amc_docname,
+                    quotation_name: q.doc.name
+                }
+            });
 
             // Also update the local client-side cache for that document,
             // so if the user navigates back without a full reload, the
@@ -441,9 +479,10 @@ async function create_quotation_from_amc(frm) {
                 message: __('Quotation {0} created and linked back to {1}.', [q.doc.name, source.amc_docname]),
                 indicator: 'green'
             });
-        } catch (e) {
+        } catch (save_error) {
+            console.error("create_quotation_from_amc: save/link failed", save_error);
             frappe.msgprint(
-                __('Quotation was created but could not be saved automatically (some required field may still be missing). Please complete and save it manually — the link back to AMC Visitor Tracking will not happen until then.')
+                __('Quotation was filled in but could not be saved automatically (some required field may still be missing). Please complete and save it manually — the link back to AMC Visitor Tracking will not happen until then.')
             );
         }
     };
