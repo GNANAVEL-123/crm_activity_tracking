@@ -98,7 +98,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type of Quotation",
-   "options": "\nFIRE EXTINGUISHER\nFIRE ALARM\nHYDRANT\nFIRE FLOODING\nFIRE EXTINGUISHER & FIRE ALARM\nFIRE HYDRANT & FIRE ALARM\nFIRE EXTINGUISHER & FIRE HYDRANT\nFIRE EXTINGUISHER & FIRE ALARM, FIRE HYDRANT\nPUBLIC ADDRESS SYSTEM",
+   "options": "\nFIRE EXTINGUISHER\nFIRE ALARM\nHYDRANT\nFIRE FLOODING\nFIRE EXTINGUISHER & FIRE ALARM\nFIRE HYDRANT & FIRE ALARM\nFIRE EXTINGUISHER & FIRE HYDRANT\nFIRE EXTINGUISHER & FIRE ALARM, FIRE HYDRANT\nPUBLIC ADDRESS SYSTEM\nPPE & SAFETY EQUIPMENTS",
    "reqd": 1
   },
   {
@@ -253,7 +253,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-03 10:50:06.513641",
+ "modified": "2026-09-17 14:54:01.004905",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Supply and Erection Detail Quotation",

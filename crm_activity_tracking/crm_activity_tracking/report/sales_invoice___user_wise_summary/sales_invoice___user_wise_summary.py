@@ -134,6 +134,10 @@ def build_conditions(filters):
         conditions.append("si.owner = %(owner)s")
         values["owner"] = filters.get("owner")
 
+    if filters.get("customer"):
+        conditions.append("si.customer = %(customer)s")
+        values["customer"] = filters.get("customer")
+
     if filters.get("company"):
         conditions.append("si.company = %(company)s")
         values["company"] = filters.get("company")

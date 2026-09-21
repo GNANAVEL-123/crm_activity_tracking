@@ -96,6 +96,68 @@ def amc_visitor_tracker():
                             amc_tracker_doc.save(ignore_permissions=True)
 
 
+def sync_qr_codes_to_linked_visitor_tracking(amc_doc):
+    """
+    For every AMC Visitor Tracking document linked to this AMC (via
+    the 'amc_template' field), fill in qr_code / qr_attach on any
+    refilling_schedule row that is still empty, matching rows by
+    location + type + cap against this AMC's rows.
+
+    This mirrors AMC Master -> AMC's sync_qr_codes_to_linked_amc, one
+    level down the chain: AMC Master -> AMC -> AMC Visitor Tracking.
+
+    Only fills EMPTY rows on the AMC Visitor Tracking side — it never
+    overwrites a qr_code/qr_attach that document already has.
+
+    IMPORTANT: this updates child table rows directly via
+    frappe.db.set_value, instead of loading + saving the full parent
+    AMC Visitor Tracking document. That avoids re-triggering its
+    validate() method (which has an unrelated bug — it crashes on a
+    datetime.date value when the doc is loaded via get_doc instead of
+    coming from a form submission).
+    """
+    linked_names = frappe.get_all(
+        "AMC Visitor Tracking",
+        filters={"amc_template": amc_doc.name},
+        pluck="name"
+    )
+
+    if not linked_names:
+        return
+
+    for avt_name in linked_names:
+        avt_rows = frappe.get_all(
+            "Refilling Schedule Table",
+            filters={"parent": avt_name, "parenttype": "AMC Visitor Tracking"},
+            fields=["name", "location", "type", "cap", "qr_code", "qr_attach"]
+        )
+
+        for avt_row in avt_rows:
+            if avt_row.qr_code and avt_row.qr_attach:
+                # Already has a code — don't touch it
+                continue
+
+            for amc_row in amc_doc.refilling_schedule:
+                if (
+                    avt_row.location == amc_row.location
+                    and avt_row.type == amc_row.type
+                    and avt_row.cap == amc_row.cap
+                    and amc_row.qr_code
+                ):
+                    frappe.db.set_value(
+                        "Refilling Schedule Table",
+                        avt_row.name,
+                        {
+                            "qr_code": amc_row.qr_code,
+                            "qr_attach": amc_row.qr_attach
+                        },
+                        update_modified=False
+                    )
+                    break
+
+    frappe.db.commit()
+
+
 @frappe.whitelist()
 @frappe.validate_and_sanitize_search_inputs
 def location_list(doctype, txt, searchfield, start, page_len, filters, as_dict=False):

@@ -82,8 +82,14 @@ frappe.ui.form.on("AMC", {
                         });
                     });
     
+                    // NOTE: frappe.model.get_new_doc() returns a plain data
+                    // object — it has no .save() method. Once we route to
+                    // the new document's page, cur_frm IS the loaded form
+                    // for that document, so we call cur_frm.save() instead
+                    // of new_doc.save() (which doesn't exist and throws
+                    // "new_doc.save is not a function").
                     frappe.set_route('Form', 'AMC Visitor Tracking', new_doc.name).then(() => {
-                        new_doc.save().then(() => {
+                        cur_frm.save().then(() => {
                             frappe.msgprint(__('AMC Visitor Tracking has been successfully created.'));
                         });
                     });

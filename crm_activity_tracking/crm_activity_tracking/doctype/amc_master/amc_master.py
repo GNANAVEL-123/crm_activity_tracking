@@ -14,6 +14,7 @@ from frappe.utils import getdate, add_months, nowdate
 from datetime import timedelta, date
 from dateutil.relativedelta import relativedelta
 import calendar
+from crm_activity_tracking.crm_activity_tracking.doctype.amc.amc import sync_qr_codes_to_linked_visitor_tracking
 
 class AMCMaster(Document):
     def validate(self):
@@ -45,6 +46,10 @@ def qrcode_creation(docname):
     count = len(rows_to_update)
 
     if count == 0:
+        # Even if AMC Master already has all codes, any linked AMC
+        # document might still be missing them (e.g. AMC was created
+        # before codes were generated). Sync those regardless.
+        sync_qr_codes_to_linked_amc(doc)
         return "All rows already have QR codes."
 
     unique_codes = generate_unique_codes(count, existing_codes)
@@ -71,7 +76,94 @@ def qrcode_creation(docname):
 
 
     doc.save(ignore_permissions=True)
+    frappe.db.commit()
+
+    # ✅ Push newly generated codes into any linked AMC document(s)
+    # that are still missing them, without overwriting anything
+    # already filled in on the AMC side.
+    sync_qr_codes_to_linked_amc(doc)
+
     return f"{count} QR code(s) generated and saved."
+
+
+@frappe.whitelist()
+def update_qr_codes_downstream(docname):
+    """
+    Standalone action for already-created records: pushes this AMC
+    Master's EXISTING qr_code/qr_attach values down to any linked AMC
+    and AMC Visitor Tracking documents that are still missing them —
+    without generating any new QR codes first.
+
+    Useful for AMC/AMC Visitor Tracking records that were created
+    before this AMC Master had QR codes, or before this sync logic
+    existed at all.
+    """
+    doc = frappe.get_doc("AMC Master", docname)
+    sync_qr_codes_to_linked_amc(doc)
+    return {"status": "ok"}
+
+
+def sync_qr_codes_to_linked_amc(amc_master_doc):
+    """
+    For every AMC document linked to this AMC Master (via the
+    'amc_master' field), fill in qr_code / qr_attach on any
+    refilling_schedule row that is still empty, matching rows by
+    location + type + cap against the AMC Master's rows.
+
+    This only fills EMPTY rows on the AMC side — it never overwrites
+    a qr_code/qr_attach that the AMC document already has.
+
+    IMPORTANT: this updates child table rows directly via
+    frappe.db.set_value, instead of loading + saving the full parent
+    AMC document, so it can't be blocked by any unrelated validation
+    logic in AMC's own validate() method.
+    """
+    linked_amc_names = frappe.get_all(
+        "AMC",
+        filters={"amc_master": amc_master_doc.name},
+        pluck="name"
+    )
+
+    if not linked_amc_names:
+        return
+
+    for amc_name in linked_amc_names:
+        amc_rows = frappe.get_all(
+            "Refilling Schedule Table",
+            filters={"parent": amc_name, "parenttype": "AMC"},
+            fields=["name", "location", "type", "cap", "qr_code", "qr_attach"]
+        )
+
+        for amc_row in amc_rows:
+            if amc_row.qr_code and amc_row.qr_attach:
+                # Already has a code — don't touch it
+                continue
+
+            for master_row in amc_master_doc.refilling_schedule:
+                if (
+                    amc_row.location == master_row.location
+                    and amc_row.type == master_row.type
+                    and amc_row.cap == master_row.cap
+                    and master_row.qr_code
+                ):
+                    frappe.db.set_value(
+                        "Refilling Schedule Table",
+                        amc_row.name,
+                        {
+                            "qr_code": master_row.qr_code,
+                            "qr_attach": master_row.qr_attach
+                        },
+                        update_modified=False
+                    )
+                    break
+
+        frappe.db.commit()
+
+        # ✅ Cascade one level further: AMC -> AMC Visitor Tracking.
+        # Re-fetch the AMC doc fresh so its refilling_schedule reflects
+        # the child-row updates just made above.
+        amc_doc = frappe.get_doc("AMC", amc_name)
+        sync_qr_codes_to_linked_visitor_tracking(amc_doc)
 
 
 def generate_unique_codes(count, existing_codes):

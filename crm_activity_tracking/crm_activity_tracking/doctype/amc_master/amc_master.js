@@ -37,6 +37,20 @@ frappe.ui.form.on("AMC Master", {
             }
         })
         if (!frm.is_new()) {
+            frm.add_custom_button(__("Update QR to AMC & Tracking"), function () {
+                frappe.call({
+                    method: "crm_activity_tracking.crm_activity_tracking.doctype.amc_master.amc_master.update_qr_codes_downstream",
+                    args: {
+                        docname: frm.doc.name
+                    },
+                    freeze: true,
+                    freeze_message: __("Pushing QR codes to linked AMC & AMC Visitor Tracking..."),
+                    callback: function (r) {
+                        frappe.msgprint(__("QR codes pushed to linked AMC and AMC Visitor Tracking records (where missing)."));
+                    }
+                });
+            });
+
             frm.add_custom_button(__("Create AMC"), function () {
                 frappe.model.with_doctype('AMC', function () {
                     let new_doc = frappe.model.get_new_doc('AMC');
@@ -88,8 +102,14 @@ frappe.ui.form.on("AMC Master", {
                         });
                     });
     
+                    // NOTE: frappe.model.get_new_doc() returns a plain data
+                    // object — it has no .save() method. Once we route to
+                    // the new document's page, cur_frm IS the loaded form
+                    // for that document, so we call cur_frm.save() instead
+                    // of new_doc.save() (which doesn't exist and throws
+                    // "new_doc.save is not a function").
                     frappe.set_route('Form', 'AMC', new_doc.name).then(() => {
-                        new_doc.save().then(() => {
+                        cur_frm.save().then(() => {
                             frappe.msgprint(__('AMC has been successfully created.'));
                         });
                     });

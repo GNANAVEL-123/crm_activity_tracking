@@ -33,6 +33,12 @@ frappe.query_reports["Sales Invoice - User Wise Summary"] = {
 			options: "User"
 		},
 		{
+			fieldname: "customer",
+			label: __("Company Name"),
+			fieldtype: "Link",
+			options: "Customer"
+		},
+		{
 			fieldname: "company",
 			label: __("Company"),
 			fieldtype: "Link",
