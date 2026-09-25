@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import getdate, nowdate, flt
-
+from crm_activity_tracking.crm_activity_tracking.custom_files.py.quotation import get_last_selling_rate
 
 class SupplyandErectionDetailQuotation(Document):
 	def validate(self):
@@ -26,6 +26,48 @@ class SupplyandErectionDetailQuotation(Document):
 
 		# Optional: Grand Total
 		self.total_amount = total_supply_amount + total_erection_amount
+
+		self.validate_customer_lastprice()
+		self.validate_purchase_price()
+
+	def validate_customer_lastprice(self):
+		"""
+		Same concept as Quotation's validate_customer_lastprice:
+		for each item row, look up the customer's last selling rate
+		for that item (as of this quotation's date) and store it on
+		the row, so it can be compared against the quoted rate.
+		"""
+		if not self.date or not self.customer:
+			return
+
+		for row in self.items:
+			if not row.item:
+				continue
+
+			last_rate = get_last_selling_rate(
+				item_code=row.item,
+				transaction_date=self.date,
+				customer=self.customer
+			)
+
+			row.custom_last_customer_selling_rate = last_rate
+
+	def validate_purchase_price(self):
+		"""
+		Same concept as Quotation's validate_purchase_price:
+		for each item row, look up the lowest recorded buyer
+		(purchase) rate from the Item's custom_buyer_details, and
+		store it on the row in custom_purchase_rate.
+		"""
+		if not self.items:
+			return
+
+		for row in self.items:
+			if not row.item:
+				continue
+
+			lowest = get_lowest_buyer_rate(row.item)
+			row.custom_purchase_rate = lowest.get("rate") if lowest else 0
 
 	def before_insert(self):
 		if not self.terms_and_conditions:  # only if empty

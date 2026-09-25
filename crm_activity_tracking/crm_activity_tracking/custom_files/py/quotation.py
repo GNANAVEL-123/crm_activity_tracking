@@ -32,6 +32,7 @@ def validate(doc,event):
     if doc.custom_tracking_email_id:
         frappe.utils.validate_email_address(doc.custom_tracking_email_id, throw=True)
     validate_customer_lastprice(doc, event)
+    validate_purchase_price(doc, event)
     supply_erection_validate(doc, event)
 
 def after_insert(doc,event):
@@ -322,3 +323,20 @@ def supply_erection_validate(doc, event):
     # Parent totals
     doc.custom_total_supply_amount = total_supply
     doc.custom_total_erection_amount = total_erection
+
+def validate_purchase_price(doc, event):
+    """
+    Same concept as validate_customer_lastprice, but for purchase
+    price: for each item row, look up the lowest recorded buyer
+    (purchase) rate from the Item's custom_buyer_details, and store
+    it on the row in custom_purchase_rate.
+    """
+    if not doc.items:
+        return
+ 
+    for item in doc.items:
+        if not item.item_code:
+            continue
+ 
+        lowest = get_lowest_buyer_rate(item.item_code)
+        item.custom_purchase_rate = lowest.get("rate") if lowest else 0
