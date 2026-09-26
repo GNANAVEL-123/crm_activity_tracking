@@ -21,6 +21,7 @@
   "region",
   "valid_till",
   "destination",
+  "print_with_description",
   "column_break_zgmz",
   "type_of_quotation",
   "depatch_through",
@@ -248,12 +249,19 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Open\nOrdered\nCancelled"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "print_with_description",
+   "fieldtype": "Check",
+   "label": "Print With Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-17 14:54:01.004905",
+ "modified": "2026-09-26 10:51:14.983962",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Supply and Erection Detail Quotation",
