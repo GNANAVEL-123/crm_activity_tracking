@@ -40,6 +40,9 @@
   "naming_series",
   "status",
   "assign_employee",
+  "assign_service_employee",
+  "service_status",
+  "service_visit_date",
   "section_break_jxwf",
   "print_check",
   "refilling_schedule",
@@ -397,11 +400,28 @@
    "label": "Quotation",
    "options": "Quotation",
    "read_only": 1
+  },
+  {
+   "fieldname": "assign_service_employee",
+   "fieldtype": "Link",
+   "label": "Assign Service Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "service_status",
+   "fieldtype": "Select",
+   "label": "Service Status",
+   "options": "\nOpen\nWorking\nCompleted"
+  },
+  {
+   "fieldname": "service_visit_date",
+   "fieldtype": "Date",
+   "label": "Service Visit Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-08 08:51:49.452389",
+ "modified": "2026-09-26 20:35:47.081990",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

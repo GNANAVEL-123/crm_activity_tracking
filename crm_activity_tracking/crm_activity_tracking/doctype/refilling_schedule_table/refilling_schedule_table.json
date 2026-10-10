@@ -29,7 +29,8 @@
   "clear_remarks",
   "qr_code",
   "qr_attach",
-  "qr_image"
+  "qr_image",
+  "amc_refilling_row"
  ],
  "fields": [
   {
@@ -189,12 +190,17 @@
    "fieldname": "clear_remarks",
    "fieldtype": "Button",
    "label": "Clear Remarks"
+  },
+  {
+   "fieldname": "amc_refilling_row",
+   "fieldtype": "Data",
+   "label": "AMC Refilling Row"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-09-06 18:02:08.873038",
+ "modified": "2026-09-26 22:31:35.317825",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Refilling Schedule Table",

@@ -139,7 +139,7 @@ def get_current_employee():
     return employee
 
 @frappe.whitelist()
-def update_amc_refilling_row(name, row_name, data):
+def update_amc_refilling_row(name, row_name, data, is_service=0):
     if isinstance(data, str):
         data = json.loads(data)
 
@@ -174,7 +174,10 @@ def update_amc_refilling_row(name, row_name, data):
             updates,
         )
 
-    if doc.status not in ("Working", "Completed"):
+    if cint(is_service):
+        if doc.service_status not in ("Working", "Completed"):
+            frappe.db.set_value("AMC Visitor Tracking", name, "service_status", "Working")
+    elif doc.status not in ("Working", "Completed"):
         frappe.db.set_value("AMC Visitor Tracking", name, "status", "Working")
 
     frappe.db.commit()
@@ -226,9 +229,71 @@ def get_today_amc_visitors():
     return visitors
 
 @frappe.whitelist()
+def get_today_service_visitors():
+    today = str(nowdate())
+    employee = get_current_employee()
+
+    visitors = frappe.get_all(
+        "AMC Visitor Tracking",
+        filters={
+            "service_visit_date": ["<=", today],
+            "assign_service_employee": employee,
+            "service_status": ["=", "Open"],
+        },
+        fields=[
+            "name",
+            "customer_name",
+            "service_visit_date",
+            "contact_number",
+            "concern_person",
+            "location",
+            "service_status",
+            "assign_service_employee",
+        ],
+        order_by="creation desc",
+    )
+
+    for visitor in visitors:
+        due_date = visitor.get("service_visit_date")
+        visitor["is_missed"] = bool(due_date and str(due_date) < today)
+
+    return visitors
+
+@frappe.whitelist()
 def get_amc_detail(name):
     doc = frappe.get_doc("AMC Visitor Tracking", name)
-    return doc.as_dict()
+    data = doc.as_dict()
+
+    # The visitor row stores the linked AMC refilling child-row name. Use that
+    # link as the source of refilling details instead of duplicating the values
+    # on AMC Visitor Tracking.
+    refilling_field = frappe.get_meta("AMC").get_field("refilling_schedule")
+    amc_refilling_doctype = refilling_field.options if refilling_field else None
+    linked_fields = [
+        "name",
+        "refilling_frequency",
+        "date_refilling",
+        "refilling_due_date",
+        "refilling_print",
+    ]
+
+    for row in data.get("refilling_schedule") or []:
+        linked_row_name = row.get("amc_refilling_row")
+        if not linked_row_name:
+            continue
+
+        if amc_refilling_doctype:
+            linked_row = frappe.db.get_value(
+                amc_refilling_doctype,
+                linked_row_name,
+                linked_fields,
+                as_dict=True,
+            )
+            if linked_row:
+                linked_row.pop("name", None)
+                row.update(linked_row)
+
+    return data
 
 @frappe.whitelist()
 def start_amc_visit(name):
@@ -254,6 +319,17 @@ def complete_amc_visit(name):
     frappe.db.commit()
 
     return {"status": "success", "message": "AMC visit completed"}
+
+@frappe.whitelist()
+def complete_service_visit(name):
+    status = frappe.db.get_value("AMC Visitor Tracking", name, "service_status")
+    if status != "Open":
+        return {"status": "already_completed", "message": "Service visit is not Open"}
+
+    frappe.db.set_value("AMC Visitor Tracking", name, "service_status", "Completed")
+    frappe.db.commit()
+
+    return {"status": "success", "message": "Service visit completed"}
 
 @frappe.whitelist()
 def complete_refilling_schedule_row(parent_name, row_name):
@@ -425,59 +501,52 @@ def get_leads(limit_start=0, limit=20, name=None, type=None, status=None, source
     status_list = frappe.get_meta("Lead").get_field("status").options.split("\n")
     source_list = frappe.get_all('Lead Source',pluck = 'name')
 
-    conditions = ""
     site_url = frappe.utils.get_url()
-    filters = {"site_url": site_url}
+    filters = {}
 
     if name:
-        conditions += " AND l.first_name LIKE %(name)s"
-        filters["name"] = f"%{name}%"
+        filters["first_name"] = ["like", f"%{name}%"]
 
     if type:
-        conditions += " AND l.lead_type = %(type)s"
-        filters["type"] = type
+        filters["lead_type"] = type
 
     if status:
-        conditions += " AND l.status = %(status)s"
         filters["status"] = status
 
     if source:
-        conditions += " AND l.source = %(source)s"
         filters["source"] = source
 
-    query = f"""
-        SELECT
-            l.image,
-            l.name,
-            l.first_name,
-            l.status,
-            l.source,
-            (
-                SELECT MIN(f.next_follow_up_date)
-                FROM `tabFollow-Up` f
-                WHERE f.parent = l.name
-                  AND f.next_follow_up_date >= CURDATE()
-                  AND f.followed = 0
-            ) AS next_follow_up
-        FROM `tabLead` l
-        WHERE 1=1 {conditions}
-        ORDER BY creation DESC
-        LIMIT {limit_start}, {limit}
-    """
-
-    data = frappe.db.sql(query, filters, as_dict=True)
+    data = frappe.get_list(
+        "Lead",
+        filters=filters,
+        fields=["image", "name", "first_name", "status", "source", "creation"],
+        order_by="creation desc",
+        start=limit_start,
+        page_length=limit,
+    )
 
     for row in data:
+        row["next_follow_up"] = frappe.db.get_value(
+            "Follow-Up",
+            {
+                "parent": row["name"],
+                "next_follow_up_date": [">=", today()],
+                "followed": 0,
+            },
+            "next_follow_up_date",
+            order_by="next_follow_up_date asc",
+        )
         if row["image"]:
             row["image"] = site_url + row["image"]
         else:
             row["image"] = None
 
-    total_count = frappe.db.sql(f"""
-        SELECT COUNT(*)
-        FROM `tabLead` l
-        WHERE 1=1 {conditions}
-    """, filters)[0][0]
+    count_result = frappe.get_list(
+        "Lead",
+        filters=filters,
+        fields=["count(name) as total"],
+    )
+    total_count = count_result[0]["total"] if count_result else 0
 
     return {
         "leads": data,
@@ -575,6 +644,8 @@ def get_quotations(limit_start=0, limit=20, name=None, status=None, territory=No
     if territory:
         filters["territory"] = territory
 
+    name_filters = {"name": ["like", f"%{name}%"]} if name else None
+
     quotations = frappe.get_list(
         "Quotation",
         filters=filters,
@@ -589,9 +660,7 @@ def get_quotations(limit_start=0, limit=20, name=None, status=None, territory=No
             "grand_total",
             "territory",
         ],
-        or_filters={
-            "name": ["like", f"%{name}%"]
-        } if name else None,
+        or_filters=name_filters,
         order_by="creation desc",
         start=limit_start,
         page_length=limit,
@@ -610,10 +679,13 @@ def get_quotations(limit_start=0, limit=20, name=None, status=None, territory=No
             if image:
                 row["customer_image"] = site_url + image
 
-    total_count = frappe.db.count(
+    count_result = frappe.get_list(
         "Quotation",
-        filters=filters
+        filters=filters,
+        or_filters=name_filters,
+        fields=["count(name) as total"],
     )
+    total_count = count_result[0]["total"] if count_result else 0
 
     return {
         "quotations": quotations,
