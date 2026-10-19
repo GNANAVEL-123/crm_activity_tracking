@@ -394,7 +394,7 @@ def get_followups(from_date, to_date, doctype="Lead", status=None, source=None, 
 			parent_filters["status"] = status
 		if quotation_to:
 			parent_filters["quotation_to"] = quotation_to
-		parent_fields = ["name", "customer_name", "party_name", "status", "quotation_to", "grand_total", "custom_phone"]
+		parent_fields = ["name", "customer_name", "party_name", "status", "quotation_to", "grand_total", "custom_phone", "docstatus"]
 
 	parents = {p.name: p for p in frappe.get_list(doctype, filters=parent_filters, fields=parent_fields, limit_page_length=0)}
 	if not parents:
@@ -463,6 +463,7 @@ def get_followups(from_date, to_date, doctype="Lead", status=None, source=None, 
 				"status": p.status,
 				"quotation_to": p.quotation_to,
 				"grand_total": p.grand_total,
+				"docstatus": cint(p.docstatus),
 			})
 		items.append(item)
 
@@ -853,3 +854,54 @@ def complete_visit(name, is_service=0):
 		frappe.throw(_("This visit is not assigned yet, so it cannot be completed."))
 	frappe.db.set_value("AMC Visitor Tracking", name, status_field, "Completed")
 	return {"status": "success", "message": "Visit completed"}
+
+
+# ------------------------------------------------- close all follow-ups
+
+
+def _close_all_followups(doctype, name):
+	"""Marks every open follow-up of one Lead / Quotation as followed. Returns the count."""
+	count = frappe.db.sql(
+		"""SELECT COUNT(*) FROM `tabFollow-Up`
+		WHERE parenttype = %s AND parent = %s AND IFNULL(followed, 0) = 0""",
+		(doctype, name),
+	)[0][0]
+	if count:
+		frappe.db.sql(
+			"""UPDATE `tabFollow-Up` SET followed = 1, completed_on = %s
+			WHERE parenttype = %s AND parent = %s AND IFNULL(followed, 0) = 0""",
+			(now_datetime(), doctype, name),
+		)
+	return cint(count)
+
+
+@frappe.whitelist(allow_guest=False)
+def complete_quotation_followups(name):
+	"""Mark as complete: closes all open follow-ups of the quotation.
+	The quotation itself is not changed (orders are made on the ERPNext site)."""
+	_check_parent("Quotation", name)
+	if cint(frappe.db.get_value("Quotation", name, "docstatus")) != 1:
+		frappe.throw(_("Only a submitted quotation can be marked as complete. Submit it on the ERPNext site first."))
+	closed = _close_all_followups("Quotation", name)
+	_touch("Quotation", name)
+	return {
+		"success": True,
+		"closed": closed,
+		"message": _("Quotation follow-ups completed. Sales Order can be created only on the ERPNext site."),
+	}
+
+
+@frappe.whitelist(allow_guest=False)
+def convert_lead(name):
+	"""Mark as converted: closes all open follow-ups of the lead and sets status Converted."""
+	_check_parent("Lead", name)
+	options = (frappe.get_meta("Lead").get_field("status").options or "").split("\n")
+	if "Converted" not in options:
+		frappe.throw(_("Lead status 'Converted' is not available."))
+	closed = _close_all_followups("Lead", name)
+	frappe.db.set_value("Lead", name, "status", "Converted")
+	return {
+		"success": True,
+		"closed": closed,
+		"message": _("Lead marked as converted. All its follow-ups are closed."),
+	}
