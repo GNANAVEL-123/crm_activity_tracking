@@ -226,6 +226,37 @@ def get_today_amc_visitors():
     return visitors
 
 @frappe.whitelist()
+def get_today_service_visitors():
+    today = str(nowdate())
+    employee = get_current_employee()
+
+    visitors = frappe.get_all(
+        "AMC Visitor Tracking",
+        filters={
+            "service_visit_date": ["<=", today],
+            "assign_service_employee": employee,
+            "service_status": ["=", "Open"],
+        },
+        fields=[
+            "name",
+            "customer_name",
+            "service_visit_date",
+            "contact_number",
+            "concern_person",
+            "location",
+            "service_status",
+            "assign_service_employee",
+        ],
+        order_by="creation desc",
+    )
+
+    for visitor in visitors:
+        due_date = visitor.get("service_visit_date")
+        visitor["is_missed"] = bool(due_date and str(due_date) < today)
+
+    return visitors
+
+@frappe.whitelist()
 def get_amc_detail(name):
     doc = frappe.get_doc("AMC Visitor Tracking", name)
     return doc.as_dict()
@@ -254,6 +285,17 @@ def complete_amc_visit(name):
     frappe.db.commit()
 
     return {"status": "success", "message": "AMC visit completed"}
+
+@frappe.whitelist()
+def complete_service_visit(name):
+    status = frappe.db.get_value("AMC Visitor Tracking", name, "service_status")
+    if status != "Open":
+        return {"status": "already_completed", "message": "Service visit is not Open"}
+
+    frappe.db.set_value("AMC Visitor Tracking", name, "service_status", "Completed")
+    frappe.db.commit()
+
+    return {"status": "success", "message": "Service visit completed"}
 
 @frappe.whitelist()
 def complete_refilling_schedule_row(parent_name, row_name):

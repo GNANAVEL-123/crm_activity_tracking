@@ -70,6 +70,7 @@ frappe.ui.form.on("AMC", {
                             actual_weight: row.actual_weight,
                             qr_code: row.qr_code,
                             qr_attach: row.qr_attach,
+                            amc_refilling_row: row.name,
                         });
                     });
 
