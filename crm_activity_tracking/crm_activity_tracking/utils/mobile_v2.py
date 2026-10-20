@@ -16,7 +16,7 @@ import re
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, cint, get_datetime, getdate, now_datetime, nowdate
+from frappe.utils import add_days, add_months, cint, get_datetime, getdate, now_datetime, nowdate
 
 LEAD_TABLE = "custom_view_follow_up_details_copy"
 QUOTATION_TABLE = "custom_followup"
@@ -807,12 +807,47 @@ def get_visit_detail(name, is_service=0):
 
 
 EDITABLE_ROW_FIELDS = ("actual_weight", "remarks", "refilling_complete", "enter_datetime")
+# Service updates also set these; they live on the linked AMC refilling row.
+SERVICE_LINKED_FIELDS = ("date_refilling", "refilling_frequency")
+
+
+def _update_linked_amc_row(doc, row, values):
+	"""Writes date_refilling / refilling_frequency to the AMC refilling row this
+	visit row links to, and recomputes refilling_due_date from them."""
+	field = frappe.get_meta("AMC").get_field("refilling_schedule")
+	child = field.options if field else None
+	linked = row.get("amc_refilling_row")
+	if not child or not linked:
+		frappe.throw(_("This extinguisher is not linked to an AMC refilling row."))
+	current = frappe.db.get_value(
+		child, linked, ["parent", "date_refilling", "refilling_frequency"], as_dict=True
+	)
+	if not current or (doc.amc_template and current.parent != doc.amc_template):
+		frappe.throw(_("Linked AMC refilling row not found."), frappe.DoesNotExistError)
+
+	updates = {}
+	if "date_refilling" in values:
+		updates["date_refilling"] = getdate(values["date_refilling"]) if values["date_refilling"] else None
+		if updates["date_refilling"] and updates["date_refilling"] > getdate(nowdate()):
+			frappe.throw(_("Date of refilling cannot be in the future."))
+	if "refilling_frequency" in values:
+		updates["refilling_frequency"] = cint(values["refilling_frequency"])
+		if updates["refilling_frequency"] <= 0:
+			frappe.throw(_("Refilling frequency must be at least 1 month."))
+
+	refill_date = updates.get("date_refilling", current.date_refilling)
+	frequency = cint(updates.get("refilling_frequency", current.refilling_frequency))
+	if refill_date and frequency and frappe.get_meta(child).has_field("refilling_due_date"):
+		updates["refilling_due_date"] = add_months(getdate(refill_date), frequency)
+	frappe.db.set_value(child, linked, updates)
 
 
 @frappe.whitelist(allow_guest=False)
 def update_refilling_row(name, row_name, data, is_service=0):
 	"""Updates one extinguisher row and marks the visit (or its service part)
-	Working. Only actual_weight, remarks, refilling_complete, enter_datetime change."""
+	Working. Only actual_weight, remarks, refilling_complete, enter_datetime change;
+	service updates may also set date_refilling and refilling_frequency (stored
+	on the linked AMC refilling row)."""
 	if isinstance(data, str):
 		data = json.loads(data)
 	if isinstance(data.get("remarks"), list):
@@ -828,6 +863,10 @@ def update_refilling_row(name, row_name, data, is_service=0):
 	row = next((r for r in doc.refilling_schedule if r.name == row_name or r.qr_code == row_name), None)
 	if not row:
 		frappe.throw(_("Extinguisher row not found in this visit."), frappe.DoesNotExistError)
+
+	linked_updates = {k: v for k, v in data.items() if k in SERVICE_LINKED_FIELDS}
+	if linked_updates and is_service:
+		_update_linked_amc_row(doc, row, linked_updates)
 
 	updates = {k: v for k, v in data.items() if k in EDITABLE_ROW_FIELDS}
 	if "refilling_complete" in updates:
