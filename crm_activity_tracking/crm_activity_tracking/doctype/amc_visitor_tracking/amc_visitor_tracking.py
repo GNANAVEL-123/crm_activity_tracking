@@ -54,6 +54,63 @@ class AMCVisitorTracking(Document):
 			# 		)
 			# 	)
 
+	def on_update(self):
+		sync_refilling_to_amc(self.name)
+
+
+def sync_refilling_to_amc(avt_name):
+	"""
+	Push date_refilling / refilling_frequency / enter_datetime /
+	refilling_due_date from this AMC Visitor Tracking's refilling_schedule
+	rows back to the matching rows on the linked AMC (amc_template).
+
+	Rows are matched via amc_refilling_row (the AMC row's name), falling
+	back to location + type + cap for rows created without that link.
+	Uses frappe.db.set_value so AMC's validate() is not re-triggered.
+	"""
+	amc_template = frappe.db.get_value("AMC Visitor Tracking", avt_name, "amc_template")
+	if not amc_template:
+		return
+
+	rows = frappe.get_all(
+		"Refilling Schedule Table",
+		filters={"parent": avt_name, "parenttype": "AMC Visitor Tracking"},
+		fields=[
+			"amc_refilling_row", "location", "type", "cap",
+			"date_refilling", "refilling_frequency", "enter_datetime", "refilling_due_date"
+		]
+	)
+
+	for row in rows:
+		amc_row = row.amc_refilling_row
+		if not amc_row:
+			amc_row = frappe.db.get_value(
+				"Refilling Schedule Table",
+				{
+					"parent": amc_template,
+					"parenttype": "AMC",
+					"location": row.location,
+					"type": row.type,
+					"cap": row.cap
+				},
+				"name"
+			)
+		if not amc_row:
+			continue
+
+		frappe.db.set_value(
+			"Refilling Schedule Table",
+			amc_row,
+			{
+				"date_refilling": row.date_refilling,
+				"refilling_frequency": row.refilling_frequency,
+				"enter_datetime": row.enter_datetime,
+				"refilling_due_date": row.refilling_due_date
+			},
+			update_modified=False
+		)
+
+
 @frappe.whitelist()
 def description_list(doc):
     if doc:

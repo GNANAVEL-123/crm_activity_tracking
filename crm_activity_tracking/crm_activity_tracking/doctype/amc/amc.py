@@ -88,6 +88,7 @@ def amc_visitor_tracker():
                                     refilling_child.expiry_life_due = refilling_entry.expiry_life_due
                                     refilling_child.qr_code = refilling_entry.qr_code
                                     refilling_child.qr_attach = refilling_entry.qr_attach
+                                    refilling_child.amc_refilling_row = refilling_entry.name
                             if amc_doc.amc_tracking_notes_details:
                                 for notes in amc_doc.amc_tracking_notes_details:
                                     notes_child = amc_tracker_doc.append("amc_tracking_notes_details", {})
