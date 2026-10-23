@@ -10,7 +10,13 @@
   "default_company",
   "default_tax_category",
   "default_sales_taxes_and_charges_template",
-  "default_price_list"
+  "default_price_list",
+  "section_break_mobile_followups",
+  "max_reminder_times",
+  "new_lead_days",
+  "missed_cutoff_date",
+  "column_break_mobile_followups",
+  "min_app_version"
  ],
  "fields": [
   {
@@ -47,12 +53,47 @@
    "fieldtype": "Link",
    "label": "Default Price List",
    "options": "Price List"
+  },
+  {
+   "fieldname": "section_break_mobile_followups",
+   "fieldtype": "Section Break",
+   "label": "Mobile Follow-ups"
+  },
+  {
+   "default": "5",
+   "description": "Maximum reminder times a user can set for one lead or quotation on one day.",
+   "fieldname": "max_reminder_times",
+   "fieldtype": "Int",
+   "label": "Max Reminder Times Per Day"
+  },
+  {
+   "default": "3",
+   "description": "Leads created within this many days show the \"New\" badge.",
+   "fieldname": "new_lead_days",
+   "fieldtype": "Int",
+   "label": "New Lead Days"
+  },
+  {
+   "description": "Open follow-ups dated before this are treated as old history: not counted or listed as Missed in the mobile app.",
+   "fieldname": "missed_cutoff_date",
+   "fieldtype": "Date",
+   "label": "Missed Follow-up Cutoff Date"
+  },
+  {
+   "fieldname": "column_break_mobile_followups",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "For a future forced update. Not enforced yet.",
+   "fieldname": "min_app_version",
+   "fieldtype": "Data",
+   "label": "Minimum Mobile App Version"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-01-19 23:18:13.243835",
+ "modified": "2026-10-18 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "Mobile App Settings",
