@@ -782,52 +782,26 @@ def get_service_visits():
 
 @frappe.whitelist(allow_guest=False)
 def get_visit_detail(name, is_service=0):
-	"""AMC Visitor Tracking with refilling rows; frequency, dates and the print
-	flag come from the linked AMC row when amc_refilling_row is set."""
+	"""AMC Visitor Tracking with its refilling rows. Frequency, dates and the
+	print flag are read from the AMC Visitor Tracking rows themselves."""
 	doc = frappe.get_doc("AMC Visitor Tracking", name)
 	_check_visit(doc)
-	data = doc.as_dict()
-	field = frappe.get_meta("AMC").get_field("refilling_schedule")
-	child = field.options if field else None
-	# Linked AMC row details only when the user may read that AMC.
-	if doc.amc_template and not frappe.has_permission("AMC", "read", doc=doc.amc_template):
-		child = None
-	for row in data.get("refilling_schedule") or []:
-		linked = row.get("amc_refilling_row")
-		if not linked or not child:
-			continue
-		values = frappe.db.get_value(
-			child, linked,
-			["refilling_frequency", "date_refilling", "refilling_due_date", "refilling_print"],
-			as_dict=True,
-		)
-		if values:
-			row.update(values)
-	return data
+	return doc.as_dict()
 
 
 EDITABLE_ROW_FIELDS = ("actual_weight", "remarks", "refilling_complete", "enter_datetime")
-# Service updates also set these, on the visit row and the linked AMC row.
+# Service updates also set these, on the visit row and then the linked AMC row.
 SERVICE_REFILL_FIELDS = ("date_refilling", "refilling_frequency")
 
 
 def _update_refill_dates(doc, row, values):
-	"""Sets date_refilling / refilling_frequency (and the recomputed
-	refilling_due_date) first on the AMC Visitor Tracking row, then on the
-	AMC refilling row it links to."""
-	child = row.doctype
-	linked = row.get("amc_refilling_row")
-	amc_row = None
-	if linked:
-		amc_row = frappe.db.get_value(
-			child, linked, ["parent", "date_refilling", "refilling_frequency"], as_dict=True
-		)
-		if amc_row and doc.amc_template and amc_row.parent != doc.amc_template:
-			amc_row = None
-	# Current values as the app shows them: linked AMC row first, else the visit row.
-	current = amc_row or row
-
-	updates = {}
+	"""Sets date_refilling, refilling_frequency and the recomputed
+	refilling_due_date first on the AMC Visitor Tracking row, then copies the
+	same values to the AMC refilling row it links to."""
+	updates = {
+		"date_refilling": row.date_refilling,
+		"refilling_frequency": row.refilling_frequency,
+	}
 	if "date_refilling" in values:
 		updates["date_refilling"] = getdate(values["date_refilling"]) if values["date_refilling"] else None
 		if updates["date_refilling"] and updates["date_refilling"] > getdate(nowdate()):
@@ -837,16 +811,19 @@ def _update_refill_dates(doc, row, values):
 		if updates["refilling_frequency"] <= 0:
 			frappe.throw(_("Refilling frequency must be at least 1 month."))
 
-	refill_date = updates.get("date_refilling", current.get("date_refilling"))
-	frequency = cint(updates.get("refilling_frequency", current.get("refilling_frequency")))
-	if refill_date and frequency:
-		updates["refilling_due_date"] = add_months(getdate(refill_date), frequency)
+	frequency = cint(updates["refilling_frequency"])
+	if updates["date_refilling"] and frequency:
+		updates["refilling_due_date"] = add_months(getdate(updates["date_refilling"]), frequency)
 
 	# 1. AMC Visitor Tracking row
-	frappe.db.set_value(child, row.name, updates)
-	# 2. Linked AMC row
-	if amc_row:
-		frappe.db.set_value(child, linked, updates)
+	frappe.db.set_value(row.doctype, row.name, updates)
+
+	# 2. Linked AMC row (only if it belongs to this visit's AMC)
+	linked = row.get("amc_refilling_row")
+	if linked:
+		parent = frappe.db.get_value(row.doctype, linked, "parent")
+		if parent and (not doc.amc_template or parent == doc.amc_template):
+			frappe.db.set_value(row.doctype, linked, updates)
 
 
 @frappe.whitelist(allow_guest=False)
