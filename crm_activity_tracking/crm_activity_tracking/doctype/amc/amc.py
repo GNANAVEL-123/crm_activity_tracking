@@ -79,6 +79,10 @@ def amc_visitor_tracker():
                                     refilling_child.point_no = refilling_entry.point_no
                                     refilling_child.type = refilling_entry.type
                                     refilling_child.cap = refilling_entry.cap
+                                    refilling_child.date_refilling = refilling_entry.date_refilling
+                                    refilling_child.refilling_frequency = refilling_entry.refilling_frequency
+                                    refilling_child.refilling_due_date = refilling_entry.refilling_due_date
+                                    refilling_child.enter_datetime = refilling_entry.enter_datetime
                                     refilling_child.full_weight = refilling_entry.full_weight
                                     refilling_child.actual_weight = refilling_entry.actual_weight
                                     refilling_child.empty_weight = refilling_entry.empty_weight

@@ -66,11 +66,15 @@ def sync_refilling_to_amc(avt_name):
 
 	Rows are matched via amc_refilling_row (the AMC row's name), falling
 	back to location + type + cap for rows created without that link.
-	Uses frappe.db.set_value so AMC's validate() is not re-triggered.
+	The same values are then pushed one level up to the AMC Master linked
+	to that AMC (amc_master), matching rows by location + type + cap.
+	Uses frappe.db.set_value so AMC's / AMC Master's validate() is not re-triggered.
 	"""
 	amc_template = frappe.db.get_value("AMC Visitor Tracking", avt_name, "amc_template")
 	if not amc_template:
 		return
+
+	amc_master = frappe.db.get_value("AMC", amc_template, "amc_master")
 
 	rows = frappe.get_all(
 		"Refilling Schedule Table",
@@ -82,6 +86,13 @@ def sync_refilling_to_amc(avt_name):
 	)
 
 	for row in rows:
+		values = {
+			"date_refilling": row.date_refilling,
+			"refilling_frequency": row.refilling_frequency,
+			"enter_datetime": row.enter_datetime,
+			"refilling_due_date": row.refilling_due_date
+		}
+
 		amc_row = row.amc_refilling_row
 		if not amc_row:
 			amc_row = frappe.db.get_value(
@@ -95,20 +106,25 @@ def sync_refilling_to_amc(avt_name):
 				},
 				"name"
 			)
-		if not amc_row:
+		if amc_row:
+			frappe.db.set_value("Refilling Schedule Table", amc_row, values, update_modified=False)
+
+		if not amc_master:
 			continue
 
-		frappe.db.set_value(
+		master_row = frappe.db.get_value(
 			"Refilling Schedule Table",
-			amc_row,
 			{
-				"date_refilling": row.date_refilling,
-				"refilling_frequency": row.refilling_frequency,
-				"enter_datetime": row.enter_datetime,
-				"refilling_due_date": row.refilling_due_date
+				"parent": amc_master,
+				"parenttype": "AMC Master",
+				"location": row.location,
+				"type": row.type,
+				"cap": row.cap
 			},
-			update_modified=False
+			"name"
 		)
+		if master_row:
+			frappe.db.set_value("Refilling Schedule Table", master_row, values, update_modified=False)
 
 
 @frappe.whitelist()

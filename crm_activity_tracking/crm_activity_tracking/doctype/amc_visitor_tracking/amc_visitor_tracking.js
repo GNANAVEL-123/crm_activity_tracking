@@ -66,7 +66,19 @@ frappe.ui.form.on("AMC Visitor Tracking", {
                 ]
             }
         })
-    },    
+        // Remarks dropdown shows only AMC Remarks whose AMC Type matches the row's Type
+        frm.set_query("amc_remarks", "refilling_schedule", function (doc, cdt, cdn) {
+            let row = locals[cdt][cdn];
+            if (!row.type) {
+                return {};
+            }
+            return {
+                filters: {
+                    amc_type: row.type
+                }
+            };
+        });
+    },
     check_in(frm) {
         if (!frm.doc.in_time) { 
             frm.set_value('in_time', frappe.datetime.now_datetime());

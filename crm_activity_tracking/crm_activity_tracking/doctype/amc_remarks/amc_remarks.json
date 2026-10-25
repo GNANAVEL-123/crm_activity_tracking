@@ -8,7 +8,8 @@
  "engine": "InnoDB",
  "field_order": [
   "remark_name",
-  "item"
+  "item",
+  "amc_type"
  ],
  "fields": [
   {
@@ -27,11 +28,18 @@
    "in_list_view": 1,
    "label": "Item",
    "options": "Item"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "amc_type",
+   "fieldtype": "Link",
+   "label": "AMC Type",
+   "options": "AMC Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-06 18:03:29.687444",
+ "modified": "2026-10-25 12:14:27.755544",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Remarks",
