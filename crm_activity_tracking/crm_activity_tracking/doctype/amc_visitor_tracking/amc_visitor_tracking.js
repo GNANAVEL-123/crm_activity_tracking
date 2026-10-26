@@ -72,11 +72,11 @@ frappe.ui.form.on("AMC Visitor Tracking", {
             if (!row.type) {
                 return {};
             }
-            return {
-                filters: {
-                    amc_type: row.type
-                }
-            };
+            let filters = { amc_type: row.type };
+            if (row.cap) {
+                filters.capacity = row.cap;
+            }
+            return { filters: filters };
         });
     },
     check_in(frm) {

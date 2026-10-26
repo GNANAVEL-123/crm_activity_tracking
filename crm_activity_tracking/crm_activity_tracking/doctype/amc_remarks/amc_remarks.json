@@ -9,7 +9,8 @@
  "field_order": [
   "remark_name",
   "item",
-  "amc_type"
+  "amc_type",
+  "capacity"
  ],
  "fields": [
   {
@@ -35,11 +36,17 @@
    "fieldtype": "Link",
    "label": "AMC Type",
    "options": "AMC Type"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "capacity",
+   "fieldtype": "Data",
+   "label": "Capacity"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-25 12:14:27.755544",
+ "modified": "2026-10-26 18:51:49.521014",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Remarks",
