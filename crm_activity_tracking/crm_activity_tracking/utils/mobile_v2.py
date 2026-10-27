@@ -789,15 +789,37 @@ def get_visit_detail(name, is_service=0):
 	return doc.as_dict()
 
 
+@frappe.whitelist(allow_guest=False)
+def get_amc_remarks_options(amc_type=None, capacity=None):
+	"""AMC Remarks for one extinguisher row, filtered like the desk's Remarks
+	(amc_remarks) dropdown: by the row's Type, and also its Cap when set."""
+	filters = {}
+	if amc_type:
+		filters["amc_type"] = amc_type
+		if capacity:
+			filters["capacity"] = capacity
+	return frappe.get_all(
+		"AMC Remarks",
+		filters=filters,
+		fields=["name", "remark_name", "item", "amc_type", "capacity"],
+		order_by="remark_name asc",
+		limit_page_length=0,
+	)
+
+
 EDITABLE_ROW_FIELDS = ("actual_weight", "remarks", "refilling_complete", "enter_datetime")
-# Service updates also set these, on the visit row and then the linked AMC row.
+# Service updates also set these: visit row -> AMC row -> AMC Master row.
 SERVICE_REFILL_FIELDS = ("date_refilling", "refilling_frequency")
 
 
 def _update_refill_dates(doc, row, values):
 	"""Sets date_refilling, refilling_frequency and the recomputed
-	refilling_due_date first on the AMC Visitor Tracking row, then copies the
-	same values to the AMC refilling row it links to."""
+	refilling_due_date on the AMC Visitor Tracking row, then copies them (and
+	enter_datetime, when sent) to the linked AMC row and its AMC Master row."""
+	from crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking import (
+		propagate_refill_values,
+	)
+
 	updates = {
 		"date_refilling": row.date_refilling,
 		"refilling_frequency": row.refilling_frequency,
@@ -818,12 +840,10 @@ def _update_refill_dates(doc, row, values):
 	# 1. AMC Visitor Tracking row
 	frappe.db.set_value(row.doctype, row.name, updates)
 
-	# 2. Linked AMC row (only if it belongs to this visit's AMC)
-	linked = row.get("amc_refilling_row")
-	if linked:
-		parent = frappe.db.get_value(row.doctype, linked, "parent")
-		if parent and (not doc.amc_template or parent == doc.amc_template):
-			frappe.db.set_value(row.doctype, linked, updates)
+	# 2. AMC row, 3. AMC Master row
+	if values.get("enter_datetime"):
+		updates["enter_datetime"] = values["enter_datetime"]
+	propagate_refill_values(row, updates, doc.amc_template)
 
 
 @frappe.whitelist(allow_guest=False)
@@ -831,7 +851,7 @@ def update_refilling_row(name, row_name, data, is_service=0):
 	"""Updates one extinguisher row and marks the visit (or its service part)
 	Working. Only actual_weight, remarks, refilling_complete, enter_datetime change;
 	service updates may also set date_refilling and refilling_frequency (on the
-	visit row first, then the linked AMC refilling row)."""
+	visit row, then the linked AMC row, then its AMC Master row)."""
 	if isinstance(data, str):
 		data = json.loads(data)
 	if isinstance(data.get("remarks"), list):
@@ -850,6 +870,8 @@ def update_refilling_row(name, row_name, data, is_service=0):
 
 	refill_updates = {k: v for k, v in data.items() if k in SERVICE_REFILL_FIELDS}
 	if refill_updates and is_service:
+		if data.get("enter_datetime"):
+			refill_updates["enter_datetime"] = data["enter_datetime"]
 		_update_refill_dates(doc, row, refill_updates)
 
 	updates = {k: v for k, v in data.items() if k in EDITABLE_ROW_FIELDS}

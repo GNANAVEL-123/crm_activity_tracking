@@ -99,6 +99,7 @@ frappe.ui.form.on("AMC Master", {
                             remarks: row.remarks,
                             qr_code: row.qr_code,
                             qr_attach: row.qr_attach,
+                            amc_master_row: row.name,
                         });
                     });
     
