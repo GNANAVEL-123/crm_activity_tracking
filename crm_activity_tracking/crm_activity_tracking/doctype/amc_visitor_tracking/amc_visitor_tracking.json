@@ -39,10 +39,12 @@
   "amc_frequency",
   "naming_series",
   "status",
+  "completed_on",
   "assign_employee",
   "assign_service_employee",
   "service_status",
   "service_visit_date",
+  "service_completed_on",
   "section_break_jxwf",
   "print_check",
   "refilling_schedule",
@@ -417,11 +419,27 @@
    "fieldname": "service_visit_date",
    "fieldtype": "Date",
    "label": "Service Visit Date"
+  },
+  {
+   "description": "Set when Status becomes Completed. Completed visits stay in the mobile list until the next day.",
+   "fieldname": "completed_on",
+   "fieldtype": "Datetime",
+   "label": "Completed On",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "description": "Set when Service Status becomes Completed. Completed service visits stay in the mobile list until the next day.",
+   "fieldname": "service_completed_on",
+   "fieldtype": "Datetime",
+   "label": "Service Completed On",
+   "no_copy": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-26 20:35:47.081990",
+ "modified": "2026-10-31 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Crm Activity Tracking",
  "name": "AMC Visitor Tracking",

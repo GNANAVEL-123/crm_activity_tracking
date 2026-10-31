@@ -83,6 +83,17 @@ def _digits(value):
 	return re.sub(r"\D", "", str(value or ""))
 
 
+def _followup_sort_key(row):
+	"""(date, time) of a follow-up as a sortable key. Time may be None (no
+	time set): those sort after timed ones on the same day, never compared
+	with a string. Times are zero-padded so 9:30 sorts before 10:00."""
+	date, time = row
+	if not time:
+		return (date, 1, "")
+	parts = str(time).split(":")
+	return (date, 0, ":".join(p.zfill(2) for p in parts))
+
+
 def _open_followups(doctype, parents, cutoff=None):
 	"""Open (followed=0) dated rows per parent: {parent: [(date, time, desc)]}."""
 	if not parents:
@@ -238,7 +249,7 @@ def get_leads(limit_start=0, limit=20, name=None, type=None, status=None, source
 		selected = [l for l in selected if l.status == "Converted"]
 
 	if follow_filter in ("today", "missed", "upcoming"):
-		selected.sort(key=lambda l: open_rows.get(l.name, [(today, None)])[0])
+		selected.sort(key=lambda l: _followup_sort_key(open_rows.get(l.name, [(today, None)])[0]))
 
 	page = selected[limit_start:limit_start + limit]
 	page_names = [l.name for l in page]
@@ -744,39 +755,63 @@ def _add_progress(visitors, service=False):
 
 
 def _visits(service):
+	"""Open visits due today or missed, plus visits completed today or
+	yesterday (is_completed, read-only in the app; they drop off the day after)."""
 	today = nowdate()
 	date_field = "service_visit_date" if service else "amc_service_date"
 	status_field = "service_status" if service else "status"
+	employee_field = "assign_service_employee" if service else "assign_employee"
+	completed_field = "service_completed_on" if service else "completed_on"
+	fields = ["name", "customer_name", date_field, "next_amc_service_due_date", "contact_number",
+			"concern_person", "location", status_field, employee_field, completed_field]
+	employee = _employee()
+
 	visitors = frappe.get_list(
 		"AMC Visitor Tracking",
 		filters={
 			date_field: ["<=", today],
-			"assign_service_employee" if service else "assign_employee": _employee(),
-			# Completed visits drop off; started (Working) ones stay resumable.
+			employee_field: employee,
 			status_field: ["in", ["Open", "Working"] if service else ["Assigned", "Working"]],
 		},
-		fields=["name", "customer_name", date_field, "next_amc_service_due_date", "contact_number",
-				"concern_person", "location", status_field,
-				"assign_service_employee" if service else "assign_employee"],
+		fields=fields,
 		order_by=f"{date_field} asc, creation desc",
 		limit_page_length=0,
 	)
 	for v in visitors:
 		due = v.get(date_field)
 		v["is_missed"] = bool(due and str(due) < today)
+		v["is_completed"] = False
+
+	completed = frappe.get_list(
+		"AMC Visitor Tracking",
+		filters={
+			employee_field: employee,
+			status_field: "Completed",
+			completed_field: [">=", add_days(today, -1)],
+		},
+		fields=fields,
+		order_by=f"{completed_field} desc",
+		limit_page_length=0,
+	)
+	for v in completed:
+		v["is_missed"] = False
+		v["is_completed"] = True
+
+	visitors += completed
 	_add_progress(visitors, service=service)
 	return visitors
 
 
 @frappe.whitelist(allow_guest=False)
 def get_amc_visits():
-	"""AMC visits due today or missed, not completed, with progress."""
+	"""AMC visits due today or missed, plus ones completed today or yesterday, with progress."""
 	return _visits(service=False)
 
 
 @frappe.whitelist(allow_guest=False)
 def get_service_visits():
-	"""Service visits due today or missed (Open or Working), with progress."""
+	"""Service visits due today or missed (Open or Working), plus ones completed
+	today or yesterday, with progress."""
 	return _visits(service=True)
 
 
@@ -789,15 +824,37 @@ def get_visit_detail(name, is_service=0):
 	return doc.as_dict()
 
 
+@frappe.whitelist(allow_guest=False)
+def get_amc_remarks_options(amc_type=None, capacity=None):
+	"""AMC Remarks for one extinguisher row, filtered like the desk's Remarks
+	(amc_remarks) dropdown: by the row's Type, and also its Cap when set."""
+	filters = {}
+	if amc_type:
+		filters["amc_type"] = amc_type
+		if capacity:
+			filters["capacity"] = capacity
+	return frappe.get_all(
+		"AMC Remarks",
+		filters=filters,
+		fields=["name", "remark_name", "item", "amc_type", "capacity"],
+		order_by="remark_name asc",
+		limit_page_length=0,
+	)
+
+
 EDITABLE_ROW_FIELDS = ("actual_weight", "remarks", "refilling_complete", "enter_datetime")
-# Service updates also set these, on the visit row and then the linked AMC row.
+# Service updates also set these: visit row -> AMC row -> AMC Master row.
 SERVICE_REFILL_FIELDS = ("date_refilling", "refilling_frequency")
 
 
 def _update_refill_dates(doc, row, values):
 	"""Sets date_refilling, refilling_frequency and the recomputed
-	refilling_due_date first on the AMC Visitor Tracking row, then copies the
-	same values to the AMC refilling row it links to."""
+	refilling_due_date on the AMC Visitor Tracking row, then copies them (and
+	enter_datetime, when sent) to the linked AMC row and its AMC Master row."""
+	from crm_activity_tracking.crm_activity_tracking.doctype.amc_visitor_tracking.amc_visitor_tracking import (
+		propagate_refill_values,
+	)
+
 	updates = {
 		"date_refilling": row.date_refilling,
 		"refilling_frequency": row.refilling_frequency,
@@ -818,12 +875,10 @@ def _update_refill_dates(doc, row, values):
 	# 1. AMC Visitor Tracking row
 	frappe.db.set_value(row.doctype, row.name, updates)
 
-	# 2. Linked AMC row (only if it belongs to this visit's AMC)
-	linked = row.get("amc_refilling_row")
-	if linked:
-		parent = frappe.db.get_value(row.doctype, linked, "parent")
-		if parent and (not doc.amc_template or parent == doc.amc_template):
-			frappe.db.set_value(row.doctype, linked, updates)
+	# 2. AMC row, 3. AMC Master row
+	if values.get("enter_datetime"):
+		updates["enter_datetime"] = values["enter_datetime"]
+	propagate_refill_values(row, updates, doc.amc_template)
 
 
 @frappe.whitelist(allow_guest=False)
@@ -831,7 +886,7 @@ def update_refilling_row(name, row_name, data, is_service=0):
 	"""Updates one extinguisher row and marks the visit (or its service part)
 	Working. Only actual_weight, remarks, refilling_complete, enter_datetime change;
 	service updates may also set date_refilling and refilling_frequency (on the
-	visit row first, then the linked AMC refilling row)."""
+	visit row, then the linked AMC row, then its AMC Master row)."""
 	if isinstance(data, str):
 		data = json.loads(data)
 	if isinstance(data.get("remarks"), list):
@@ -850,6 +905,8 @@ def update_refilling_row(name, row_name, data, is_service=0):
 
 	refill_updates = {k: v for k, v in data.items() if k in SERVICE_REFILL_FIELDS}
 	if refill_updates and is_service:
+		if data.get("enter_datetime"):
+			refill_updates["enter_datetime"] = data["enter_datetime"]
 		_update_refill_dates(doc, row, refill_updates)
 
 	updates = {k: v for k, v in data.items() if k in EDITABLE_ROW_FIELDS}
@@ -875,7 +932,8 @@ def complete_visit(name, is_service=0):
 		return {"status": "already_completed", "message": "Visit is already completed"}
 	if status not in (("Open", "Working") if is_service else ("Assigned", "Working")):
 		frappe.throw(_("This visit is not assigned yet, so it cannot be completed."))
-	frappe.db.set_value("AMC Visitor Tracking", name, status_field, "Completed")
+	stamp_field = "service_completed_on" if is_service else "completed_on"
+	frappe.db.set_value("AMC Visitor Tracking", name, {status_field: "Completed", stamp_field: now_datetime()})
 	return {"status": "success", "message": "Visit completed"}
 
 

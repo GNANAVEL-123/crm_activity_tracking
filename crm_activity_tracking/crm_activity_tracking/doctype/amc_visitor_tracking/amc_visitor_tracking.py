@@ -6,10 +6,12 @@ from frappe.model.document import Document
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from frappe import _
+from frappe.utils import cstr, flt, now_datetime
 import json
 
 class AMCVisitorTracking(Document):
 	def validate(self):
+		self.set_completed_on()
 		if self.checkin_details:
 			seen_dates = {}
 			for row in self.checkin_details:
@@ -55,76 +57,114 @@ class AMCVisitorTracking(Document):
 			# 	)
 
 	def on_update(self):
-		sync_refilling_to_amc(self.name)
+		sync_refilling_to_amc(self)
+
+	def set_completed_on(self):
+		"""Completed On / Service Completed On: stamped when the status becomes
+		Completed, cleared if it is reopened."""
+		for status_field, stamp_field in (("status", "completed_on"), ("service_status", "service_completed_on")):
+			if self.get(status_field) == "Completed":
+				if not self.get(stamp_field):
+					self.set(stamp_field, now_datetime())
+			else:
+				self.set(stamp_field, None)
 
 
-def sync_refilling_to_amc(avt_name):
-	"""
-	Push date_refilling / refilling_frequency / enter_datetime /
-	refilling_due_date from this AMC Visitor Tracking's refilling_schedule
-	rows back to the matching rows on the linked AMC (amc_template).
+CHILD = "Refilling Schedule Table"
+# Values pushed from a visit row up to its AMC row and AMC Master row.
+REFILL_SYNC_FIELDS = ("date_refilling", "refilling_frequency", "refilling_due_date", "enter_datetime")
 
-	Rows are matched via amc_refilling_row (the AMC row's name), falling
-	back to location + type + cap for rows created without that link.
-	The same values are then pushed one level up to the AMC Master linked
-	to that AMC (amc_master), matching rows by location + type + cap.
-	Uses frappe.db.set_value so AMC's / AMC Master's validate() is not re-triggered.
-	"""
-	amc_template = frappe.db.get_value("AMC Visitor Tracking", avt_name, "amc_template")
-	if not amc_template:
+
+def _norm(field, value):
+	if field == "refilling_frequency":
+		return flt(value)
+	return cstr(value or "")
+
+
+def sync_refilling_to_amc(doc):
+	"""Desk save: push only the visit rows whose refilling values changed in
+	this save, so re-saving an old visit never overwrites newer AMC / AMC
+	Master values. Nothing is pushed when the visit is first created."""
+	before = doc.get_doc_before_save()
+	if not before or not doc.amc_template:
 		return
+	old_rows = {r.name: r for r in before.refilling_schedule}
+	for row in doc.refilling_schedule:
+		prev = old_rows.get(row.name)
+		if prev and all(_norm(f, prev.get(f)) == _norm(f, row.get(f)) for f in REFILL_SYNC_FIELDS):
+			continue
+		propagate_refill_values(row, {f: row.get(f) for f in REFILL_SYNC_FIELDS}, doc.amc_template)
+
+
+def _single_row(filters):
+	"""The only matching child row, or None when there are none or several."""
+	rows = frappe.get_all(CHILD, filters=filters, fields=["name", "amc_master_row"], limit=2)
+	return rows[0] if len(rows) == 1 else None
+
+
+def _find_amc_row(visit_row, amc_template):
+	"""AMC row for a visit row: amc_refilling_row link, else the one row of
+	that AMC with the same QR code, else the one with the same location + type + cap."""
+	base = {"parent": amc_template, "parenttype": "AMC", "parentfield": "refilling_schedule"}
+	if visit_row.get("amc_refilling_row"):
+		row = _single_row({**base, "name": visit_row.amc_refilling_row})
+		if row:
+			return row
+	if visit_row.get("qr_code"):
+		row = _single_row({**base, "qr_code": visit_row.qr_code})
+		if row:
+			return row
+	if visit_row.get("location"):
+		return _single_row({**base, "location": visit_row.location, "type": visit_row.type, "cap": visit_row.cap})
+	return None
+
+
+def find_amc_master_row(amc_row, amc_master):
+	"""AMC Master row for an AMC row: amc_master_row link, else the one row
+	of that AMC Master with the same QR code, else the one with the same
+	location + type + cap. A link found by matching is saved on the AMC row."""
+	base = {"parent": amc_master, "parenttype": "AMC Master", "parentfield": "refilling_schedule"}
+	if amc_row.get("amc_master_row"):
+		row = _single_row({**base, "name": amc_row.amc_master_row})
+		if row:
+			return row.name
+	fields = ["qr_code", "location", "type", "cap"]
+	src = frappe.db.get_value(CHILD, amc_row.name, fields, as_dict=True) or {}
+	row = None
+	if src.get("qr_code"):
+		row = _single_row({**base, "qr_code": src.qr_code})
+	if not row and src.get("location"):
+		row = _single_row({**base, "location": src.location, "type": src.type, "cap": src.cap})
+	if not row:
+		return None
+	frappe.db.set_value(CHILD, amc_row.name, "amc_master_row", row.name, update_modified=False)
+	return row.name
+
+
+def propagate_refill_values(visit_row, values, amc_template):
+	"""Copy refilling values from an AMC Visitor Tracking row up the chain:
+	AMC row (via amc_refilling_row), then AMC Master row (via the AMC row's
+	amc_master_row). The visit row itself is the caller's job.
+	Uses frappe.db.set_value so AMC's / AMC Master's validate() does not run."""
+	values = {k: v for k, v in values.items() if k in REFILL_SYNC_FIELDS}
+	if not values or not amc_template:
+		return
+	log = frappe.logger("crm_activity_tracking")
+
+	amc_row = _find_amc_row(visit_row, amc_template)
+	if not amc_row:
+		log.info(f"Refill sync: no AMC row in {amc_template} for visit row {visit_row.name}")
+		return
+	frappe.db.set_value(CHILD, amc_row.name, values, update_modified=False)
 
 	amc_master = frappe.db.get_value("AMC", amc_template, "amc_master")
-
-	rows = frappe.get_all(
-		"Refilling Schedule Table",
-		filters={"parent": avt_name, "parenttype": "AMC Visitor Tracking"},
-		fields=[
-			"amc_refilling_row", "location", "type", "cap",
-			"date_refilling", "refilling_frequency", "enter_datetime", "refilling_due_date"
-		]
-	)
-
-	for row in rows:
-		values = {
-			"date_refilling": row.date_refilling,
-			"refilling_frequency": row.refilling_frequency,
-			"enter_datetime": row.enter_datetime,
-			"refilling_due_date": row.refilling_due_date
-		}
-
-		amc_row = row.amc_refilling_row
-		if not amc_row:
-			amc_row = frappe.db.get_value(
-				"Refilling Schedule Table",
-				{
-					"parent": amc_template,
-					"parenttype": "AMC",
-					"location": row.location,
-					"type": row.type,
-					"cap": row.cap
-				},
-				"name"
-			)
-		if amc_row:
-			frappe.db.set_value("Refilling Schedule Table", amc_row, values, update_modified=False)
-
-		if not amc_master:
-			continue
-
-		master_row = frappe.db.get_value(
-			"Refilling Schedule Table",
-			{
-				"parent": amc_master,
-				"parenttype": "AMC Master",
-				"location": row.location,
-				"type": row.type,
-				"cap": row.cap
-			},
-			"name"
-		)
-		if master_row:
-			frappe.db.set_value("Refilling Schedule Table", master_row, values, update_modified=False)
+	if not amc_master:
+		return
+	master_row = find_amc_master_row(amc_row, amc_master)
+	if not master_row:
+		log.info(f"Refill sync: no AMC Master row in {amc_master} for AMC row {amc_row.name}")
+		return
+	frappe.db.set_value(CHILD, master_row, values, update_modified=False)
 
 
 @frappe.whitelist()

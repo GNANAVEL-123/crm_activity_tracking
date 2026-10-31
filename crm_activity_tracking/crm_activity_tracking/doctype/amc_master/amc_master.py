@@ -131,7 +131,7 @@ def sync_qr_codes_to_linked_amc(amc_master_doc):
         amc_rows = frappe.get_all(
             "Refilling Schedule Table",
             filters={"parent": amc_name, "parenttype": "AMC"},
-            fields=["name", "location", "type", "cap", "qr_code", "qr_attach"]
+            fields=["name", "location", "type", "cap", "qr_code", "qr_attach", "amc_master_row"]
         )
 
         for amc_row in amc_rows:
@@ -140,12 +140,7 @@ def sync_qr_codes_to_linked_amc(amc_master_doc):
                 continue
 
             for master_row in amc_master_doc.refilling_schedule:
-                if (
-                    amc_row.location == master_row.location
-                    and amc_row.type == master_row.type
-                    and amc_row.cap == master_row.cap
-                    and master_row.qr_code
-                ):
+                if is_same_extinguisher(amc_row, master_row) and master_row.qr_code:
                     frappe.db.set_value(
                         "Refilling Schedule Table",
                         amc_row.name,
@@ -164,6 +159,18 @@ def sync_qr_codes_to_linked_amc(amc_master_doc):
         # the child-row updates just made above.
         amc_doc = frappe.get_doc("AMC", amc_name)
         sync_qr_codes_to_linked_visitor_tracking(amc_doc)
+
+
+def is_same_extinguisher(amc_row, master_row):
+    """AMC row vs AMC Master row: by the amc_master_row link when set,
+    else by location + type + cap."""
+    if amc_row.get("amc_master_row"):
+        return amc_row.amc_master_row == master_row.name
+    return (
+        amc_row.location == master_row.location
+        and amc_row.type == master_row.type
+        and amc_row.cap == master_row.cap
+    )
 
 
 def generate_unique_codes(count, existing_codes):
@@ -225,6 +232,7 @@ def amc_to_amc_master_creation():
         amc_master_doc.company_address = amc_doc.company_address
         amc_master_doc.customer_address = amc_doc.customer_address
         amc_master_doc.refilling_schedule = []
+        row_links = []
 
         # ✅ Map rows from AMC → refilling_schedule to AMC Master → refilling_schedule
         for ref_row in amc_doc.refilling_schedule:
@@ -232,6 +240,7 @@ def amc_to_amc_master_creation():
                 continue
 
             refilling_child = amc_master_doc.append("refilling_schedule", {})
+            row_links.append((ref_row.name, refilling_child))
             refilling_child.location = ref_row.location
             refilling_child.year_of_mfg = ref_row.year_of_mfg
             refilling_child.type = ref_row.type
@@ -254,6 +263,9 @@ def amc_to_amc_master_creation():
 
         # ✅ Update AMC with AMC Master name
         amc_doc.db_set("amc_master", amc_master_doc.name)
+        # ✅ Link each AMC row to the AMC Master row created from it
+        for amc_row_name, master_child in row_links:
+            frappe.db.set_value("Refilling Schedule Table", amc_row_name, "amc_master_row", master_child.name, update_modified=False)
         frappe.db.commit()
 
         # ✅ Create QR codes and sync them back to AMC
@@ -298,6 +310,7 @@ def amc_to_amc_master_creation_withdate():
         amc_master_doc.company_address = amc_doc.company_address
         amc_master_doc.customer_address = amc_doc.customer_address
         amc_master_doc.refilling_schedule = []
+        row_links = []
 
         # ✅ Map rows from AMC → refilling_schedule to AMC Master → refilling_schedule
         for ref_row in amc_doc.refilling_schedule:
@@ -305,6 +318,7 @@ def amc_to_amc_master_creation_withdate():
                 continue
 
             refilling_child = amc_master_doc.append("refilling_schedule", {})
+            row_links.append((ref_row.name, refilling_child))
             refilling_child.location = ref_row.location
             refilling_child.point_no = ref_row.point_no
             refilling_child.year_of_mfg = ref_row.year_of_mfg
@@ -329,6 +343,9 @@ def amc_to_amc_master_creation_withdate():
 
         # ✅ Update AMC with AMC Master name
         amc_doc.db_set("amc_master", amc_master_doc.name)
+        # ✅ Link each AMC row to the AMC Master row created from it
+        for amc_row_name, master_child in row_links:
+            frappe.db.set_value("Refilling Schedule Table", amc_row_name, "amc_master_row", master_child.name, update_modified=False)
         frappe.db.commit()
 
         # ✅ Create QR codes and sync them back to AMC
@@ -380,11 +397,7 @@ def qrcode_creation_and_sync(amc_master_name, amc_name):
 
     for master_row in doc.refilling_schedule:
         for amc_row in amc_doc.refilling_schedule:
-            if (
-                amc_row.location == master_row.location
-                and amc_row.type == master_row.type
-                and amc_row.cap == master_row.cap
-            ):
+            if is_same_extinguisher(amc_row, master_row):
                 amc_row.qr_code = master_row.qr_code
                 amc_row.qr_attach = master_row.qr_attach
     if not amc_doc.company:
