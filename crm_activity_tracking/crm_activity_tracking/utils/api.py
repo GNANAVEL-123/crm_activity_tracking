@@ -315,7 +315,7 @@ def complete_amc_visit(name):
     if status == "Completed":
         return {"status": "already_completed", "message": "AMC is already Completed"}
 
-    frappe.db.set_value("AMC Visitor Tracking", name, "status", "Completed")
+    frappe.db.set_value("AMC Visitor Tracking", name, {"status": "Completed", "completed_on": now_datetime()})
     frappe.db.commit()
 
     return {"status": "success", "message": "AMC visit completed"}
@@ -326,7 +326,7 @@ def complete_service_visit(name):
     if status != "Open":
         return {"status": "already_completed", "message": "Service visit is not Open"}
 
-    frappe.db.set_value("AMC Visitor Tracking", name, "service_status", "Completed")
+    frappe.db.set_value("AMC Visitor Tracking", name, {"service_status": "Completed", "service_completed_on": now_datetime()})
     frappe.db.commit()
 
     return {"status": "success", "message": "Service visit completed"}

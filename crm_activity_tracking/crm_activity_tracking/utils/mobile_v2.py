@@ -83,6 +83,17 @@ def _digits(value):
 	return re.sub(r"\D", "", str(value or ""))
 
 
+def _followup_sort_key(row):
+	"""(date, time) of a follow-up as a sortable key. Time may be None (no
+	time set): those sort after timed ones on the same day, never compared
+	with a string. Times are zero-padded so 9:30 sorts before 10:00."""
+	date, time = row
+	if not time:
+		return (date, 1, "")
+	parts = str(time).split(":")
+	return (date, 0, ":".join(p.zfill(2) for p in parts))
+
+
 def _open_followups(doctype, parents, cutoff=None):
 	"""Open (followed=0) dated rows per parent: {parent: [(date, time, desc)]}."""
 	if not parents:
@@ -238,7 +249,7 @@ def get_leads(limit_start=0, limit=20, name=None, type=None, status=None, source
 		selected = [l for l in selected if l.status == "Converted"]
 
 	if follow_filter in ("today", "missed", "upcoming"):
-		selected.sort(key=lambda l: open_rows.get(l.name, [(today, None)])[0])
+		selected.sort(key=lambda l: _followup_sort_key(open_rows.get(l.name, [(today, None)])[0]))
 
 	page = selected[limit_start:limit_start + limit]
 	page_names = [l.name for l in page]
@@ -744,39 +755,63 @@ def _add_progress(visitors, service=False):
 
 
 def _visits(service):
+	"""Open visits due today or missed, plus visits completed today or
+	yesterday (is_completed, read-only in the app; they drop off the day after)."""
 	today = nowdate()
 	date_field = "service_visit_date" if service else "amc_service_date"
 	status_field = "service_status" if service else "status"
+	employee_field = "assign_service_employee" if service else "assign_employee"
+	completed_field = "service_completed_on" if service else "completed_on"
+	fields = ["name", "customer_name", date_field, "next_amc_service_due_date", "contact_number",
+			"concern_person", "location", status_field, employee_field, completed_field]
+	employee = _employee()
+
 	visitors = frappe.get_list(
 		"AMC Visitor Tracking",
 		filters={
 			date_field: ["<=", today],
-			"assign_service_employee" if service else "assign_employee": _employee(),
-			# Completed visits drop off; started (Working) ones stay resumable.
+			employee_field: employee,
 			status_field: ["in", ["Open", "Working"] if service else ["Assigned", "Working"]],
 		},
-		fields=["name", "customer_name", date_field, "next_amc_service_due_date", "contact_number",
-				"concern_person", "location", status_field,
-				"assign_service_employee" if service else "assign_employee"],
+		fields=fields,
 		order_by=f"{date_field} asc, creation desc",
 		limit_page_length=0,
 	)
 	for v in visitors:
 		due = v.get(date_field)
 		v["is_missed"] = bool(due and str(due) < today)
+		v["is_completed"] = False
+
+	completed = frappe.get_list(
+		"AMC Visitor Tracking",
+		filters={
+			employee_field: employee,
+			status_field: "Completed",
+			completed_field: [">=", add_days(today, -1)],
+		},
+		fields=fields,
+		order_by=f"{completed_field} desc",
+		limit_page_length=0,
+	)
+	for v in completed:
+		v["is_missed"] = False
+		v["is_completed"] = True
+
+	visitors += completed
 	_add_progress(visitors, service=service)
 	return visitors
 
 
 @frappe.whitelist(allow_guest=False)
 def get_amc_visits():
-	"""AMC visits due today or missed, not completed, with progress."""
+	"""AMC visits due today or missed, plus ones completed today or yesterday, with progress."""
 	return _visits(service=False)
 
 
 @frappe.whitelist(allow_guest=False)
 def get_service_visits():
-	"""Service visits due today or missed (Open or Working), with progress."""
+	"""Service visits due today or missed (Open or Working), plus ones completed
+	today or yesterday, with progress."""
 	return _visits(service=True)
 
 
@@ -897,7 +932,8 @@ def complete_visit(name, is_service=0):
 		return {"status": "already_completed", "message": "Visit is already completed"}
 	if status not in (("Open", "Working") if is_service else ("Assigned", "Working")):
 		frappe.throw(_("This visit is not assigned yet, so it cannot be completed."))
-	frappe.db.set_value("AMC Visitor Tracking", name, status_field, "Completed")
+	stamp_field = "service_completed_on" if is_service else "completed_on"
+	frappe.db.set_value("AMC Visitor Tracking", name, {status_field: "Completed", stamp_field: now_datetime()})
 	return {"status": "success", "message": "Visit completed"}
 
 

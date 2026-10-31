@@ -6,11 +6,12 @@ from frappe.model.document import Document
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from frappe import _
-from frappe.utils import cstr, flt
+from frappe.utils import cstr, flt, now_datetime
 import json
 
 class AMCVisitorTracking(Document):
 	def validate(self):
+		self.set_completed_on()
 		if self.checkin_details:
 			seen_dates = {}
 			for row in self.checkin_details:
@@ -57,6 +58,16 @@ class AMCVisitorTracking(Document):
 
 	def on_update(self):
 		sync_refilling_to_amc(self)
+
+	def set_completed_on(self):
+		"""Completed On / Service Completed On: stamped when the status becomes
+		Completed, cleared if it is reopened."""
+		for status_field, stamp_field in (("status", "completed_on"), ("service_status", "service_completed_on")):
+			if self.get(status_field) == "Completed":
+				if not self.get(stamp_field):
+					self.set(stamp_field, now_datetime())
+			else:
+				self.set(stamp_field, None)
 
 
 CHILD = "Refilling Schedule Table"

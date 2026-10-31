@@ -6,3 +6,4 @@
 # Patches added in this section will be executed after doctypes are migrated
 crm_activity_tracking.patches.v1_0.mobile_v2_setup
 crm_activity_tracking.patches.v1_0.link_amc_master_rows
+crm_activity_tracking.patches.v1_0.set_visit_completed_on
